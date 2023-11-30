@@ -108,6 +108,7 @@ export function useWalletConnectors(): WalletConnector[] {
       ...wallet,
       // @ts-ignore - ignoring potential undefined return type
       connect: () =>
+        // @ts-ignore
         wallet.connector.showQrModal
           ? connectToWalletConnectModal(wallet.id, wallet.connector)
           : connectWallet(wallet.id, wallet.connector),

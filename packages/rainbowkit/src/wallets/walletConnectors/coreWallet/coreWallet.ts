@@ -91,6 +91,7 @@ export const coreWallet = ({
         ? getWalletConnectConnector({
             projectId,
             chains,
+            // @ts-ignore
             options: walletConnectOptions,
             version: walletConnectVersion,
           })

@@ -64,6 +64,7 @@ export const okxWallet = ({
             projectId,
             chains,
             version: walletConnectVersion,
+            // @ts-ignore
             options: walletConnectOptions,
           })
         : new InjectedConnector({

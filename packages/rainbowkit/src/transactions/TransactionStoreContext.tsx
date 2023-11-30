@@ -47,7 +47,7 @@ export function TransactionStoreProvider({
   );
 }
 
-export function useTransactionStore() {
+export function useTransactionStore(): TransactionStore {
   const store = useContext(TransactionStoreContext);
 
   if (!store) {

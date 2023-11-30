@@ -68,6 +68,7 @@ export const frontierWallet = ({
         ? getWalletConnectConnector({
             chains,
             projectId,
+            // @ts-ignore
             options: walletConnectOptions,
             version: walletConnectVersion,
           })

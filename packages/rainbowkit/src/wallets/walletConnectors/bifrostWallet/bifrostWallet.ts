@@ -58,6 +58,7 @@ export const bifrostWallet = ({
         ? getWalletConnectConnector({
             chains,
             projectId,
+            // @ts-ignore
             options: walletConnectOptions,
             version: walletConnectVersion,
           })

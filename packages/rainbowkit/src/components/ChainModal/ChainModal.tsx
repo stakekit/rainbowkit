@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useMemo } from 'react';
 import { useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { isMobile } from '../../utils/isMobile';
 import { AsyncImage } from '../AsyncImage/AsyncImage';
@@ -24,12 +24,16 @@ export interface ChainModalProps {
 
 export function ChainModal({ onClose, open }: ChainModalProps) {
   const { chain: activeChain } = useNetwork();
-  const { chains, pendingChainId, reset, switchNetwork } = useSwitchNetwork({
-    onSettled: () => {
-      reset(); // reset mutation variables (eg. pendingChainId, error)
-      onClose();
-    },
-  });
+  const { chains, error, pendingChainId, reset, switchNetwork } =
+    useSwitchNetwork({
+      onSuccess: () => {
+        _onClose();
+      },
+    });
+
+  const chainsMap = useMemo(() => {
+    return new Map(chains.map(c => [c.id, c]));
+  }, [chains]);
 
   const i18n = useContext(I18nContext);
 
@@ -47,8 +51,13 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
     return null;
   }
 
+  const _onClose = () => {
+    reset();
+    onClose();
+  };
+
   return (
-    <Dialog onClose={onClose} open={open} titleId={titleId}>
+    <Dialog onClose={_onClose} open={open} titleId={titleId}>
       <DialogContent bottomSheetOnMobile paddingBottom="0">
         <Box display="flex" flexDirection="column" gap="14">
           <Box
@@ -68,7 +77,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
                 {i18n.t('chains.title')}
               </Text>
             </Box>
-            <CloseButton onClose={onClose} />
+            <CloseButton onClose={_onClose} />
           </Box>
           {unsupportedChain && (
             <Box marginX="8" textAlign={mobile ? 'center' : 'left'}>
@@ -88,7 +97,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
             {switchNetwork ? (
               rainbowkitChains.map(
                 ({ iconBackground, iconUrl, id, name }, idx) => {
-                  const chain = chains.find((c) => c.id === id);
+                  const chain = chainsMap.get(id);
                   if (!chain) return null;
 
                   const isCurrentChain = chain.id === activeChain?.id;
@@ -161,7 +170,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
                                 />
                               </Box>
                             )}
-                            {switching && (
+                            {!!switching && (
                               <Box
                                 alignItems="center"
                                 display="flex"
@@ -173,10 +182,12 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
                                   size="14"
                                   weight="medium"
                                 >
-                                  {i18n.t('chains.confirm')}
+                                  {error
+                                    ? 'Error switching chain'
+                                    : 'Confirm in Wallet'}
                                 </Text>
                                 <Box
-                                  background="standby"
+                                  background={error ? 'error' : 'standby'}
                                   borderRadius="full"
                                   height="8"
                                   marginLeft="8"

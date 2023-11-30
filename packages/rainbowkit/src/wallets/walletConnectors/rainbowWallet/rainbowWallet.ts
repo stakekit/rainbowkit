@@ -58,6 +58,7 @@ export const rainbowWallet = ({
             projectId,
             chains,
             version: walletConnectVersion,
+            // @ts-ignore
             options: walletConnectOptions,
           })
         : getInjectedConnector({ flag: 'isRainbow', chains, options });
