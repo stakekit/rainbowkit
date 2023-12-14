@@ -53,6 +53,8 @@ export type Theme =
 
 export interface RainbowKitProviderProps {
   chains: RainbowKitChain[];
+  disabledChains?: RainbowKitChain[];
+  onDisabledChainClick?: (chain: RainbowKitChain) => void;
   initialChain?: RainbowKitChain | number;
   id?: string;
   children: ReactNode;
@@ -75,6 +77,8 @@ export function RainbowKitProvider({
   appInfo,
   avatar,
   chains,
+  disabledChains,
+  onDisabledChainClick,
   children,
   coolMode = false,
   id,
@@ -105,7 +109,12 @@ export function RainbowKitProvider({
   const avatarContext = avatar ?? defaultAvatar;
 
   return (
-    <RainbowKitChainProvider chains={chains} initialChain={initialChain}>
+    <RainbowKitChainProvider
+      chains={chains}
+      disabledChains={disabledChains}
+      initialChain={initialChain}
+      onDisabledChainClick={onDisabledChainClick}
+    >
       <WalletButtonProvider>
         <I18nProvider locale={locale}>
           <CoolModeContext.Provider value={coolMode}>

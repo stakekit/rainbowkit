@@ -118,6 +118,7 @@ export const safepalWallet = ({
             projectId,
             chains,
             version: walletConnectVersion,
+            // @ts-expect-error
             options: walletConnectOptions,
           })
         : new InjectedConnector({

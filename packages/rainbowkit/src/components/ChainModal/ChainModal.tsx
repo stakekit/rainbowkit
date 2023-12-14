@@ -10,7 +10,12 @@ import { DisconnectSqIcon } from '../Icons/DisconnectSq';
 import { MenuButton } from '../MenuButton/MenuButton';
 import { AppContext } from '../RainbowKitProvider/AppContext';
 import { I18nContext } from '../RainbowKitProvider/I18nContext';
-import { useRainbowKitChains } from '../RainbowKitProvider/RainbowKitChainContext';
+import {
+  RainbowKitChain,
+  useRainbowKitChains,
+  useRainbowKitDisabledChains,
+  useRainbowKitOnDisabledChainClick,
+} from '../RainbowKitProvider/RainbowKitChainContext';
 import { Text } from '../Text/Text';
 import {
   DesktopScrollClassName,
@@ -24,16 +29,11 @@ export interface ChainModalProps {
 
 export function ChainModal({ onClose, open }: ChainModalProps) {
   const { chain: activeChain } = useNetwork();
-  const { chains, error, pendingChainId, reset, switchNetwork } =
-    useSwitchNetwork({
-      onSuccess: () => {
-        _onClose();
-      },
-    });
-
-  const chainsMap = useMemo(() => {
-    return new Map(chains.map(c => [c.id, c]));
-  }, [chains]);
+  const { error, pendingChainId, reset, switchNetwork } = useSwitchNetwork({
+    onSuccess: () => {
+      _onClose();
+    },
+  });
 
   const i18n = useContext(I18nContext);
 
@@ -46,6 +46,23 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
   const { appName } = useContext(AppContext);
 
   const rainbowkitChains = useRainbowKitChains();
+  const rainbowkitDisabledChains = useRainbowKitDisabledChains();
+  const rainbowKitOnDisabledChainClick = useRainbowKitOnDisabledChainClick();
+
+  const allRainbowkitChains = useMemo<
+    (RainbowKitChain & { enabled: boolean })[]
+  >(
+    () => [
+      ...rainbowkitChains.map((c) => ({ ...c, enabled: true })),
+      ...rainbowkitDisabledChains.map((c) => ({ ...c, enabled: false })),
+    ],
+    [rainbowkitChains, rainbowkitDisabledChains],
+  );
+
+  const chainsMap = useMemo(
+    () => new Map(allRainbowkitChains.map((c) => [c.id, c])),
+    [allRainbowkitChains],
+  );
 
   if (!activeChain || !activeChain?.id) {
     return null;
@@ -95,8 +112,8 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
             paddingBottom="16"
           >
             {switchNetwork ? (
-              rainbowkitChains.map(
-                ({ iconBackground, iconUrl, id, name }, idx) => {
+              allRainbowkitChains.map(
+                ({ iconBackground, iconUrl, id, name, enabled }, idx) => {
                   const chain = chainsMap.get(id);
                   if (!chain) return null;
 
@@ -111,11 +128,18 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
                         onClick={
                           isCurrentChain
                             ? undefined
+                            : !enabled
+                            ? () => rainbowKitOnDisabledChainClick?.(chain)
                             : () => switchNetwork(chain.id)
                         }
                         testId={`chain-option-${chain.id}`}
                       >
-                        <Box fontFamily="body" fontSize="16" fontWeight="bold">
+                        <Box
+                          fontFamily="body"
+                          fontSize="16"
+                          fontWeight="bold"
+                          style={{ opacity: enabled ? 1 : 0.4 }}
+                        >
                           <Box
                             alignItems="center"
                             display="flex"

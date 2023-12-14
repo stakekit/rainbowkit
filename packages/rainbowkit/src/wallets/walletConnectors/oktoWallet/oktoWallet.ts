@@ -44,6 +44,7 @@ export const oktoWallet = ({
       projectId,
       chains,
       version: walletConnectVersion,
+      // @ts-expect-error
       options: walletConnectOptions,
     });
 
