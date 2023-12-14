@@ -73,6 +73,7 @@ export function useWalletConnectors(): WalletConnector[] {
 
   const walletInstances = flatten(
     defaultConnectors.map((connector) => {
+      // @ts-expect-error
       return (connector._wallets as WalletInstance[]) ?? [];
     }),
   ).sort((a, b) => a.index - b.index);
@@ -126,6 +127,7 @@ export function useWalletConnectors(): WalletConnector[] {
         ? () =>
             connectToWalletConnectModal(
               wallet.id,
+              // @ts-expect-error
               wallet.walletConnectModalConnector,
             )
         : undefined,

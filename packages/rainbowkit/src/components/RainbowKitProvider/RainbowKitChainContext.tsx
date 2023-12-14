@@ -15,21 +15,28 @@ export type Chain = WagmiChain & RainbowKitChain;
 
 interface RainbowKitChainContextValue {
   chains: RainbowKitChain[];
+  disabledChains: RainbowKitChain[];
+  onDisabledChainClick?: (chain: RainbowKitChain) => void;
   initialChainId?: number;
 }
 
 const RainbowKitChainContext = createContext<RainbowKitChainContextValue>({
   chains: [],
+  disabledChains: [],
 });
 
 interface RainbowKitChainProviderProps {
   chains: RainbowKitChain[];
+  disabledChains?: RainbowKitChain[];
+  onDisabledChainClick?: (chain: RainbowKitChain) => void;
   initialChain?: RainbowKitChain | number;
   children: ReactNode;
 }
 
 export function RainbowKitChainProvider({
   chains,
+  disabledChains,
+  onDisabledChainClick,
   children,
   initialChain,
 }: RainbowKitChainProviderProps) {
@@ -38,10 +45,12 @@ export function RainbowKitChainProvider({
       value={useMemo(
         () => ({
           chains: provideRainbowKitChains(chains),
+          disabledChains: provideRainbowKitChains(disabledChains ?? []),
+          onDisabledChainClick,
           initialChainId:
             typeof initialChain === 'number' ? initialChain : initialChain?.id,
         }),
-        [chains, initialChain],
+        [chains, initialChain, disabledChains, onDisabledChainClick],
       )}
     >
       {children}
@@ -51,6 +60,12 @@ export function RainbowKitChainProvider({
 
 export const useRainbowKitChains = () =>
   useContext(RainbowKitChainContext).chains;
+
+export const useRainbowKitDisabledChains = () =>
+  useContext(RainbowKitChainContext).disabledChains;
+
+export const useRainbowKitOnDisabledChainClick = () =>
+  useContext(RainbowKitChainContext).onDisabledChainClick;
 
 export const useInitialChainId = () =>
   useContext(RainbowKitChainContext).initialChainId;

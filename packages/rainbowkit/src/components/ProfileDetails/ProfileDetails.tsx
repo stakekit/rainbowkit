@@ -131,7 +131,7 @@ export function ProfileDetails({
                 </Box>
               )}
             </Box>
-            {accountExtraInfo?.otherAddresses.map(addr => (
+            {accountExtraInfo?.otherAddresses.map((addr) => (
               <MenuButton
                 currentlySelected={false}
                 key={addr}
