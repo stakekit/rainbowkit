@@ -15,8 +15,8 @@ export type Chain = WagmiChain & RainbowKitChain;
 
 interface RainbowKitChainContextValue {
   chains: RainbowKitChain[];
-  disabledChains: RainbowKitChain[];
-  onDisabledChainClick?: (chain: RainbowKitChain) => void;
+  disabledChains: Chain[];
+  onDisabledChainClick?: (chain: Chain) => void;
   initialChainId?: number;
 }
 
@@ -27,8 +27,8 @@ const RainbowKitChainContext = createContext<RainbowKitChainContextValue>({
 
 interface RainbowKitChainProviderProps {
   chains: RainbowKitChain[];
-  disabledChains?: RainbowKitChain[];
-  onDisabledChainClick?: (chain: RainbowKitChain) => void;
+  disabledChains?: Chain[];
+  onDisabledChainClick?: (chain: Chain) => void;
   initialChain?: RainbowKitChain | number;
   children: ReactNode;
 }

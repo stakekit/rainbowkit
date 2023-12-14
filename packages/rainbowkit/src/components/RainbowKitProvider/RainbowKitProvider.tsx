@@ -16,6 +16,7 @@ import {
   ModalSizes,
 } from './ModalSizeContext';
 import {
+  Chain,
   RainbowKitChain,
   RainbowKitChainProvider,
 } from './RainbowKitChainContext';
@@ -53,8 +54,8 @@ export type Theme =
 
 export interface RainbowKitProviderProps {
   chains: RainbowKitChain[];
-  disabledChains?: RainbowKitChain[];
-  onDisabledChainClick?: (chain: RainbowKitChain) => void;
+  disabledChains?: Chain[];
+  onDisabledChainClick?: (chain: Chain) => void;
   initialChain?: RainbowKitChain | number;
   id?: string;
   children: ReactNode;

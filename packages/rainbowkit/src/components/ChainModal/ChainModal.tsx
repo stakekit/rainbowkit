@@ -11,7 +11,7 @@ import { MenuButton } from '../MenuButton/MenuButton';
 import { AppContext } from '../RainbowKitProvider/AppContext';
 import { I18nContext } from '../RainbowKitProvider/I18nContext';
 import {
-  RainbowKitChain,
+  Chain,
   useRainbowKitChains,
   useRainbowKitDisabledChains,
   useRainbowKitOnDisabledChainClick,
@@ -29,11 +29,22 @@ export interface ChainModalProps {
 
 export function ChainModal({ onClose, open }: ChainModalProps) {
   const { chain: activeChain } = useNetwork();
-  const { error, pendingChainId, reset, switchNetwork } = useSwitchNetwork({
+  const {
+    chains: connectorChains,
+    error,
+    pendingChainId,
+    reset,
+    switchNetwork,
+  } = useSwitchNetwork({
     onSuccess: () => {
       _onClose();
     },
   });
+
+  const connectorChainsMap = useMemo(
+    () => new Map(connectorChains.map((c) => [c.id, c])),
+    [connectorChains],
+  );
 
   const i18n = useContext(I18nContext);
 
@@ -49,19 +60,24 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
   const rainbowkitDisabledChains = useRainbowKitDisabledChains();
   const rainbowKitOnDisabledChainClick = useRainbowKitOnDisabledChainClick();
 
-  const allRainbowkitChains = useMemo<
-    (RainbowKitChain & { enabled: boolean })[]
-  >(
+  const allRainbowkitChains = useMemo<(Chain & { enabled: boolean })[]>(
     () => [
-      ...rainbowkitChains.map((c) => ({ ...c, enabled: true })),
-      ...rainbowkitDisabledChains.map((c) => ({ ...c, enabled: false })),
-    ],
-    [rainbowkitChains, rainbowkitDisabledChains],
-  );
+      ...rainbowkitChains.reduce((acc, rc) => {
+        const chain = connectorChainsMap.get(rc.id);
 
-  const chainsMap = useMemo(
-    () => new Map(allRainbowkitChains.map((c) => [c.id, c])),
-    [allRainbowkitChains],
+        if (!chain) return acc;
+
+        acc.push({ ...rc, ...chain, enabled: true });
+
+        return acc;
+      }, [] as (Chain & { enabled: boolean })[]),
+
+      ...rainbowkitDisabledChains.map((c) => ({
+        ...c,
+        enabled: false,
+      })),
+    ],
+    [rainbowkitChains, rainbowkitDisabledChains, connectorChainsMap],
   );
 
   if (!activeChain || !activeChain?.id) {
@@ -112,127 +128,119 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
             paddingBottom="16"
           >
             {switchNetwork ? (
-              allRainbowkitChains.map(
-                ({ iconBackground, iconUrl, id, name, enabled }, idx) => {
-                  const chain = chainsMap.get(id);
-                  if (!chain) return null;
+              allRainbowkitChains.map((chain, idx) => {
+                const { iconBackground, iconUrl, id, name, enabled } = chain;
 
-                  const isCurrentChain = chain.id === activeChain?.id;
-                  const switching =
-                    !isCurrentChain && chain.id === pendingChainId;
+                const isCurrentChain = id === activeChain?.id;
+                const switching = !isCurrentChain && id === pendingChainId;
 
-                  return (
-                    <Fragment key={chain.id}>
-                      <MenuButton
-                        currentlySelected={isCurrentChain}
-                        onClick={
-                          isCurrentChain
-                            ? undefined
-                            : !enabled
-                            ? () => rainbowKitOnDisabledChainClick?.(chain)
-                            : () => switchNetwork(chain.id)
-                        }
-                        testId={`chain-option-${chain.id}`}
+                return (
+                  <Fragment key={id}>
+                    <MenuButton
+                      currentlySelected={isCurrentChain}
+                      onClick={
+                        isCurrentChain
+                          ? undefined
+                          : !enabled
+                          ? () => rainbowKitOnDisabledChainClick?.(chain)
+                          : () => switchNetwork(id)
+                      }
+                      testId={`chain-option-${id}`}
+                    >
+                      <Box
+                        fontFamily="body"
+                        fontSize="16"
+                        fontWeight="bold"
+                        style={{ opacity: enabled ? 1 : 0.4 }}
                       >
                         <Box
-                          fontFamily="body"
-                          fontSize="16"
-                          fontWeight="bold"
-                          style={{ opacity: enabled ? 1 : 0.4 }}
+                          alignItems="center"
+                          display="flex"
+                          flexDirection="row"
+                          justifyContent="space-between"
                         >
                           <Box
                             alignItems="center"
                             display="flex"
                             flexDirection="row"
-                            justifyContent="space-between"
+                            gap="4"
+                            height={chainIconSize}
                           >
+                            {iconUrl && (
+                              <Box height="full" marginRight="8">
+                                <AsyncImage
+                                  alt={name ?? chain.name}
+                                  background={iconBackground}
+                                  borderRadius="full"
+                                  height={chainIconSize}
+                                  src={iconUrl}
+                                  width={chainIconSize}
+                                  testId={`chain-option-${chain.id}-icon`}
+                                />
+                              </Box>
+                            )}
+                            <div>{name ?? chain.name}</div>
+                          </Box>
+                          {isCurrentChain && (
                             <Box
                               alignItems="center"
                               display="flex"
                               flexDirection="row"
-                              gap="4"
-                              height={chainIconSize}
+                              marginRight="6"
                             >
-                              {iconUrl && (
-                                <Box height="full" marginRight="8">
-                                  <AsyncImage
-                                    alt={name ?? chain.name}
-                                    background={iconBackground}
-                                    borderRadius="full"
-                                    height={chainIconSize}
-                                    src={iconUrl}
-                                    width={chainIconSize}
-                                    testId={`chain-option-${chain.id}-icon`}
-                                  />
-                                </Box>
-                              )}
-                              <div>{name ?? chain.name}</div>
+                              <Text
+                                color="accentColorForeground"
+                                size="14"
+                                weight="medium"
+                              >
+                                {i18n.t('chains.connected')}
+                              </Text>
+                              <Box
+                                background="connectionIndicator"
+                                borderColor="selectedOptionBorder"
+                                borderRadius="full"
+                                borderStyle="solid"
+                                borderWidth="1"
+                                height="8"
+                                marginLeft="8"
+                                width="8"
+                              />
                             </Box>
-                            {isCurrentChain && (
+                          )}
+                          {!!switching && (
+                            <Box
+                              alignItems="center"
+                              display="flex"
+                              flexDirection="row"
+                              marginRight="6"
+                            >
+                              <Text color="modalText" size="14" weight="medium">
+                                {error
+                                  ? 'Error switching chain'
+                                  : 'Confirm in Wallet'}
+                              </Text>
                               <Box
-                                alignItems="center"
-                                display="flex"
-                                flexDirection="row"
-                                marginRight="6"
-                              >
-                                <Text
-                                  color="accentColorForeground"
-                                  size="14"
-                                  weight="medium"
-                                >
-                                  {i18n.t('chains.connected')}
-                                </Text>
-                                <Box
-                                  background="connectionIndicator"
-                                  borderColor="selectedOptionBorder"
-                                  borderRadius="full"
-                                  borderStyle="solid"
-                                  borderWidth="1"
-                                  height="8"
-                                  marginLeft="8"
-                                  width="8"
-                                />
-                              </Box>
-                            )}
-                            {!!switching && (
-                              <Box
-                                alignItems="center"
-                                display="flex"
-                                flexDirection="row"
-                                marginRight="6"
-                              >
-                                <Text
-                                  color="modalText"
-                                  size="14"
-                                  weight="medium"
-                                >
-                                  {error
-                                    ? 'Error switching chain'
-                                    : 'Confirm in Wallet'}
-                                </Text>
-                                <Box
-                                  background={error ? 'error' : 'standby'}
-                                  borderRadius="full"
-                                  height="8"
-                                  marginLeft="8"
-                                  width="8"
-                                />
-                              </Box>
-                            )}
-                          </Box>
+                                background={error ? 'error' : 'standby'}
+                                borderRadius="full"
+                                height="8"
+                                marginLeft="8"
+                                width="8"
+                              />
+                            </Box>
+                          )}
                         </Box>
-                      </MenuButton>
-                      {mobile && idx < rainbowkitChains.length - 1 && (
-                        <Box
-                          background="generalBorderDim"
-                          height="1"
-                          marginX="8"
-                        />
-                      )}
-                    </Fragment>
-                  );
-                },
-              )
+                      </Box>
+                    </MenuButton>
+                    {mobile && idx < rainbowkitChains.length - 1 && (
+                      <Box
+                        background="generalBorderDim"
+                        height="1"
+                        marginX="8"
+                      />
+                    )}
+                  </Fragment>
+                );
+              })
             ) : (
               <Box
                 background="generalBorder"

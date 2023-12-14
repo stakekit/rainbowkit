@@ -87,13 +87,16 @@ import { RainbowKitChain } from '@stakekit/rainbowkit/dist/components/RainbowKit
 
 const RAINBOW_TERMS = 'https://rainbow.me/terms-of-use';
 
-const disabledChains = [arbitrum, base, zora, bsc, zkSync];
-
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     mainnet,
     polygon,
     optimism,
+    arbitrum,
+    base,
+    zora,
+    bsc,
+    zkSync,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
       ? [
           goerli,
@@ -118,7 +121,7 @@ const projectId =
 
 const { wallets } = getDefaultWallets({
   appName: 'RainbowKit demo',
-  chains,
+  chains: chains.slice(0, 3),
   projectId,
 });
 
@@ -305,7 +308,7 @@ function RainbowKitApp({
         }}
         avatar={customAvatar ? CustomAvatar : undefined}
         chains={chains}
-        disabledChains={disabledChains}
+        disabledChains={chains.slice(3)}
         onDisabledChainClick={useCallback((chain: RainbowKitChain) => {
           console.log(chain);
         }, [])}
