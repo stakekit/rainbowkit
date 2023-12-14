@@ -28,23 +28,18 @@ export interface ChainModalProps {
 }
 
 export function ChainModal({ onClose, open }: ChainModalProps) {
-  const { chain: activeChain } = useNetwork();
-  const {
-    chains: connectorChains,
-    error,
-    pendingChainId,
-    reset,
-    switchNetwork,
-  } = useSwitchNetwork({
+  const { chain: activeChain, chains: connectorChains } = useNetwork();
+
+  const { error, pendingChainId, reset, switchNetwork } = useSwitchNetwork({
     onSuccess: () => {
       _onClose();
     },
   });
 
-  const connectorChainsMap = useMemo(
-    () => new Map(connectorChains.map((c) => [c.id, c])),
-    [connectorChains],
-  );
+  const connectorChainsMap = useMemo(() => {
+    activeChain; // hack to make sure this is re-run when activeChain changes
+    return new Map(connectorChains.map((c) => [c.id, c]));
+  }, [connectorChains, activeChain]);
 
   const i18n = useContext(I18nContext);
 
