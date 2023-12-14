@@ -30,12 +30,18 @@ interface ModalContextValue {
   openAccountModal?: () => void;
   openChainModal?: () => void;
   openConnectModal?: () => void;
+  closeAccountModal: () => void;
+  closeChainModal: () => void;
+  closeConnectModal: () => void;
 }
 
 const ModalContext = createContext<ModalContextValue>({
   accountModalOpen: false,
   chainModalOpen: false,
   connectModalOpen: false,
+  closeAccountModal: () => {},
+  closeChainModal: () => {},
+  closeConnectModal: () => {},
 });
 
 interface ModalProviderProps {
@@ -92,6 +98,9 @@ export function ModalProvider({ children }: ModalProviderProps) {
           accountModalOpen,
           chainModalOpen,
           connectModalOpen,
+          closeConnectModal,
+          closeAccountModal,
+          closeChainModal,
           openAccountModal:
             chainSupported && connectionStatus === 'connected'
               ? openAccountModal
@@ -113,6 +122,9 @@ export function ModalProvider({ children }: ModalProviderProps) {
           openAccountModal,
           openChainModal,
           openConnectModal,
+          closeConnectModal,
+          closeAccountModal,
+          closeChainModal,
         ],
       )}
     >
@@ -136,16 +148,19 @@ export function useModalState() {
 }
 
 export function useAccountModal() {
-  const { accountModalOpen, openAccountModal } = useContext(ModalContext);
-  return { accountModalOpen, openAccountModal };
+  const { accountModalOpen, openAccountModal, closeAccountModal } =
+    useContext(ModalContext);
+  return { accountModalOpen, openAccountModal, closeAccountModal };
 }
 
 export function useChainModal() {
-  const { chainModalOpen, openChainModal } = useContext(ModalContext);
-  return { chainModalOpen, openChainModal };
+  const { chainModalOpen, openChainModal, closeChainModal } =
+    useContext(ModalContext);
+  return { chainModalOpen, openChainModal, closeChainModal };
 }
 
 export function useConnectModal() {
-  const { connectModalOpen, openConnectModal } = useContext(ModalContext);
-  return { connectModalOpen, openConnectModal };
+  const { connectModalOpen, openConnectModal, closeConnectModal } =
+    useContext(ModalContext);
+  return { connectModalOpen, openConnectModal, closeConnectModal };
 }
