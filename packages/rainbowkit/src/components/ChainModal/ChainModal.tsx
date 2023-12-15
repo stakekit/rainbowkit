@@ -12,6 +12,7 @@ import { AppContext } from '../RainbowKitProvider/AppContext';
 import { I18nContext } from '../RainbowKitProvider/I18nContext';
 import {
   Chain,
+  DisabledChain,
   useRainbowKitChains,
   useRainbowKitDisabledChains,
   useRainbowKitOnDisabledChainClick,
@@ -55,7 +56,9 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
   const rainbowkitDisabledChains = useRainbowKitDisabledChains();
   const rainbowKitOnDisabledChainClick = useRainbowKitOnDisabledChainClick();
 
-  const allRainbowkitChains = useMemo<(Chain & { enabled: boolean })[]>(
+  const allRainbowkitChains = useMemo<
+    ((DisabledChain & { enabled: false }) | (Chain & { enabled: true }))[]
+  >(
     () => [
       ...rainbowkitChains.reduce((acc, rc) => {
         const chain = connectorChainsMap.get(rc.id);
@@ -176,7 +179,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
                             )}
                             <div>{name ?? chain.name}</div>
                           </Box>
-                          {isCurrentChain && (
+                          {isCurrentChain ? (
                             <Box
                               alignItems="center"
                               display="flex"
@@ -201,8 +204,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
                                 width="8"
                               />
                             </Box>
-                          )}
-                          {!!switching && (
+                          ) : switching ? (
                             <Box
                               alignItems="center"
                               display="flex"
@@ -222,7 +224,18 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
                                 width="8"
                               />
                             </Box>
-                          )}
+                          ) : !chain.enabled && !!chain.info ? (
+                            <Box
+                              alignItems="center"
+                              display="flex"
+                              flexDirection="row"
+                              marginRight="6"
+                            >
+                              <Text color="modalText" size="14" weight="medium">
+                                {chain.info}
+                              </Text>
+                            </Box>
+                          ) : null}
                         </Box>
                       </Box>
                     </MenuButton>

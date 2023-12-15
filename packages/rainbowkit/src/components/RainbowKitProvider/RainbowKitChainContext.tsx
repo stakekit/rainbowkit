@@ -13,10 +13,12 @@ export interface RainbowKitChain {
 // it easier for consumers to define their chain config in a single place.
 export type Chain = WagmiChain & RainbowKitChain;
 
+export type DisabledChain = Chain & { info?: string };
+
 interface RainbowKitChainContextValue {
   chains: RainbowKitChain[];
-  disabledChains: Chain[];
-  onDisabledChainClick?: (chain: Chain) => void;
+  disabledChains: DisabledChain[];
+  onDisabledChainClick?: (chain: DisabledChain) => void;
   initialChainId?: number;
 }
 
@@ -27,7 +29,7 @@ const RainbowKitChainContext = createContext<RainbowKitChainContextValue>({
 
 interface RainbowKitChainProviderProps {
   chains: RainbowKitChain[];
-  disabledChains?: Chain[];
+  disabledChains?: DisabledChain[];
   onDisabledChainClick?: (chain: Chain) => void;
   initialChain?: RainbowKitChain | number;
   children: ReactNode;

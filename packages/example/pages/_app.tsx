@@ -308,7 +308,9 @@ function RainbowKitApp({
         }}
         avatar={customAvatar ? CustomAvatar : undefined}
         chains={chains}
-        disabledChains={chains.slice(3)}
+        disabledChains={chains
+          .slice(3)
+          .map((c) => ({ ...c, info: 'Add account' }))}
         onDisabledChainClick={useCallback((chain: RainbowKitChain) => {
           console.log(chain);
         }, [])}
