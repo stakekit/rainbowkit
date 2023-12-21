@@ -121,7 +121,7 @@ const projectId =
 
 const { wallets } = getDefaultWallets({
   appName: 'RainbowKit demo',
-  chains: chains.slice(0, 3),
+  chains,
   projectId,
 });
 
@@ -309,7 +309,7 @@ function RainbowKitApp({
         avatar={customAvatar ? CustomAvatar : undefined}
         chains={chains}
         disabledChains={chains
-          .slice(3)
+          .slice(4)
           .map((c) => ({ ...c, info: 'Add account' }))}
         onDisabledChainClick={useCallback((chain: RainbowKitChain) => {
           console.log(chain);

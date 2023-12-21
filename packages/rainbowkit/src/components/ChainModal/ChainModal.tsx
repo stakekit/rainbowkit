@@ -38,9 +38,8 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
   });
 
   const connectorChainsMap = useMemo(() => {
-    activeChain; // hack to make sure this is re-run when activeChain changes
     return new Map(connectorChains.map((c) => [c.id, c]));
-  }, [connectorChains, activeChain]);
+  }, [connectorChains]);
 
   const i18n = useContext(I18nContext);
 
@@ -56,6 +55,11 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
   const rainbowkitDisabledChains = useRainbowKitDisabledChains();
   const rainbowKitOnDisabledChainClick = useRainbowKitOnDisabledChainClick();
 
+  const rainbowkitDisabledChainsMap = useMemo(
+    () => new Map(rainbowkitDisabledChains.map((c) => [c.id, c])),
+    [rainbowkitDisabledChains],
+  );
+
   const allRainbowkitChains = useMemo<
     ((DisabledChain & { enabled: false }) | (Chain & { enabled: true }))[]
   >(
@@ -63,7 +67,7 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
       ...rainbowkitChains.reduce((acc, rc) => {
         const chain = connectorChainsMap.get(rc.id);
 
-        if (!chain) return acc;
+        if (!chain || rainbowkitDisabledChainsMap.has(chain.id)) return acc;
 
         acc.push({ ...rc, ...chain, enabled: true });
 
