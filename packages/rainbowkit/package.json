@@ -1,6 +1,6 @@
 {
   "name": "@stakekit/rainbowkit",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "description": "The best way to connect a wallet",
   "files": ["dist", "styles.css", "wallets"],
   "type": "module",
@@ -16,11 +16,11 @@
     "node": ">=12.4"
   },
   "scripts": {
-    "build": "rm -rf dist && node build.js",
+    "build": "node build.js",
     "build:watch": "node build.js --watch",
     "dev": "pnpm build:watch & pnpm typegen:watch",
     "prepare": "MINIFY_CSS=true pnpm build",
-    "prebuild": "pnpm typegen",
+    "prebuild": "rm -rf dist && pnpm typegen",
     "typecheck": "pnpm tsc --noEmit",
     "typegen": "tsc --emitDeclarationOnly || true",
     "typegen:watch": "tsc --emitDeclarationOnly --watch"
