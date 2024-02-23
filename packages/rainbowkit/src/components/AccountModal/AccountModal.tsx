@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { useAccount, useBalance, useDisconnect } from 'wagmi';
 import { useMainnetEnsAvatar } from '../../hooks/useMainnetEnsAvatar';
 import { useMainnetEnsName } from '../../hooks/useMainnetEnsName';
@@ -7,12 +7,12 @@ import { DialogContent } from '../Dialog/DialogContent';
 import { ProfileDetails } from '../ProfileDetails/ProfileDetails';
 import { useAccountExtraInfo } from './context';
 
-export interface AccountModalProps {
+export type AccountModalProps = {
   open: boolean;
   onClose: () => void;
-}
+} & Pick<ComponentProps<typeof Dialog>, 'dialogRoot'>;
 
-export function AccountModal({ onClose, open }: AccountModalProps) {
+export function AccountModal({ onClose, open, dialogRoot }: AccountModalProps) {
   const { address } = useAccount();
   const { data: balanceData } = useBalance({ address });
   const ensName = useMainnetEnsName(address);
@@ -30,7 +30,12 @@ export function AccountModal({ onClose, open }: AccountModalProps) {
   return (
     <>
       {address && (
-        <Dialog onClose={onClose} open={open} titleId={titleId}>
+        <Dialog
+          dialogRoot={dialogRoot}
+          onClose={onClose}
+          open={open}
+          titleId={titleId}
+        >
           <DialogContent bottomSheetOnMobile padding="0">
             <ProfileDetails
               accountExtraInfo={accountExtraInfo}

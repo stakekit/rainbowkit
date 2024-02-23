@@ -55,7 +55,7 @@ import { SessionProvider, signOut } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   WagmiConfig,
   configureChains,
@@ -288,6 +288,12 @@ function RainbowKitApp({
 
   const locales = router.locales as Locale[];
 
+  const dialogRoot = useRef<Element>();
+
+  useEffect(() => {
+    dialogRoot.current = document.querySelector('div[data-rk]')!;
+  }, []);
+
   // Note: Non-RainbowKit providers are wrapped around this component
   // at the bottom of the file. This is so that our example app
   // component can use their corresponding Hooks.
@@ -302,6 +308,7 @@ function RainbowKitApp({
       }}
     >
       <RainbowKitProvider
+        // dialogRoot={dialogRoot.current}
         appInfo={{
           ...demoAppInfo,
           ...(showDisclaimer && { disclaimer: DisclaimerDemo }),

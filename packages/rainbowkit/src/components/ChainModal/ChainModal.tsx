@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useMemo } from 'react';
+import React, { ComponentProps, Fragment, useContext, useMemo } from 'react';
 import { useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi';
 import { isMobile } from '../../utils/isMobile';
 import { AsyncImage } from '../AsyncImage/AsyncImage';
@@ -23,12 +23,12 @@ import {
   MobileScrollClassName,
 } from './ChainModal.css';
 
-export interface ChainModalProps {
+export type ChainModalProps = {
   open: boolean;
   onClose: () => void;
-}
+} & Pick<ComponentProps<typeof Dialog>, 'dialogRoot'>;
 
-export function ChainModal({ onClose, open }: ChainModalProps) {
+export function ChainModal({ onClose, open, dialogRoot }: ChainModalProps) {
   const { chain: activeChain, chains: connectorChains } = useNetwork();
 
   const { error, pendingChainId, reset, switchNetwork } = useSwitchNetwork({
@@ -92,7 +92,12 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
   };
 
   return (
-    <Dialog onClose={_onClose} open={open} titleId={titleId}>
+    <Dialog
+      dialogRoot={dialogRoot}
+      onClose={_onClose}
+      open={open}
+      titleId={titleId}
+    >
       <DialogContent bottomSheetOnMobile paddingBottom="0">
         <Box display="flex" flexDirection="column" gap="14">
           <Box

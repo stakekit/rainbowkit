@@ -70,6 +70,7 @@ export interface RainbowKitProviderProps {
   avatar?: AvatarComponent;
   modalSize?: ModalSizes;
   locale?: Locale;
+  dialogRoot?: Element;
 }
 
 const defaultTheme = lightTheme();
@@ -88,6 +89,7 @@ export function RainbowKitProvider({
   modalSize = ModalSizeOptions.WIDE,
   showRecentTransactions = false,
   theme = defaultTheme,
+  dialogRoot,
 }: RainbowKitProviderProps) {
   usePreloadImages();
   useFingerprint();
@@ -127,7 +129,7 @@ export function RainbowKitProvider({
                   <AvatarContext.Provider value={avatarContext}>
                     <AppContext.Provider value={appContext}>
                       <ThemeIdContext.Provider value={id}>
-                        <ModalProvider>
+                        <ModalProvider dialogRoot={dialogRoot}>
                           {theme ? (
                             <div {...createThemeRootProps(id)}>
                               <style

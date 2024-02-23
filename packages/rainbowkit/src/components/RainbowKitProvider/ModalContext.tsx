@@ -46,9 +46,10 @@ const ModalContext = createContext<ModalContextValue>({
 
 interface ModalProviderProps {
   children: ReactNode;
+  dialogRoot?: Element;
 }
 
-export function ModalProvider({ children }: ModalProviderProps) {
+export function ModalProvider({ children, dialogRoot }: ModalProviderProps) {
   const {
     closeModal: closeConnectModal,
     isModalOpen: connectModalOpen,
@@ -129,9 +130,21 @@ export function ModalProvider({ children }: ModalProviderProps) {
       )}
     >
       {children}
-      <ConnectModal onClose={closeConnectModal} open={connectModalOpen} />
-      <AccountModal onClose={closeAccountModal} open={accountModalOpen} />
-      <ChainModal onClose={closeChainModal} open={chainModalOpen} />
+      <ConnectModal
+        dialogRoot={dialogRoot}
+        onClose={closeConnectModal}
+        open={connectModalOpen}
+      />
+      <AccountModal
+        dialogRoot={dialogRoot}
+        onClose={closeAccountModal}
+        open={accountModalOpen}
+      />
+      <ChainModal
+        dialogRoot={dialogRoot}
+        onClose={closeChainModal}
+        open={chainModalOpen}
+      />
     </ModalContext.Provider>
   );
 }
