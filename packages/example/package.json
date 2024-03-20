@@ -1,19 +1,20 @@
 {
   "name": "example",
-  "version": "0.0.83",
+  "version": "0.0.92",
   "description": "",
   "private": true,
   "main": "index.js",
   "dependencies": {
     "@stakekit/rainbowkit": "workspace:*",
+    "@tanstack/react-query": "^5.22.2",
     "ethers": "^5.6.8",
-    "next": "^13.4.19",
+    "next": "^14.1.3",
     "next-auth": "4.24.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "siwe": "^2.1.4",
-    "viem": "~1.19.4",
-    "wagmi": "~1.4.7"
+    "viem": "^2.7.12",
+    "wagmi": "^2.5.7"
   },
   "scripts": {
     "dev": "next dev",

@@ -3,10 +3,11 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
-import { useAccount, useNetwork } from 'wagmi';
+import { useAccount, useAccountEffect, useConfig } from 'wagmi';
 import { useConnectionStatus } from '../../hooks/useConnectionStatus';
 import { AccountModal } from '../AccountModal/AccountModal';
 import { ChainModal } from '../ChainModal/ChainModal';
@@ -33,6 +34,8 @@ interface ModalContextValue {
   closeAccountModal: () => void;
   closeChainModal: () => void;
   closeConnectModal: () => void;
+  isWalletConnectModalOpen: boolean;
+  setIsWalletConnectModalOpen: (isWalletConnectModalOpen: boolean) => void;
 }
 
 const ModalContext = createContext<ModalContextValue>({
@@ -42,14 +45,21 @@ const ModalContext = createContext<ModalContextValue>({
   closeAccountModal: () => {},
   closeChainModal: () => {},
   closeConnectModal: () => {},
+  isWalletConnectModalOpen: false,
+  setIsWalletConnectModalOpen: () => {},
 });
 
 interface ModalProviderProps {
   children: ReactNode;
   dialogRoot?: Element;
+  hideDisconnect?: boolean;
 }
 
-export function ModalProvider({ children, dialogRoot }: ModalProviderProps) {
+export function ModalProvider({
+  children,
+  dialogRoot,
+  hideDisconnect,
+}: ModalProviderProps) {
   const {
     closeModal: closeConnectModal,
     isModalOpen: connectModalOpen,
@@ -68,9 +78,15 @@ export function ModalProvider({ children, dialogRoot }: ModalProviderProps) {
     openModal: openChainModal,
   } = useModalStateValue();
 
+  const [isWalletConnectModalOpen, setIsWalletConnectModalOpen] =
+    useState(false);
+
   const connectionStatus = useConnectionStatus();
-  const { chain } = useNetwork();
-  const chainSupported = !chain?.unsupported;
+
+  const { chainId } = useAccount();
+  const { chains } = useConfig();
+
+  const isCurrentChainSupported = chains.some((chain) => chain.id === chainId);
 
   interface CloseModalsOptions {
     keepConnectModalOpen?: boolean;
@@ -87,10 +103,18 @@ export function ModalProvider({ children, dialogRoot }: ModalProviderProps) {
   }
 
   const isUnauthenticated = useAuthenticationStatus() === 'unauthenticated';
-  useAccount({
+
+  useAccountEffect({
     onConnect: () => closeModals({ keepConnectModalOpen: isUnauthenticated }),
     onDisconnect: () => closeModals(),
   });
+
+  useEffect(() => {
+    // Due to multiple connection feature in wagmi v2 we need to close
+    // modals when user is unauthenticated. When connectors changes we log user out
+    // This means we'll need to close the modals as well.
+    if (isUnauthenticated) closeModals();
+  }, [isUnauthenticated]);
 
   return (
     <ModalContext.Provider
@@ -102,8 +126,9 @@ export function ModalProvider({ children, dialogRoot }: ModalProviderProps) {
           closeConnectModal,
           closeAccountModal,
           closeChainModal,
+          isWalletConnectModalOpen,
           openAccountModal:
-            chainSupported && connectionStatus === 'connected'
+            isCurrentChainSupported && connectionStatus === 'connected'
               ? openAccountModal
               : undefined,
           openChainModal:
@@ -113,10 +138,10 @@ export function ModalProvider({ children, dialogRoot }: ModalProviderProps) {
             connectionStatus === 'unauthenticated'
               ? openConnectModal
               : undefined,
+          setIsWalletConnectModalOpen,
         }),
         [
           connectionStatus,
-          chainSupported,
           accountModalOpen,
           chainModalOpen,
           connectModalOpen,
@@ -126,6 +151,8 @@ export function ModalProvider({ children, dialogRoot }: ModalProviderProps) {
           closeConnectModal,
           closeAccountModal,
           closeChainModal,
+          isCurrentChainSupported,
+          isWalletConnectModalOpen,
         ],
       )}
     >
@@ -139,6 +166,7 @@ export function ModalProvider({ children, dialogRoot }: ModalProviderProps) {
         dialogRoot={dialogRoot}
         onClose={closeAccountModal}
         open={accountModalOpen}
+        hideDisconnect={hideDisconnect}
       />
       <ChainModal
         dialogRoot={dialogRoot}
@@ -172,8 +200,21 @@ export function useChainModal() {
   return { chainModalOpen, openChainModal, closeChainModal };
 }
 
+export function useWalletConnectOpenState() {
+  const { isWalletConnectModalOpen, setIsWalletConnectModalOpen } =
+    useContext(ModalContext);
+
+  return { isWalletConnectModalOpen, setIsWalletConnectModalOpen };
+}
+
 export function useConnectModal() {
   const { connectModalOpen, openConnectModal, closeConnectModal } =
     useContext(ModalContext);
-  return { connectModalOpen, openConnectModal, closeConnectModal };
+  const { isWalletConnectModalOpen } = useWalletConnectOpenState();
+
+  return {
+    connectModalOpen: connectModalOpen || isWalletConnectModalOpen,
+    openConnectModal,
+    closeConnectModal,
+  };
 }

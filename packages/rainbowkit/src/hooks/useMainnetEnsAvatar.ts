@@ -1,13 +1,17 @@
+import { GetEnsNameReturnType, normalize } from 'viem/ens';
 import { useEnsAvatar } from 'wagmi';
-import { useMainnet } from './useMainnet';
+import { mainnet } from 'wagmi/chains';
+import { useIsMainnetConfigured } from './useIsMainnetConfigured';
 
-export function useMainnetEnsAvatar(name: string | null | undefined) {
-  const { chainId, enabled } = useMainnet();
+export function useMainnetEnsAvatar(name: GetEnsNameReturnType | undefined) {
+  const mainnetConfigured = useIsMainnetConfigured();
 
   const { data: ensAvatar } = useEnsAvatar({
-    chainId,
-    enabled,
-    name,
+    chainId: mainnet.id,
+    name: name ? normalize(name) : undefined,
+    query: {
+      enabled: mainnetConfigured,
+    },
   });
 
   return ensAvatar;

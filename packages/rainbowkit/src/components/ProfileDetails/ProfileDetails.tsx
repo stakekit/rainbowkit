@@ -1,5 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useAccount, useBalance, useEnsAvatar, useEnsName } from 'wagmi';
+import { GetEnsNameReturnType } from 'viem';
+import { GetEnsAvatarReturnType } from 'viem/actions';
+import { useAccount, useBalance } from 'wagmi';
 import { isMobile } from '../../utils/isMobile';
 import { AccountExtraInfo } from '../AccountModal/context';
 import { Avatar } from '../Avatar/Avatar';
@@ -20,28 +22,30 @@ import { ProfileDetailsAction } from './ProfileDetailsAction';
 
 interface ProfileDetailsProps {
   address: ReturnType<typeof useAccount>['address'];
-  balanceData: ReturnType<typeof useBalance>['data'];
-  ensAvatar: ReturnType<typeof useEnsAvatar>['data'];
-  ensName: ReturnType<typeof useEnsName>['data'];
+  ensAvatar: GetEnsAvatarReturnType | undefined;
+  ensName: GetEnsNameReturnType | undefined;
   onClose: () => void;
   onDisconnect: () => void;
   accountExtraInfo?: AccountExtraInfo;
+  hideDisconnect?: boolean;
 }
 
 export function ProfileDetails({
   accountExtraInfo,
   address,
-  balanceData,
   ensAvatar,
   ensName,
   onClose,
   onDisconnect,
+  hideDisconnect,
 }: ProfileDetailsProps) {
   const showRecentTransactions = useContext(ShowRecentTransactionsContext);
+
+  const { data: balanceData } = useBalance({
+    address,
+  });
+
   const [copiedAddress, setCopiedAddress] = useState(false);
-
-  const i18n = useContext(I18nContext);
-
   const copyAddressAction = useCallback(() => {
     if (address) {
       navigator.clipboard.writeText(address);
@@ -69,6 +73,8 @@ export function ProfileDetails({
     : undefined;
   const titleId = 'rk_profile_title';
   const mobile = isMobile();
+
+  const { i18n } = useContext(I18nContext);
 
   return (
     <>
@@ -117,7 +123,7 @@ export function ProfileDetails({
                   {accountName}
                 </Text>
               </Box>
-              {balanceData && (
+              {!!balanceData && (
                 <Box textAlign="center">
                   <Text
                     as="h1"
@@ -177,12 +183,14 @@ export function ProfileDetails({
                   : i18n.t('profile.copy_address.label')
               }
             />
-            <ProfileDetailsAction
-              action={onDisconnect}
-              icon={<DisconnectIcon />}
-              label={i18n.t('profile.disconnect.label')}
-              testId="disconnect-button"
-            />
+            {!hideDisconnect && (
+              <ProfileDetailsAction
+                action={onDisconnect}
+                icon={<DisconnectIcon />}
+                label={i18n.t('profile.disconnect.label')}
+                testId="disconnect-button"
+              />
+            )}
           </Box>
         </Box>
         {showRecentTransactions && (

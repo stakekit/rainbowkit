@@ -1,5 +1,122 @@
 # example
 
+## 0.0.92
+
+### Patch Changes
+
+- 6982833: Updated the following packages:
+
+  - `next` to `^14.1.3`
+  - `eslint-config-next` to `^14.1.3`
+  - `@types/react` to `^18.2.64`
+  - `@types/react` to `^18.2.64`
+
+- Updated dependencies [524d7a0]
+- Updated dependencies [2f637e4]
+- Updated dependencies [c021746]
+- Updated dependencies [df572f1]
+  - @rainbow-me/rainbowkit@2.0.2
+  - @rainbow-me/rainbow-button@0.2.2
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.4.0
+
+## 0.0.91
+
+### Patch Changes
+
+- 5149dbd: Added Ramper Wallet support with `ramperWallet` wallet connector
+- d623428: Updated the following packages:
+  - wagmi to `^2.5.7`
+  - viem to `^2.7.12`
+  - @tanstack/react-query to `^5.22.2`
+- 1e7d3f4: Added Ronin Wallet support with `roninWallet` wallet connector
+- c16541a: Added Kresus support with `kresusWallet` wallet connector
+- dbca966: Added Bloom Wallet support with `bloomWallet` wallet connector
+- f69c0e1: Added support for `ronin` chain
+- Updated dependencies [5149dbd]
+- Updated dependencies [1e7d3f4]
+- Updated dependencies [c16541a]
+- Updated dependencies [dbca966]
+- Updated dependencies [f69c0e1]
+- Updated dependencies [bb56562]
+- Updated dependencies [1a08977]
+  - @rainbow-me/rainbowkit@2.0.1
+  - @rainbow-me/rainbow-button@0.2.1
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.4.0
+
+## 0.0.90
+
+### Patch Changes
+
+- Updated dependencies [aa0269e]
+- Updated dependencies [aa0269e]
+- Updated dependencies [aa0269e]
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.4.0
+  - @rainbow-me/rainbowkit@2.0.0
+  - @rainbow-me/rainbow-button@0.2.0
+
+## 0.0.89
+
+### Patch Changes
+
+- Updated dependencies [33a8266]
+  - @rainbow-me/rainbowkit@1.3.6
+  - @rainbow-me/rainbow-button@0.1.6
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.3.4
+
+## 0.0.88
+
+### Patch Changes
+
+- Updated dependencies [2b0c7b3]
+  - @rainbow-me/rainbowkit@1.3.5
+  - @rainbow-me/rainbow-button@0.1.5
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.3.4
+
+## 0.0.87
+
+### Patch Changes
+
+- Updated dependencies [c0a644a]
+- Updated dependencies [41616b9]
+- Updated dependencies [cf4955f]
+- Updated dependencies [e5f5f03]
+- Updated dependencies [c0bd68e]
+- Updated dependencies [a79609b]
+  - @rainbow-me/rainbowkit@1.3.4
+  - @rainbow-me/rainbow-button@0.1.4
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.3.4
+
+## 0.0.86
+
+### Patch Changes
+
+- Updated dependencies [24b5a88]
+- Updated dependencies [7565fb2]
+- Updated dependencies [5a184e9]
+  - @rainbow-me/rainbowkit@1.3.3
+  - @rainbow-me/rainbow-button@0.1.3
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.3.4
+
+## 0.0.85
+
+### Patch Changes
+
+- Updated dependencies [7ba94f48]
+  - @rainbow-me/rainbowkit@1.3.2
+  - @rainbow-me/rainbow-button@0.1.2
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.3.4
+
+## 0.0.84
+
+### Patch Changes
+
+- Updated dependencies [3feab0e6]
+- Updated dependencies [c9a8e469]
+- Updated dependencies [dba51779]
+  - @rainbow-me/rainbowkit@1.3.1
+  - @rainbow-me/rainbow-button@0.1.1
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.3.4
+
 ## 0.0.83
 
 ### Patch Changes
