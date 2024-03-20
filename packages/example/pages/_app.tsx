@@ -2,13 +2,13 @@ import '@stakekit/rainbowkit/styles.css';
 import './global.css';
 
 import {
-  AccountExtraInfoContext,
   AvatarComponent,
+  type Chain,
   DisclaimerComponent,
   Locale,
   RainbowKitProvider,
-  connectorsForWallets,
   darkTheme,
+  getDefaultConfig,
   getDefaultWallets,
   lightTheme,
   midnightTheme,
@@ -18,6 +18,7 @@ import {
   bifrostWallet,
   bitgetWallet,
   bitskiWallet,
+  bloomWallet,
   clvWallet,
   coin98Wallet,
   coreWallet,
@@ -28,6 +29,7 @@ import {
   frameWallet,
   frontierWallet,
   imTokenWallet,
+  kresusWallet,
   ledgerWallet,
   mewWallet,
   oktoWallet,
@@ -36,6 +38,8 @@ import {
   oneKeyWallet,
   phantomWallet,
   rabbyWallet,
+  ramperWallet,
+  roninWallet,
   safeheronWallet,
   safepalWallet,
   subWallet,
@@ -50,18 +54,14 @@ import {
   zerionWallet,
 } from '@stakekit/rainbowkit/wallets';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { Session } from 'next-auth';
 import { SessionProvider, signOut } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  WagmiConfig,
-  configureChains,
-  createConfig,
-  useDisconnect,
-} from 'wagmi';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { WagmiProvider, useDisconnect } from 'wagmi';
 import {
   arbitrum,
   arbitrumSepolia,
@@ -75,20 +75,47 @@ import {
   optimismSepolia,
   polygon,
   polygonMumbai,
+  ronin,
   sepolia,
   zkSync,
   zora,
   zoraSepolia,
 } from 'wagmi/chains';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
+
 import { AppContextProps } from '../lib/AppContextProps';
 import { RainbowKitChain } from '@stakekit/rainbowkit/dist/components/RainbowKitProvider/RainbowKitChainContext';
 
 const RAINBOW_TERMS = 'https://rainbow.me/terms-of-use';
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [
+const projectId =
+  process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? 'YOUR_PROJECT_ID';
+
+const { wallets } = getDefaultWallets();
+
+const avalanche = {
+  id: 43_114,
+  name: 'Avalanche',
+  iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png',
+  iconBackground: '#fff',
+  nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://api.avax.network/ext/bc/C/rpc'] },
+  },
+  blockExplorers: {
+    default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
+  },
+  contracts: {
+    multicall3: {
+      address: '0xca11bde05977b3631167028862be2a173976ca11',
+      blockCreated: 11_907_934,
+    },
+  },
+} as const satisfies Chain;
+
+const config = getDefaultConfig({
+  appName: 'RainbowKit Demo',
+  projectId,
+  chains: [
     mainnet,
     polygon,
     optimism,
@@ -97,6 +124,8 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     zora,
     bsc,
     zkSync,
+    avalanche,
+    ronin,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
       ? [
           goerli,
@@ -110,69 +139,53 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
         ]
       : []),
   ],
-  [
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID ?? '' }),
-    publicProvider(),
+  wallets: [
+    ...wallets,
+    {
+      groupName: 'Other',
+      wallets: [
+        argentWallet,
+        bifrostWallet,
+        bitgetWallet,
+        bitskiWallet,
+        bloomWallet,
+        clvWallet,
+        coin98Wallet,
+        coreWallet,
+        dawnWallet,
+        desigWallet,
+        enkryptWallet,
+        foxWallet,
+        frameWallet,
+        frontierWallet,
+        imTokenWallet,
+        kresusWallet,
+        ledgerWallet,
+        mewWallet,
+        oktoWallet,
+        okxWallet,
+        omniWallet,
+        oneKeyWallet,
+        phantomWallet,
+        rabbyWallet,
+        ramperWallet,
+        roninWallet,
+        safeheronWallet,
+        safepalWallet,
+        subWallet,
+        tahoWallet,
+        talismanWallet,
+        tokenPocketWallet,
+        tokenaryWallet,
+        trustWallet,
+        uniswapWallet,
+        xdefiWallet,
+        zealWallet,
+        zerionWallet,
+      ],
+    },
   ],
-);
-
-const projectId =
-  process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-
-const { wallets } = getDefaultWallets({
-  appName: 'RainbowKit demo',
-  chains,
-  projectId,
-});
-
-const connectors = connectorsForWallets([
-  ...wallets,
-  {
-    groupName: 'Other',
-    wallets: [
-      argentWallet({ chains, projectId }),
-      bifrostWallet({ chains, projectId }),
-      bitgetWallet({ chains, projectId }),
-      bitskiWallet({ chains }),
-      clvWallet({ chains, projectId }),
-      coin98Wallet({ chains, projectId }),
-      coreWallet({ chains, projectId }),
-      dawnWallet({ chains }),
-      desigWallet({ chains }),
-      enkryptWallet({ chains }),
-      foxWallet({ chains, projectId }),
-      frameWallet({ chains }),
-      frontierWallet({ chains, projectId }),
-      imTokenWallet({ chains, projectId }),
-      ledgerWallet({ chains, projectId }),
-      mewWallet({ chains }),
-      oktoWallet({ chains, projectId }),
-      okxWallet({ chains, projectId }),
-      omniWallet({ chains, projectId }),
-      oneKeyWallet({ chains }),
-      phantomWallet({ chains }),
-      rabbyWallet({ chains }),
-      safeheronWallet({ chains }),
-      safepalWallet({ chains, projectId }),
-      subWallet({ chains, projectId }),
-      tahoWallet({ chains }),
-      talismanWallet({ chains }),
-      tokenaryWallet({ chains }),
-      tokenPocketWallet({ chains, projectId }),
-      trustWallet({ chains, projectId }),
-      uniswapWallet({ chains, projectId }),
-      xdefiWallet({ chains }),
-      zealWallet({ chains }),
-      zerionWallet({ chains, projectId }),
-    ],
-  },
-]);
-
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
-  webSocketPublicClient,
+  ssr: true,
 });
 
 const demoAppInfo = {
@@ -212,10 +225,10 @@ const themes = [
   { name: 'dark', theme: darkTheme },
   { name: 'midnight', theme: midnightTheme },
 ] as const;
-type ThemeName = typeof themes[number]['name'];
+type ThemeName = (typeof themes)[number]['name'];
 
 const fontStacks = ['rounded', 'system'] as const;
-type FontStack = typeof fontStacks[number];
+type FontStack = (typeof fontStacks)[number];
 
 const accentColors = [
   'blue',
@@ -226,16 +239,16 @@ const accentColors = [
   'red',
   'custom',
 ] as const;
-type AccentColor = typeof accentColors[number];
+type AccentColor = (typeof accentColors)[number];
 
 const radiusScales = ['large', 'medium', 'small', 'none'] as const;
-type RadiusScale = typeof radiusScales[number];
+type RadiusScale = (typeof radiusScales)[number];
 
 const overlayBlurs = ['large', 'small', 'none'] as const;
-type OverlayBlur = typeof overlayBlurs[number];
+type OverlayBlur = (typeof overlayBlurs)[number];
 
 const modalSizes = ['wide', 'compact'] as const;
-type ModalSize = typeof modalSizes[number];
+type ModalSize = (typeof modalSizes)[number];
 
 function RainbowKitApp({
   Component,
@@ -298,377 +311,365 @@ function RainbowKitApp({
   // at the bottom of the file. This is so that our example app
   // component can use their corresponding Hooks.
   return (
-    <AccountExtraInfoContext.Provider
-      value={{
-        onOtherAddressClick(address) {
-          // eslint-disable-next-line no-console
-          console.log('onOtherAddressClick', address);
-        },
-        otherAddresses: ['0x:123'],
+    <RainbowKitProvider
+      dialogRoot={dialogRoot.current}
+      appInfo={{
+        ...demoAppInfo,
+        ...(showDisclaimer && { disclaimer: DisclaimerDemo }),
       }}
+      avatar={customAvatar ? CustomAvatar : undefined}
+      locale={locale}
+      disabledChains={config.chains
+        .slice(4)
+        .map((c) => ({ ...c, info: 'Add account' }))}
+      onDisabledChainClick={useCallback((chain: RainbowKitChain) => {
+        console.log(chain);
+      }, [])}
+      coolMode={coolModeEnabled}
+      initialChain={selectedInitialChainId}
+      modalSize={modalSize}
+      showRecentTransactions={showRecentTransactions}
+      theme={currentTheme({
+        ...accentColor,
+        borderRadius: selectedRadiusScale,
+        fontStack: selectedFontStack,
+        overlayBlur: selectedOverlayBlur,
+      })}
     >
-      <RainbowKitProvider
-        // dialogRoot={dialogRoot.current}
-        appInfo={{
-          ...demoAppInfo,
-          ...(showDisclaimer && { disclaimer: DisclaimerDemo }),
+      <div
+        style={{
+          minHeight: '100vh',
+          padding: 8,
+          ...selectedBackgroundStyles,
         }}
-        avatar={customAvatar ? CustomAvatar : undefined}
-        chains={chains}
-        disabledChains={chains
-          .slice(4)
-          .map((c) => ({ ...c, info: 'Add account' }))}
-        onDisabledChainClick={useCallback((chain: RainbowKitChain) => {
-          console.log(chain);
-        }, [])}
-        locale={locale}
-        coolMode={coolModeEnabled}
-        initialChain={selectedInitialChainId}
-        modalSize={modalSize}
-        showRecentTransactions={showRecentTransactions}
-        theme={currentTheme({
-          ...accentColor,
-          borderRadius: selectedRadiusScale,
-          fontStack: selectedFontStack,
-          overlayBlur: selectedOverlayBlur,
-        })}
       >
-        <div
-          style={{
-            minHeight: '100vh',
-            padding: 8,
-            ...selectedBackgroundStyles,
-          }}
-        >
-          <Component {...pageProps} {...appContextProps} />
+        <Component {...pageProps} {...appContextProps} />
 
-          {isMounted && (
-            <>
+        {isMounted && (
+          <>
+            <div
+              style={{
+                fontFamily: 'sans-serif',
+              }}
+            >
+              <h3>RainbowKitProvider props</h3>
+              <table cellSpacing={12}>
+                <tbody>
+                  <tr>
+                    <td>
+                      <label
+                        htmlFor="authEnabled"
+                        style={{ userSelect: 'none' }}
+                      >
+                        authentication
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        checked={authEnabled}
+                        id="authEnabled"
+                        name="authEnabled"
+                        onChange={(e) => {
+                          setAuthEnabled(e.target.checked);
+
+                          // Reset connection and auth state when
+                          // toggling the authentication mode.
+                          // This better simulates the real dev experience
+                          // since they don't normally toggle between
+                          // these two modes at run time. Otherwise you
+                          // might experience weird behavior when toggling
+                          // in the middle of a session.
+                          signOut({ redirect: false });
+                          disconnect();
+                        }}
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label
+                        htmlFor="showRecentTransactions"
+                        style={{ userSelect: 'none' }}
+                      >
+                        showRecentTransactions
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        checked={showRecentTransactions}
+                        id="showRecentTransactions"
+                        name="showRecentTransactions"
+                        onChange={(e) =>
+                          setShowRecentTransactions(e.target.checked)
+                        }
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label
+                        htmlFor="coolModeEnabled"
+                        style={{ userSelect: 'none' }}
+                      >
+                        coolMode
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        checked={coolModeEnabled}
+                        id="coolModeEnabled"
+                        name="coolModeEnabled"
+                        onChange={(e) => setCoolModeEnabled(e.target.checked)}
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label
+                        htmlFor="showDisclaimer"
+                        style={{ userSelect: 'none' }}
+                      >
+                        disclaimer
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        checked={showDisclaimer}
+                        id="showDisclaimer"
+                        name="showDisclaimer"
+                        onChange={(e) => setShowDisclaimer(e.target.checked)}
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label
+                        htmlFor="customAvatar"
+                        style={{ userSelect: 'none' }}
+                      >
+                        avatar
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        checked={customAvatar}
+                        id="customAvatar"
+                        name="customAvatar"
+                        onChange={(e) => setCustomAvatar(e.target.checked)}
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>modalSize</td>
+                    <td>
+                      <select
+                        onChange={(e) =>
+                          setModalSize(e.target.value as ModalSize)
+                        }
+                        value={modalSize}
+                      >
+                        {modalSizes.map((size) => (
+                          <option key={size} value={size}>
+                            {size}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>initialChain</td>
+                    <td>
+                      <select
+                        onChange={(e) =>
+                          setInitialChainId(
+                            e.target.value
+                              ? parseInt(e.target.value, 10)
+                              : undefined,
+                          )
+                        }
+                        value={selectedInitialChainId ?? 'default'}
+                      >
+                        {[undefined, ...config.chains].map((chain) => (
+                          <option key={chain?.id ?? ''} value={chain?.id ?? ''}>
+                            {chain?.name ?? 'Default'}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label style={{ userSelect: 'none' }}>locale</label>
+                    </td>
+                    <td>
+                      <select
+                        onChange={(e) => {
+                          setLocale(e.target.value as Locale);
+                        }}
+                        value={locale}
+                      >
+                        {locales.map((locale) => (
+                          <option key={locale} value={locale}>
+                            {locale}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
               <div
                 style={{
-                  fontFamily: 'sans-serif',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 24,
                 }}
               >
-                <h3>RainbowKitProvider props</h3>
-                <table cellSpacing={12}>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <label
-                          htmlFor="authEnabled"
-                          style={{ userSelect: 'none' }}
-                        >
-                          authentication
-                        </label>
-                      </td>
-                      <td>
+                <div>
+                  <h4>Theme</h4>
+                  <div
+                    style={{
+                      alignItems: 'flex-start',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {themes.map(({ name: themeName }) => (
+                      <label key={themeName} style={{ userSelect: 'none' }}>
                         <input
-                          checked={authEnabled}
-                          id="authEnabled"
-                          name="authEnabled"
-                          onChange={(e) => {
-                            setAuthEnabled(e.target.checked);
-
-                            // Reset connection and auth state when
-                            // toggling the authentication mode.
-                            // This better simulates the real dev experience
-                            // since they don't normally toggle between
-                            // these two modes at run time. Otherwise you
-                            // might experience weird behavior when toggling
-                            // in the middle of a session.
-                            signOut({ redirect: false });
-                            disconnect();
-                          }}
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label
-                          htmlFor="showRecentTransactions"
-                          style={{ userSelect: 'none' }}
-                        >
-                          showRecentTransactions
-                        </label>
-                      </td>
-                      <td>
-                        <input
-                          checked={showRecentTransactions}
-                          id="showRecentTransactions"
-                          name="showRecentTransactions"
+                          checked={themeName === selectedThemeName}
+                          name="theme"
                           onChange={(e) =>
-                            setShowRecentTransactions(e.target.checked)
+                            setThemeName(e.target.value as ThemeName)
                           }
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label
-                          htmlFor="coolModeEnabled"
-                          style={{ userSelect: 'none' }}
-                        >
-                          coolMode
-                        </label>
-                      </td>
-                      <td>
+                          type="radio"
+                          value={themeName}
+                        />{' '}
+                        {themeName}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4>Font stack</h4>
+                  <div
+                    style={{
+                      alignItems: 'flex-start',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {fontStacks.map((fontStack) => (
+                      <label key={fontStack} style={{ userSelect: 'none' }}>
                         <input
-                          checked={coolModeEnabled}
-                          id="coolModeEnabled"
-                          name="coolModeEnabled"
-                          onChange={(e) => setCoolModeEnabled(e.target.checked)}
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label
-                          htmlFor="showDisclaimer"
-                          style={{ userSelect: 'none' }}
-                        >
-                          disclaimer
-                        </label>
-                      </td>
-                      <td>
-                        <input
-                          checked={showDisclaimer}
-                          id="showDisclaimer"
-                          name="showDisclaimer"
-                          onChange={(e) => setShowDisclaimer(e.target.checked)}
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label
-                          htmlFor="customAvatar"
-                          style={{ userSelect: 'none' }}
-                        >
-                          avatar
-                        </label>
-                      </td>
-                      <td>
-                        <input
-                          checked={customAvatar}
-                          id="customAvatar"
-                          name="customAvatar"
-                          onChange={(e) => setCustomAvatar(e.target.checked)}
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>modalSize</td>
-                      <td>
-                        <select
+                          checked={fontStack === selectedFontStack}
+                          name="fontStack"
                           onChange={(e) =>
-                            setModalSize(e.target.value as ModalSize)
+                            setFontStack(e.target.value as FontStack)
                           }
-                          value={modalSize}
-                        >
-                          {modalSizes.map((size) => (
-                            <option key={size} value={size}>
-                              {size}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>initialChain</td>
-                      <td>
-                        <select
+                          type="radio"
+                          value={fontStack}
+                        />{' '}
+                        {fontStack}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4>Accent</h4>
+                  <div
+                    style={{
+                      alignItems: 'flex-start',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {accentColors.map((accentColor) => (
+                      <label key={accentColor} style={{ userSelect: 'none' }}>
+                        <input
+                          checked={accentColor === selectedAccentColor}
+                          name="accentColor"
                           onChange={(e) =>
-                            setInitialChainId(
-                              e.target.value
-                                ? parseInt(e.target.value, 10)
-                                : undefined,
-                            )
+                            setAccentColor(e.target.value as AccentColor)
                           }
-                          value={selectedInitialChainId ?? 'default'}
-                        >
-                          {[undefined, ...chains].map((chain) => (
-                            <option
-                              key={chain?.id ?? ''}
-                              value={chain?.id ?? ''}
-                            >
-                              {chain?.name ?? 'Default'}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label style={{ userSelect: 'none' }}>locale</label>
-                      </td>
-                      <td>
-                        <select
-                          onChange={(e) => {
-                            setLocale(e.target.value as Locale);
-                          }}
-                          value={locale}
-                        >
-                          {locales.map((locale) => (
-                            <option key={locale} value={locale}>
-                              {locale}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: 24,
-                  }}
-                >
-                  <div>
-                    <h4>Theme</h4>
-                    <div
-                      style={{
-                        alignItems: 'flex-start',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 12,
-                      }}
-                    >
-                      {themes.map(({ name: themeName }) => (
-                        <label key={themeName} style={{ userSelect: 'none' }}>
-                          <input
-                            checked={themeName === selectedThemeName}
-                            name="theme"
-                            onChange={(e) =>
-                              setThemeName(e.target.value as ThemeName)
-                            }
-                            type="radio"
-                            value={themeName}
-                          />{' '}
-                          {themeName}
-                        </label>
-                      ))}
-                    </div>
+                          type="radio"
+                          value={accentColor}
+                        />{' '}
+                        {accentColor}
+                      </label>
+                    ))}
                   </div>
-                  <div>
-                    <h4>Font stack</h4>
-                    <div
-                      style={{
-                        alignItems: 'flex-start',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 12,
-                      }}
-                    >
-                      {fontStacks.map((fontStack) => (
-                        <label key={fontStack} style={{ userSelect: 'none' }}>
-                          <input
-                            checked={fontStack === selectedFontStack}
-                            name="fontStack"
-                            onChange={(e) =>
-                              setFontStack(e.target.value as FontStack)
-                            }
-                            type="radio"
-                            value={fontStack}
-                          />{' '}
-                          {fontStack}
-                        </label>
-                      ))}
-                    </div>
+                </div>
+                <div>
+                  <h4>Border radius</h4>
+                  <div
+                    style={{
+                      alignItems: 'flex-start',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {radiusScales.map((radiusScale) => (
+                      <label key={radiusScale} style={{ userSelect: 'none' }}>
+                        <input
+                          checked={radiusScale === selectedRadiusScale}
+                          name="radiusScale"
+                          onChange={(e) =>
+                            setRadiusScale(e.target.value as RadiusScale)
+                          }
+                          type="radio"
+                          value={radiusScale}
+                        />{' '}
+                        {radiusScale}
+                      </label>
+                    ))}
                   </div>
-                  <div>
-                    <h4>Accent</h4>
-                    <div
-                      style={{
-                        alignItems: 'flex-start',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 12,
-                      }}
-                    >
-                      {accentColors.map((accentColor) => (
-                        <label key={accentColor} style={{ userSelect: 'none' }}>
-                          <input
-                            checked={accentColor === selectedAccentColor}
-                            name="accentColor"
-                            onChange={(e) =>
-                              setAccentColor(e.target.value as AccentColor)
-                            }
-                            type="radio"
-                            value={accentColor}
-                          />{' '}
-                          {accentColor}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h4>Border radius</h4>
-                    <div
-                      style={{
-                        alignItems: 'flex-start',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 12,
-                      }}
-                    >
-                      {radiusScales.map((radiusScale) => (
-                        <label key={radiusScale} style={{ userSelect: 'none' }}>
-                          <input
-                            checked={radiusScale === selectedRadiusScale}
-                            name="radiusScale"
-                            onChange={(e) =>
-                              setRadiusScale(e.target.value as RadiusScale)
-                            }
-                            type="radio"
-                            value={radiusScale}
-                          />{' '}
-                          {radiusScale}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h4>Overlay blurs</h4>
-                    <div
-                      style={{
-                        alignItems: 'flex-start',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 12,
-                      }}
-                    >
-                      {overlayBlurs.map((overlayBlur) => (
-                        <label key={overlayBlur} style={{ userSelect: 'none' }}>
-                          <input
-                            checked={overlayBlur === selectedOverlayBlur}
-                            name="overlayBlur"
-                            onChange={(e) =>
-                              setOverlayBlur(e.target.value as OverlayBlur)
-                            }
-                            type="radio"
-                            value={overlayBlur}
-                          />{' '}
-                          {overlayBlur}
-                        </label>
-                      ))}
-                    </div>
+                </div>
+                <div>
+                  <h4>Overlay blurs</h4>
+                  <div
+                    style={{
+                      alignItems: 'flex-start',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {overlayBlurs.map((overlayBlur) => (
+                      <label key={overlayBlur} style={{ userSelect: 'none' }}>
+                        <input
+                          checked={overlayBlur === selectedOverlayBlur}
+                          name="overlayBlur"
+                          onChange={(e) =>
+                            setOverlayBlur(e.target.value as OverlayBlur)
+                          }
+                          type="radio"
+                          value={overlayBlur}
+                        />{' '}
+                        {overlayBlur}
+                      </label>
+                    ))}
                   </div>
                 </div>
               </div>
-            </>
-          )}
-        </div>
-      </RainbowKitProvider>
-    </AccountExtraInfoContext.Provider>
+            </div>
+          </>
+        )}
+      </div>
+    </RainbowKitProvider>
   );
 }
+
+const queryClient = new QueryClient();
 
 export default function App(
   appProps: AppProps<{
@@ -681,10 +682,13 @@ export default function App(
         <title>RainbowKit Example</title>
         <link href="/favicon.ico" rel="icon" />
       </Head>
+
       <SessionProvider refetchInterval={0} session={appProps.pageProps.session}>
-        <WagmiConfig config={wagmiConfig}>
-          <RainbowKitApp {...appProps} />
-        </WagmiConfig>
+        <WagmiProvider config={config}>
+          <QueryClientProvider client={queryClient}>
+            <RainbowKitApp {...appProps} />
+          </QueryClientProvider>
+        </WagmiProvider>
       </SessionProvider>
     </>
   );

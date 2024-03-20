@@ -1,58 +1,75 @@
 import React, { ReactNode, createContext, useContext, useMemo } from 'react';
-import { Chain as WagmiChain } from 'wagmi';
+import { useConfig } from 'wagmi';
+import type { Chain } from 'wagmi/chains';
 import { provideRainbowKitChains } from './provideRainbowKitChains';
 
-export interface RainbowKitChain {
-  id: number;
-  name?: string;
+export interface RainbowKitChain extends Chain {
   iconUrl?: string | (() => Promise<string>) | null;
   iconBackground?: string;
 }
 
-// This type is a combination of wagmi and RainbowKit chain types to make
-// it easier for consumers to define their chain config in a single place.
-export type Chain = WagmiChain & RainbowKitChain;
-
-export type DisabledChain = Chain & { info?: string };
+export type DisabledChain = RainbowKitChain & { info?: string };
 
 interface RainbowKitChainContextValue {
-  chains: RainbowKitChain[];
   disabledChains: DisabledChain[];
   onDisabledChainClick?: (chain: DisabledChain) => void;
+  chains: RainbowKitChain[];
   initialChainId?: number;
 }
 
 const RainbowKitChainContext = createContext<RainbowKitChainContextValue>({
-  chains: [],
   disabledChains: [],
+  chains: [],
 });
 
 interface RainbowKitChainProviderProps {
-  chains: RainbowKitChain[];
+  chainIdsToUse?: Set<number>;
   disabledChains?: DisabledChain[];
   onDisabledChainClick?: (chain: Chain) => void;
-  initialChain?: RainbowKitChain | number;
+  initialChain?: Chain | number;
   children: ReactNode;
 }
 
 export function RainbowKitChainProvider({
-  chains,
+  chainIdsToUse,
   disabledChains,
   onDisabledChainClick,
   children,
   initialChain,
 }: RainbowKitChainProviderProps) {
+  const { chains } = useConfig();
+
+  const mappedChains = useMemo(
+    () =>
+      provideRainbowKitChains(
+        chainIdsToUse
+          ? (chains.filter((c) =>
+              chainIdsToUse.has(c.id),
+            ) as unknown as typeof chains)
+          : chains,
+      ),
+    [chainIdsToUse, chains],
+  );
+
   return (
     <RainbowKitChainContext.Provider
       value={useMemo(
         () => ({
-          chains: provideRainbowKitChains(chains),
-          disabledChains: provideRainbowKitChains(disabledChains ?? []),
+          chains: mappedChains,
+          disabledChains: provideRainbowKitChains(
+            (disabledChains ?? []) as unknown as typeof chains,
+          ),
           onDisabledChainClick,
           initialChainId:
             typeof initialChain === 'number' ? initialChain : initialChain?.id,
         }),
-        [chains, initialChain, disabledChains, onDisabledChainClick],
+        [
+          chains,
+          initialChain,
+          disabledChains,
+          onDisabledChainClick,
+          mappedChains,
+        ],
       )}
     >
       {children}
@@ -78,9 +95,9 @@ export const useRainbowKitChainsById = () => {
   return useMemo(() => {
     const rainbowkitChainsById: Record<number, RainbowKitChain> = {};
 
-    rainbowkitChains.forEach((rkChain) => {
+    for (const rkChain of rainbowkitChains) {
       rainbowkitChainsById[rkChain.id] = rkChain;
-    });
+    }
 
     return rainbowkitChainsById;
   }, [rainbowkitChains]);

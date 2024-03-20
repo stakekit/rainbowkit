@@ -1,5 +1,5 @@
 import { isNotNullish } from '../../utils/isNotNullish';
-import type { RainbowKitChain } from './RainbowKitChainContext';
+import { RainbowKitChain } from './RainbowKitChainContext';
 
 // Sourced from https://github.com/tmm/wagmi/blob/main/packages/core/src/constants/chains.ts
 // This is just so we can clearly see which of wagmi's first-class chains we provide metadata for
@@ -30,6 +30,7 @@ type ChainName =
   | 'polygonMumbai'
   | 'rinkeby'
   | 'ropsten'
+  | 'ronin'
   | 'sepolia'
   | 'xdc'
   | 'xdcTestnet'
@@ -109,6 +110,11 @@ const zoraIcon: IconMetadata = {
   iconUrl: async () => (await import('./chainIcons/zora.svg')).default,
 };
 
+const roninIcon: IconMetadata = {
+  iconBackground: '#1273EA',
+  iconUrl: async () => (await import('./chainIcons/ronin.svg')).default,
+};
+
 const chainMetadataByName: Record<ChainName, ChainMetadata | null> = {
   arbitrum: { chainId: 42_161, name: 'Arbitrum', ...arbitrumIcon },
   arbitrumGoerli: { chainId: 421_613, ...arbitrumIcon },
@@ -136,6 +142,7 @@ const chainMetadataByName: Record<ChainName, ChainMetadata | null> = {
   polygonMumbai: { chainId: 80_001, ...polygonIcon },
   rinkeby: { chainId: 4, ...ethereumIcon },
   ropsten: { chainId: 3, ...ethereumIcon },
+  ronin: { chainId: 2020, ...roninIcon },
   sepolia: { chainId: 11_155_111, ...ethereumIcon },
   xdc: { chainId: 50, name: 'XinFin', ...xdcIcon },
   xdcTestnet: { chainId: 51, ...xdcIcon },
@@ -154,7 +161,7 @@ const chainMetadataById = Object.fromEntries(
 
 /** @description Decorates an array of wagmi `Chain` objects with RainbowKitChain property overrides */
 export const provideRainbowKitChains = <Chain extends RainbowKitChain>(
-  chains: Chain[],
+  chains: readonly [Chain, ...Chain[]],
 ): Chain[] =>
   chains.map((chain) => {
     const defaultMetadata = chainMetadataById[chain.id] ?? {};

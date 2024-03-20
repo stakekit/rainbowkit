@@ -15,9 +15,10 @@ export function ConnectModal({ onClose, open, dialogRoot }: ConnectModalProps) {
   const titleId = 'rk_connect_title';
   const connectionStatus = useConnectionStatus();
 
-  // when a user cancels or dismisses the SignIn modal for SIWE, disconnect and call onClose
   const { disconnect } = useDisconnect();
   const { isConnecting } = useAccount();
+
+  // when a user cancels or dismisses the SignIn modal for SIWE, disconnect and call onClose
   const onAuthCancel = React.useCallback(() => {
     onClose();
     disconnect();
@@ -56,7 +57,7 @@ export function ConnectModal({ onClose, open, dialogRoot }: ConnectModalProps) {
         titleId={titleId}
       >
         <DialogContent bottomSheetOnMobile padding="0">
-          <SignIn onClose={onAuthCancel} />
+          <SignIn onClose={onAuthCancel} onCloseModal={onClose} />
         </DialogContent>
       </Dialog>
     );
