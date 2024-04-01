@@ -38,13 +38,14 @@ export function ChainModal({ onClose, open, dialogRoot }: ChainModalProps) {
       },
       onSuccess: () => {
         if (pendingChainId) setPendingChainId(null);
-      },
-      onError: () => {
-        if (pendingChainId) setPendingChainId(null);
-      },
-      onSettled: () => {
         _onClose();
       },
+      // onError: () => {
+      //   if (pendingChainId) setPendingChainId(null);
+      // },
+      // onSettled: () => {
+      //   _onClose();
+      // },
     },
   });
 

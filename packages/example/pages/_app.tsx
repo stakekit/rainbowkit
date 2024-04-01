@@ -80,6 +80,7 @@ import {
   zkSync,
   zora,
   zoraSepolia,
+  celo,
 } from 'wagmi/chains';
 
 import { AppContextProps } from '../lib/AppContextProps';
@@ -119,6 +120,7 @@ const config = getDefaultConfig({
     mainnet,
     polygon,
     optimism,
+    celo,
     arbitrum,
     base,
     zora,
