@@ -18,9 +18,12 @@ import {
   bifrostWallet,
   bitgetWallet,
   bitskiWallet,
+  bitverseWallet,
   bloomWallet,
+  bybitWallet,
   clvWallet,
   coin98Wallet,
+  compassWallet,
   coreWallet,
   dawnWallet,
   desigWallet,
@@ -28,13 +31,17 @@ import {
   foxWallet,
   frameWallet,
   frontierWallet,
+  gateWallet,
   imTokenWallet,
+  kaikasWallet,
+  krakenWallet,
   kresusWallet,
   ledgerWallet,
   mewWallet,
   oktoWallet,
   okxWallet,
   omniWallet,
+  oneInchWallet,
   oneKeyWallet,
   phantomWallet,
   rabbyWallet,
@@ -65,11 +72,16 @@ import { WagmiProvider, useDisconnect } from 'wagmi';
 import {
   arbitrum,
   arbitrumSepolia,
+  avalancheFuji,
   base,
   baseSepolia,
+  blast,
+  blastSepolia,
   bsc,
-  goerli,
+  celo,
   holesky,
+  klaytn,
+  klaytnBaobab,
   mainnet,
   optimism,
   optimismSepolia,
@@ -77,14 +89,15 @@ import {
   polygonMumbai,
   ronin,
   sepolia,
+  zetachain,
+  zetachainAthensTestnet,
   zkSync,
   zora,
   zoraSepolia,
-  celo,
 } from 'wagmi/chains';
 
-import { AppContextProps } from '../lib/AppContextProps';
 import { RainbowKitChain } from '@stakekit/rainbowkit/dist/components/RainbowKitProvider/RainbowKitChainContext';
+import { AppContextProps } from '../lib/AppContextProps';
 
 const RAINBOW_TERMS = 'https://rainbow.me/terms-of-use';
 
@@ -113,6 +126,22 @@ const avalanche = {
   },
 } as const satisfies Chain;
 
+const sei = {
+  id: 713715,
+  name: 'Sei',
+  iconUrl:
+    'https://s3.coinmarketcap.com/static-gravity/image/992744cfbd5e40f5920018ee7a830b98.png',
+  iconBackground: '#fff',
+  nativeCurrency: { name: 'Sei', symbol: 'SEI', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://evm-rpc.arctic-1.seinetwork.io'] },
+  },
+  blockExplorers: {
+    default: { name: 'Sei Explorer', url: 'https://www.seiscan.app' },
+  },
+  contracts: {},
+} as const satisfies Chain;
+
 const config = getDefaultConfig({
   appName: 'RainbowKit Demo',
   projectId,
@@ -123,14 +152,17 @@ const config = getDefaultConfig({
     celo,
     arbitrum,
     base,
-    zora,
     bsc,
-    zkSync,
     avalanche,
+    zora,
+    blast,
+    zkSync,
+    zetachain,
     ronin,
+    klaytn,
+    sei,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
       ? [
-          goerli,
           sepolia,
           holesky,
           polygonMumbai,
@@ -138,6 +170,10 @@ const config = getDefaultConfig({
           arbitrumSepolia,
           baseSepolia,
           zoraSepolia,
+          blastSepolia,
+          avalancheFuji,
+          zetachainAthensTestnet,
+          klaytnBaobab,
         ]
       : []),
   ],
@@ -150,8 +186,11 @@ const config = getDefaultConfig({
         bifrostWallet,
         bitgetWallet,
         bitskiWallet,
+        bitverseWallet,
         bloomWallet,
+        bybitWallet,
         clvWallet,
+        compassWallet,
         coin98Wallet,
         coreWallet,
         dawnWallet,
@@ -160,13 +199,17 @@ const config = getDefaultConfig({
         foxWallet,
         frameWallet,
         frontierWallet,
+        gateWallet,
         imTokenWallet,
         kresusWallet,
+        krakenWallet,
+        kaikasWallet,
         ledgerWallet,
         mewWallet,
         oktoWallet,
         okxWallet,
         omniWallet,
+        oneInchWallet,
         oneKeyWallet,
         phantomWallet,
         rabbyWallet,
