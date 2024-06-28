@@ -39,13 +39,11 @@ export const fixedOverlay = style([
   sprinkles({ backdropFilter: 'modalOverlay', background: 'modalBackdrop' }),
   {
     position: 'fixed',
-    bottom: -bleed,
-    left: -bleed,
-    padding: bleed,
-    right: -bleed,
-    top: -bleed,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
     transform: 'translateZ(0)', // This is required for content to render under the URL bar on iOS
-    zIndex: Math.min(...Object.values(nestedModalZIndexes)) - 1,
   },
 ]);
 
