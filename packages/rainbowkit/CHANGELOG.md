@@ -218,6 +218,137 @@
 - 985b80b: Resolved an issue where ENS resolution would fail and throw an error for ENS names with disallowed characters.
 - b25db9a: Added `blast` and `blastSepolia` network support
 
+## 2.1.3
+
+### Patch Changes
+
+- 23e33b9: Added `mantle` and `mantleTestnet` network support
+- 7b00be5: Added Seif Wallet support with `seifWallet` wallet connector
+- 001a0a9: Resolved an issue in development where browser detection would throw an error if `navigator.userAgent` was unavailable in the browser.
+
+## 2.1.2
+
+### Patch Changes
+
+- 2180ddd: Added Nest Wallet support with `nestWallet` wallet connector
+- fea278a: The `coinbaseWallet` wallet connector now has a `preference` argument to control whether Smart Wallet is enabled and available for users. Preference based behavior is documented [here](https://www.smartwallet.dev/sdk/makeWeb3Provider#parameters).
+
+  Smart Wallet will be enabled by default with `all` in early June, without a further upgrade.
+
+  Developers can test Smart Wallet with `sepolia` and `baseSepolia` chains today by setting `smartWalletOnly` like so:
+
+  ```tsx
+  import { coinbaseWallet } from "@rainbow-me/rainbowkit/wallets";
+
+  // Enable Coinbase Smart Wallet for testing
+  coinbaseWallet.preference = "smartWalletOnly";
+
+  // You must manually specify your wallet list with `wallets` in
+  // `getDefaultConfig` or `connectorsForWallets` to assign the preference
+  const config = getDefaultConfig({
+    /* ... */
+    wallets: [
+      {
+        groupName: "Popular",
+        wallets: [coinbaseWallet],
+      },
+    ],
+    /* ... */
+  });
+  ```
+
+## 2.1.1
+
+### Patch Changes
+
+- 725a376: Added Magic Eden Wallet support with `magicEdenWallet` wallet connector
+- 9be5452: Resolved an issue with the Enhanced Provider when using RainbowKit in Vite without a `process.env` polyfill
+
+## 2.1.0
+
+### Minor Changes
+
+- 82153ed: Upgraded compatible `wagmi` and `@coinbase/wallet-sdk` versions to support [Coinbase Smart Wallet](https://www.smartwallet.dev/why).
+
+  Smart Wallet enables users to create a new wallet in seconds with Passkeys, without installing an app or extension. Smart Wallet users can use the same account and address across all onchain apps with RainbowKit.
+
+  Smart Wallet and the underlying smart contract is fully compatible with Wagmi, but dApps need to ensure that their offchain signature validation is [ERC-6492](https://eips.ethereum.org/EIPS/eip-6492) compliant to support smart contract wallets. Follow [this guide](https://www.smartwallet.dev/guides/signature-verification) for more information.
+
+  Coinbase Wallet users on desktop and mobile will now interact with a new connection flow in RainbowKit alongside Smart Wallet.
+
+- 90d6931: Introduced the Enhanced Provider to handle fallback resolutions when a Mainnet provider transport is unavailable.
+
+  ENS names for dApps without a Mainnet provider will now properly resolve. Additional conveniences will be soon be rolling out in RainbowKit.
+
+## 2.0.8
+
+### Patch Changes
+
+- 8841891: Added real-time balance fetching based on the [Recent Transaction](https://www.rainbowkit.com/docs/recent-transactions) API. As a transaction is confirmed on-chain, the user's gas balance will be updated to reflect the transaction.
+
+  ```tsx
+  import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+
+  export default () => {
+    const addRecentTransaction = useAddRecentTransaction();
+
+    return (
+      <button
+        onClick={() => {
+          addRecentTransaction({
+            hash: "0x...",
+            description: "...",
+          });
+        }}
+      >
+        Add recent transaction
+      </button>
+    );
+  };
+  ```
+
+## 2.0.7
+
+### Patch Changes
+
+- af4ea4e: Added Kraken Wallet support with `krakenWallet` wallet connector
+- f0b3b25: Mitigated behavior in Coinbase Wallet where the user would be captured in the in-app browser upon redirect.
+
+## 2.0.6
+
+### Patch Changes
+
+- 7ab6e50: Added Compass Wallet support with `compassWallet` wallet connector
+- 515498f: Locked the dependencies for the `coinbaseWallet` wallet connector to Coinbase Wallet SDK v3 to temporarily mitigate breaking changes included an upcoming version of Wagmi.
+
+## 2.0.5
+
+### Patch Changes
+
+- 4dd1e45: Fixed an issue that allowed duplicate wallets to be added to the Connect Modal when using `connectorsForWallets`
+- 1a0f209: Added a small check to throw an error if the wallet list is empty overall or empty within any category.
+- ec41346: Amended the `getDefaultConfig` return type to prevent indirect type annotation errors and better infer type for parameters from Wagmi's `createConfig`.
+- fc4d7e1: Resolved a bug where if `multiInjectedProviderDiscovery` was set to `false` the `roninWallet` would prevent showing `Opening Ronin Wallet...` UI in the connect modal.
+- 81ba812: Added support for `zetachain` and `zetachainAthensTestnet` testnet chain
+- b11118f: Added Kaikas Wallet support with `kaikasWallet` wallet connector and added `klaytn` chain with `klaytnBaobab` testnet support.
+
+## 2.0.4
+
+### Patch Changes
+
+- 77dcec3: Added Bybit Wallet support with `bybitWallet` wallet connector
+- 6c240ba: Added Gate Wallet support with `gateWallet` wallet connector
+- 34419b5: Added Bitverse Wallet support with `bitverseWallet` wallet connector
+- 5c60239: Added 1inch Wallet support with `oneInchWallet` wallet connector
+
+## 2.0.3
+
+### Patch Changes
+
+- b80e8fa: Improved the synchronous connection flow for the `WalletButton` and `WalletButton.Custom` components
+- 985b80b: Resolved an issue where ENS resolution would fail and throw an error for ENS names with disallowed characters.
+- b25db9a: Added `blast` and `blastSepolia` network support
+
 ## 2.0.2
 
 ### Patch Changes

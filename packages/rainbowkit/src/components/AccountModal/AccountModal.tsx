@@ -47,6 +47,7 @@ export function AccountModal({
               address={address}
               ensAvatar={ensAvatar}
               ensName={ensName}
+              balance={balance}
               onClose={onClose}
               onDisconnect={disconnect}
               hideDisconnect={hideDisconnect}
