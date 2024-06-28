@@ -19,8 +19,6 @@ const nestedModalZIndexes: Record<string, number> = {
 const bleed = 200;
 export const overlay = style([
   sprinkles({
-    backdropFilter: 'modalOverlay',
-    background: 'modalBackdrop',
     display: 'flex',
     justifyContent: 'center',
     position: 'fixed',
@@ -34,6 +32,17 @@ export const overlay = style([
     top: -bleed,
     transform: 'translateZ(0)', // This is required for content to render under the URL bar on iOS
     zIndex: Math.min(...Object.values(nestedModalZIndexes)) - 1,
+  },
+]);
+
+export const fixedOverlay = style([
+  sprinkles({ backdropFilter: 'modalOverlay', background: 'modalBackdrop' }),
+  {
+    position: 'fixed',
+    bottom: -bleed,
+    left: -bleed,
+    right: -bleed,
+    top: -bleed,
   },
 ]);
 

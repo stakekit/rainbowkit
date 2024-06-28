@@ -23,7 +23,6 @@ interface ProfileDetailsProps {
   address: ReturnType<typeof useAccount>['address'];
   ensAvatar: GetEnsAvatarReturnType | undefined;
   ensName: GetEnsNameReturnType | undefined;
-  balance: ReturnType<typeof useProfile>['balance'];
   onClose: () => void;
   onDisconnect: () => void;
   accountExtraInfo?: AccountExtraInfo;
@@ -35,7 +34,6 @@ export function ProfileDetails({
   address,
   ensAvatar,
   ensName,
-  balance,
   onClose,
   onDisconnect,
   hideDisconnect,
