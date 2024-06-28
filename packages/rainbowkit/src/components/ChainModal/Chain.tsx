@@ -6,7 +6,11 @@ import { AsyncImageSrc } from '../AsyncImage/useAsyncImage';
 import { Box, BoxProps } from '../Box/Box';
 import { MenuButton } from '../MenuButton/MenuButton';
 import { I18nContext } from '../RainbowKitProvider/I18nContext';
-import { useRainbowKitChains } from '../RainbowKitProvider/RainbowKitChainContext';
+import {
+  DisabledChain,
+  RainbowKitChain,
+  useRainbowKitChains,
+} from '../RainbowKitProvider/RainbowKitChainContext';
 import { Text } from '../Text/Text';
 
 interface ChainProps {
@@ -19,6 +23,12 @@ interface ChainProps {
   iconBackground: string | undefined;
   src: string | AsyncImageSrc | undefined | null;
   idx: number;
+  enabled: boolean;
+  onDiabledChainClick: () => void;
+  switchError: boolean;
+  chain:
+    | (DisabledChain & { enabled: false })
+    | (RainbowKitChain & { enabled: true });
 }
 
 const Chain = ({
@@ -31,6 +41,10 @@ const Chain = ({
   name,
   iconBackground,
   idx,
+  enabled,
+  onDiabledChainClick,
+  switchError,
+  chain,
 }: ChainProps) => {
   const mobile = isMobile();
   const { i18n } = useContext(I18nContext);
@@ -42,10 +56,21 @@ const Chain = ({
     <Fragment>
       <MenuButton
         currentlySelected={isCurrentChain}
-        onClick={isCurrentChain ? undefined : () => switchChain({ chainId })}
+        onClick={
+          isCurrentChain
+            ? undefined
+            : !enabled
+              ? () => onDiabledChainClick()
+              : () => switchChain({ chainId })
+        }
         testId={`chain-option-${chainId}`}
       >
-        <Box fontFamily="body" fontSize="16" fontWeight="bold">
+        <Box
+          fontFamily="body"
+          fontSize="16"
+          fontWeight="bold"
+          style={{ opacity: enabled ? 1 : 0.4 }}
+        >
           <Box
             alignItems="center"
             display="flex"
@@ -74,7 +99,7 @@ const Chain = ({
               )}
               <div>{name ?? name}</div>
             </Box>
-            {isCurrentChain && (
+            {isCurrentChain ? (
               <Box
                 alignItems="center"
                 display="flex"
@@ -95,8 +120,7 @@ const Chain = ({
                   width="8"
                 />
               </Box>
-            )}
-            {isLoading && (
+            ) : isLoading ? (
               <Box
                 alignItems="center"
                 display="flex"
@@ -104,17 +128,30 @@ const Chain = ({
                 marginRight="6"
               >
                 <Text color="modalText" size="14" weight="medium">
-                  {i18n.t('chains.confirm')}
+                  {switchError
+                    ? i18n.t('chains.confirm_error')
+                    : i18n.t('chains.confirm')}
                 </Text>
                 <Box
-                  background="standby"
+                  background={switchError ? 'error' : 'standby'}
                   borderRadius="full"
                   height="8"
                   marginLeft="8"
                   width="8"
                 />
               </Box>
-            )}
+            ) : !chain.enabled && !!chain.info ? (
+              <Box
+                alignItems="center"
+                display="flex"
+                flexDirection="row"
+                marginRight="6"
+              >
+                <Text color="modalText" size="14" weight="medium">
+                  {chain.info}
+                </Text>
+              </Box>
+            ) : null}
           </Box>
         </Box>
       </MenuButton>

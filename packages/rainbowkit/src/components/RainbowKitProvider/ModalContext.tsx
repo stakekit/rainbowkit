@@ -31,6 +31,9 @@ interface ModalContextValue {
   openAccountModal?: () => void;
   openChainModal?: () => void;
   openConnectModal?: () => void;
+  closeAccountModal: () => void;
+  closeChainModal: () => void;
+  closeConnectModal: () => void;
   isWalletConnectModalOpen: boolean;
   setIsWalletConnectModalOpen: (isWalletConnectModalOpen: boolean) => void;
 }
@@ -39,15 +42,24 @@ const ModalContext = createContext<ModalContextValue>({
   accountModalOpen: false,
   chainModalOpen: false,
   connectModalOpen: false,
+  closeAccountModal: () => {},
+  closeChainModal: () => {},
+  closeConnectModal: () => {},
   isWalletConnectModalOpen: false,
   setIsWalletConnectModalOpen: () => {},
 });
 
 interface ModalProviderProps {
   children: ReactNode;
+  dialogRoot?: Element;
+  hideDisconnect?: boolean;
 }
 
-export function ModalProvider({ children }: ModalProviderProps) {
+export function ModalProvider({
+  children,
+  dialogRoot,
+  hideDisconnect,
+}: ModalProviderProps) {
   const {
     closeModal: closeConnectModal,
     isModalOpen: connectModalOpen,
@@ -111,6 +123,9 @@ export function ModalProvider({ children }: ModalProviderProps) {
           accountModalOpen,
           chainModalOpen,
           connectModalOpen,
+          closeConnectModal,
+          closeAccountModal,
+          closeChainModal,
           isWalletConnectModalOpen,
           openAccountModal:
             isCurrentChainSupported && connectionStatus === 'connected'
@@ -133,15 +148,31 @@ export function ModalProvider({ children }: ModalProviderProps) {
           openAccountModal,
           openChainModal,
           openConnectModal,
+          closeConnectModal,
+          closeAccountModal,
+          closeChainModal,
           isCurrentChainSupported,
           isWalletConnectModalOpen,
         ],
       )}
     >
       {children}
-      <ConnectModal onClose={closeConnectModal} open={connectModalOpen} />
-      <AccountModal onClose={closeAccountModal} open={accountModalOpen} />
-      <ChainModal onClose={closeChainModal} open={chainModalOpen} />
+      <ConnectModal
+        dialogRoot={dialogRoot}
+        onClose={closeConnectModal}
+        open={connectModalOpen}
+      />
+      <AccountModal
+        dialogRoot={dialogRoot}
+        onClose={closeAccountModal}
+        open={accountModalOpen}
+        hideDisconnect={hideDisconnect}
+      />
+      <ChainModal
+        dialogRoot={dialogRoot}
+        onClose={closeChainModal}
+        open={chainModalOpen}
+      />
     </ModalContext.Provider>
   );
 }
@@ -158,13 +189,15 @@ export function useModalState() {
 }
 
 export function useAccountModal() {
-  const { accountModalOpen, openAccountModal } = useContext(ModalContext);
-  return { accountModalOpen, openAccountModal };
+  const { accountModalOpen, openAccountModal, closeAccountModal } =
+    useContext(ModalContext);
+  return { accountModalOpen, openAccountModal, closeAccountModal };
 }
 
 export function useChainModal() {
-  const { chainModalOpen, openChainModal } = useContext(ModalContext);
-  return { chainModalOpen, openChainModal };
+  const { chainModalOpen, openChainModal, closeChainModal } =
+    useContext(ModalContext);
+  return { chainModalOpen, openChainModal, closeChainModal };
 }
 
 export function useWalletConnectOpenState() {
@@ -175,11 +208,13 @@ export function useWalletConnectOpenState() {
 }
 
 export function useConnectModal() {
-  const { connectModalOpen, openConnectModal } = useContext(ModalContext);
+  const { connectModalOpen, openConnectModal, closeConnectModal } =
+    useContext(ModalContext);
   const { isWalletConnectModalOpen } = useWalletConnectOpenState();
 
   return {
     connectModalOpen: connectModalOpen || isWalletConnectModalOpen,
     openConnectModal,
+    closeConnectModal,
   };
 }

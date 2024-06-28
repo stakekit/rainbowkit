@@ -1,4 +1,353 @@
-# @rainbow-me/rainbowkit
+# @stakekit/rainbowkit
+
+## 2.1.0
+
+### Minor Changes
+
+- 82153ed: Upgraded compatible `wagmi` and `@coinbase/wallet-sdk` versions to support [Coinbase Smart Wallet](https://www.smartwallet.dev/why).
+
+  Smart Wallet enables users to create a new wallet in seconds with Passkeys, without installing an app or extension. Smart Wallet users can use the same account and address across all onchain apps with RainbowKit.
+
+  Smart Wallet and the underlying smart contract is fully compatible with Wagmi, but dApps need to ensure that their offchain signature validation is [ERC-6492](https://eips.ethereum.org/EIPS/eip-6492) compliant to support smart contract wallets. Follow [this guide](https://www.smartwallet.dev/guides/signature-verification) for more information.
+
+  Smart Wallet is currently only available for testnets while using RainbowKit in a local development environment. Support for Mainnet and full production rollout will occur automatically later this month.
+
+  Coinbase Wallet users on desktop and mobile will now interact with a new connection flow in RainbowKit alongside Smart Wallet.
+
+- 90d6931: Introduced the Enhanced Provider to handle fallback resolutions when a Mainnet provider transport is unavailable.
+
+  ENS names for dApps without a Mainnet provider will now properly resolve. Additional conveniences will be soon be rolling out in RainbowKit.
+
+## 2.0.8
+
+### Patch Changes
+
+- 8841891: Added real-time balance fetching based on the [Recent Transaction](https://www.rainbowkit.com/docs/recent-transactions) API. As a transaction is confirmed on-chain, the user's gas balance will be updated to reflect the transaction.
+
+  ```tsx
+  import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+
+  export default () => {
+    const addRecentTransaction = useAddRecentTransaction();
+
+    return (
+      <button
+        onClick={() => {
+          addRecentTransaction({
+            hash: "0x...",
+            description: "...",
+          });
+        }}
+      >
+        Add recent transaction
+      </button>
+    );
+  };
+  ```
+
+## 2.0.7
+
+### Patch Changes
+
+- af4ea4e: Added Kraken Wallet support with `krakenWallet` wallet connector
+- f0b3b25: Mitigated behavior in Coinbase Wallet where the user would be captured in the in-app browser upon redirect.
+
+## 2.0.6
+
+### Patch Changes
+
+- 7ab6e50: Added Compass Wallet support with `compassWallet` wallet connector
+- 515498f: Locked the dependencies for the `coinbaseWallet` wallet connector to Coinbase Wallet SDK v3 to temporarily mitigate breaking changes included an upcoming version of Wagmi.
+
+## 2.0.5
+
+### Patch Changes
+
+- 4dd1e45: Fixed an issue that allowed duplicate wallets to be added to the Connect Modal when using `connectorsForWallets`
+- 1a0f209: Added a small check to throw an error if the wallet list is empty overall or empty within any category.
+- ec41346: Amended the `getDefaultConfig` return type to prevent indirect type annotation errors and better infer type for parameters from Wagmi's `createConfig`.
+- fc4d7e1: Resolved a bug where if `multiInjectedProviderDiscovery` was set to `false` the `roninWallet` would prevent showing `Opening Ronin Wallet...` UI in the connect modal.
+- 81ba812: Added support for `zetachain` and `zetachainAthensTestnet` testnet chain
+- b11118f: Added Kaikas Wallet support with `kaikasWallet` wallet connector and added `klaytn` chain with `klaytnBaobab` testnet support.
+
+## 2.0.4
+
+### Patch Changes
+
+- 77dcec3: Added Bybit Wallet support with `bybitWallet` wallet connector
+- 6c240ba: Added Gate Wallet support with `gateWallet` wallet connector
+- 34419b5: Added Bitverse Wallet support with `bitverseWallet` wallet connector
+- 5c60239: Added 1inch Wallet support with `oneInchWallet` wallet connector
+
+## 2.0.3
+
+### Patch Changes
+
+- b80e8fa: Improved the synchronous connection flow for the `WalletButton` and `WalletButton.Custom` components
+- 985b80b: Resolved an issue where ENS resolution would fail and throw an error for ENS names with disallowed characters.
+- b25db9a: Added `blast` and `blastSepolia` network support
+
+## 2.1.3
+
+### Patch Changes
+
+- 23e33b9: Added `mantle` and `mantleTestnet` network support
+- 7b00be5: Added Seif Wallet support with `seifWallet` wallet connector
+- 001a0a9: Resolved an issue in development where browser detection would throw an error if `navigator.userAgent` was unavailable in the browser.
+
+## 2.1.2
+
+### Patch Changes
+
+- 2180ddd: Added Nest Wallet support with `nestWallet` wallet connector
+- fea278a: The `coinbaseWallet` wallet connector now has a `preference` argument to control whether Smart Wallet is enabled and available for users. Preference based behavior is documented [here](https://www.smartwallet.dev/sdk/makeWeb3Provider#parameters).
+
+  Smart Wallet will be enabled by default with `all` in early June, without a further upgrade.
+
+  Developers can test Smart Wallet with `sepolia` and `baseSepolia` chains today by setting `smartWalletOnly` like so:
+
+  ```tsx
+  import { coinbaseWallet } from "@rainbow-me/rainbowkit/wallets";
+
+  // Enable Coinbase Smart Wallet for testing
+  coinbaseWallet.preference = "smartWalletOnly";
+
+  // You must manually specify your wallet list with `wallets` in
+  // `getDefaultConfig` or `connectorsForWallets` to assign the preference
+  const config = getDefaultConfig({
+    /* ... */
+    wallets: [
+      {
+        groupName: "Popular",
+        wallets: [coinbaseWallet],
+      },
+    ],
+    /* ... */
+  });
+  ```
+
+## 2.1.1
+
+### Patch Changes
+
+- 725a376: Added Magic Eden Wallet support with `magicEdenWallet` wallet connector
+- 9be5452: Resolved an issue with the Enhanced Provider when using RainbowKit in Vite without a `process.env` polyfill
+
+## 2.1.0
+
+### Minor Changes
+
+- 82153ed: Upgraded compatible `wagmi` and `@coinbase/wallet-sdk` versions to support [Coinbase Smart Wallet](https://www.smartwallet.dev/why).
+
+  Smart Wallet enables users to create a new wallet in seconds with Passkeys, without installing an app or extension. Smart Wallet users can use the same account and address across all onchain apps with RainbowKit.
+
+  Smart Wallet and the underlying smart contract is fully compatible with Wagmi, but dApps need to ensure that their offchain signature validation is [ERC-6492](https://eips.ethereum.org/EIPS/eip-6492) compliant to support smart contract wallets. Follow [this guide](https://www.smartwallet.dev/guides/signature-verification) for more information.
+
+  Coinbase Wallet users on desktop and mobile will now interact with a new connection flow in RainbowKit alongside Smart Wallet.
+
+- 90d6931: Introduced the Enhanced Provider to handle fallback resolutions when a Mainnet provider transport is unavailable.
+
+  ENS names for dApps without a Mainnet provider will now properly resolve. Additional conveniences will be soon be rolling out in RainbowKit.
+
+## 2.0.8
+
+### Patch Changes
+
+- 8841891: Added real-time balance fetching based on the [Recent Transaction](https://www.rainbowkit.com/docs/recent-transactions) API. As a transaction is confirmed on-chain, the user's gas balance will be updated to reflect the transaction.
+
+  ```tsx
+  import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+
+  export default () => {
+    const addRecentTransaction = useAddRecentTransaction();
+
+    return (
+      <button
+        onClick={() => {
+          addRecentTransaction({
+            hash: "0x...",
+            description: "...",
+          });
+        }}
+      >
+        Add recent transaction
+      </button>
+    );
+  };
+  ```
+
+## 2.0.7
+
+### Patch Changes
+
+- af4ea4e: Added Kraken Wallet support with `krakenWallet` wallet connector
+- f0b3b25: Mitigated behavior in Coinbase Wallet where the user would be captured in the in-app browser upon redirect.
+
+## 2.0.6
+
+### Patch Changes
+
+- 7ab6e50: Added Compass Wallet support with `compassWallet` wallet connector
+- 515498f: Locked the dependencies for the `coinbaseWallet` wallet connector to Coinbase Wallet SDK v3 to temporarily mitigate breaking changes included an upcoming version of Wagmi.
+
+## 2.0.5
+
+### Patch Changes
+
+- 4dd1e45: Fixed an issue that allowed duplicate wallets to be added to the Connect Modal when using `connectorsForWallets`
+- 1a0f209: Added a small check to throw an error if the wallet list is empty overall or empty within any category.
+- ec41346: Amended the `getDefaultConfig` return type to prevent indirect type annotation errors and better infer type for parameters from Wagmi's `createConfig`.
+- fc4d7e1: Resolved a bug where if `multiInjectedProviderDiscovery` was set to `false` the `roninWallet` would prevent showing `Opening Ronin Wallet...` UI in the connect modal.
+- 81ba812: Added support for `zetachain` and `zetachainAthensTestnet` testnet chain
+- b11118f: Added Kaikas Wallet support with `kaikasWallet` wallet connector and added `klaytn` chain with `klaytnBaobab` testnet support.
+
+## 2.0.4
+
+### Patch Changes
+
+- 77dcec3: Added Bybit Wallet support with `bybitWallet` wallet connector
+- 6c240ba: Added Gate Wallet support with `gateWallet` wallet connector
+- 34419b5: Added Bitverse Wallet support with `bitverseWallet` wallet connector
+- 5c60239: Added 1inch Wallet support with `oneInchWallet` wallet connector
+
+## 2.0.3
+
+### Patch Changes
+
+- b80e8fa: Improved the synchronous connection flow for the `WalletButton` and `WalletButton.Custom` components
+- 985b80b: Resolved an issue where ENS resolution would fail and throw an error for ENS names with disallowed characters.
+- b25db9a: Added `blast` and `blastSepolia` network support
+
+## 2.1.3
+
+### Patch Changes
+
+- 23e33b9: Added `mantle` and `mantleTestnet` network support
+- 7b00be5: Added Seif Wallet support with `seifWallet` wallet connector
+- 001a0a9: Resolved an issue in development where browser detection would throw an error if `navigator.userAgent` was unavailable in the browser.
+
+## 2.1.2
+
+### Patch Changes
+
+- 2180ddd: Added Nest Wallet support with `nestWallet` wallet connector
+- fea278a: The `coinbaseWallet` wallet connector now has a `preference` argument to control whether Smart Wallet is enabled and available for users. Preference based behavior is documented [here](https://www.smartwallet.dev/sdk/makeWeb3Provider#parameters).
+
+  Smart Wallet will be enabled by default with `all` in early June, without a further upgrade.
+
+  Developers can test Smart Wallet with `sepolia` and `baseSepolia` chains today by setting `smartWalletOnly` like so:
+
+  ```tsx
+  import { coinbaseWallet } from "@rainbow-me/rainbowkit/wallets";
+
+  // Enable Coinbase Smart Wallet for testing
+  coinbaseWallet.preference = "smartWalletOnly";
+
+  // You must manually specify your wallet list with `wallets` in
+  // `getDefaultConfig` or `connectorsForWallets` to assign the preference
+  const config = getDefaultConfig({
+    /* ... */
+    wallets: [
+      {
+        groupName: "Popular",
+        wallets: [coinbaseWallet],
+      },
+    ],
+    /* ... */
+  });
+  ```
+
+## 2.1.1
+
+### Patch Changes
+
+- 725a376: Added Magic Eden Wallet support with `magicEdenWallet` wallet connector
+- 9be5452: Resolved an issue with the Enhanced Provider when using RainbowKit in Vite without a `process.env` polyfill
+
+## 2.1.0
+
+### Minor Changes
+
+- 82153ed: Upgraded compatible `wagmi` and `@coinbase/wallet-sdk` versions to support [Coinbase Smart Wallet](https://www.smartwallet.dev/why).
+
+  Smart Wallet enables users to create a new wallet in seconds with Passkeys, without installing an app or extension. Smart Wallet users can use the same account and address across all onchain apps with RainbowKit.
+
+  Smart Wallet and the underlying smart contract is fully compatible with Wagmi, but dApps need to ensure that their offchain signature validation is [ERC-6492](https://eips.ethereum.org/EIPS/eip-6492) compliant to support smart contract wallets. Follow [this guide](https://www.smartwallet.dev/guides/signature-verification) for more information.
+
+  Coinbase Wallet users on desktop and mobile will now interact with a new connection flow in RainbowKit alongside Smart Wallet.
+
+- 90d6931: Introduced the Enhanced Provider to handle fallback resolutions when a Mainnet provider transport is unavailable.
+
+  ENS names for dApps without a Mainnet provider will now properly resolve. Additional conveniences will be soon be rolling out in RainbowKit.
+
+## 2.0.8
+
+### Patch Changes
+
+- 8841891: Added real-time balance fetching based on the [Recent Transaction](https://www.rainbowkit.com/docs/recent-transactions) API. As a transaction is confirmed on-chain, the user's gas balance will be updated to reflect the transaction.
+
+  ```tsx
+  import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+
+  export default () => {
+    const addRecentTransaction = useAddRecentTransaction();
+
+    return (
+      <button
+        onClick={() => {
+          addRecentTransaction({
+            hash: "0x...",
+            description: "...",
+          });
+        }}
+      >
+        Add recent transaction
+      </button>
+    );
+  };
+  ```
+
+## 2.0.7
+
+### Patch Changes
+
+- af4ea4e: Added Kraken Wallet support with `krakenWallet` wallet connector
+- f0b3b25: Mitigated behavior in Coinbase Wallet where the user would be captured in the in-app browser upon redirect.
+
+## 2.0.6
+
+### Patch Changes
+
+- 7ab6e50: Added Compass Wallet support with `compassWallet` wallet connector
+- 515498f: Locked the dependencies for the `coinbaseWallet` wallet connector to Coinbase Wallet SDK v3 to temporarily mitigate breaking changes included an upcoming version of Wagmi.
+
+## 2.0.5
+
+### Patch Changes
+
+- 4dd1e45: Fixed an issue that allowed duplicate wallets to be added to the Connect Modal when using `connectorsForWallets`
+- 1a0f209: Added a small check to throw an error if the wallet list is empty overall or empty within any category.
+- ec41346: Amended the `getDefaultConfig` return type to prevent indirect type annotation errors and better infer type for parameters from Wagmi's `createConfig`.
+- fc4d7e1: Resolved a bug where if `multiInjectedProviderDiscovery` was set to `false` the `roninWallet` would prevent showing `Opening Ronin Wallet...` UI in the connect modal.
+- 81ba812: Added support for `zetachain` and `zetachainAthensTestnet` testnet chain
+- b11118f: Added Kaikas Wallet support with `kaikasWallet` wallet connector and added `klaytn` chain with `klaytnBaobab` testnet support.
+
+## 2.0.4
+
+### Patch Changes
+
+- 77dcec3: Added Bybit Wallet support with `bybitWallet` wallet connector
+- 6c240ba: Added Gate Wallet support with `gateWallet` wallet connector
+- 34419b5: Added Bitverse Wallet support with `bitverseWallet` wallet connector
+- 5c60239: Added 1inch Wallet support with `oneInchWallet` wallet connector
+
+## 2.0.3
+
+### Patch Changes
+
+- b80e8fa: Improved the synchronous connection flow for the `WalletButton` and `WalletButton.Custom` components
+- 985b80b: Resolved an issue where ENS resolution would fail and throw an error for ENS names with disallowed characters.
+- b25db9a: Added `blast` and `blastSepolia` network support
 
 ## 2.1.3
 
@@ -309,7 +658,7 @@
 - 9ce75a65: The new `WalletButton` component helps dApps with custom wallet list implementations adopt RainbowKit and all of it's maintenance-free benefits.
 
   ```tsx
-  import { WalletButton } from '@rainbow-me/rainbowkit';
+  import { WalletButton } from '@stakekit/rainbowkit';
 
   <WalletButton wallet="rainbow" />
   <WalletButton wallet="metamask" />
@@ -344,8 +693,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { tokenaryWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { tokenaryWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -423,8 +772,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { safepalWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { safepalWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -443,8 +792,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { subWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { subWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains, projectId });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -463,8 +812,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { oktoWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { oktoWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, projectId, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -483,8 +832,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { zealWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { zealWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -503,8 +852,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { clvWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { clvWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -523,8 +872,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { desigWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { desigWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains, projectId });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -598,8 +947,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { bifrostWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { bifrostWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -618,8 +967,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { uniswapWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { uniswapWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -638,8 +987,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { coin98Wallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { coin98Wallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -658,8 +1007,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { enkryptWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { enkryptWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -678,8 +1027,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { frameWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { frameWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -698,8 +1047,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { oneKeyWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { oneKeyWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, projectId, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -718,8 +1067,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { foxWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { foxWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, projectId, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -759,8 +1108,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { coreWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { coreWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, projectId, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -779,8 +1128,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { talismanWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { talismanWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -799,8 +1148,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { safeheronWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { safeheronWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -819,8 +1168,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { frontierWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { frontierWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -839,8 +1188,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { bitKeepWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { bitKeepWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, projectId, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -859,8 +1208,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { tokenPocketWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { tokenPocketWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, projectId, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -996,7 +1345,7 @@
   **1. Upgrade RainbowKit and `wagmi` to their latest version**
 
   ```bash
-  npm i @rainbow-me/rainbowkit@^1 wagmi@^1
+  npm i @stakekit/rainbowkit@^1 wagmi@^1
   ```
 
   **2. Install `viem` peer dependency**
@@ -1090,8 +1439,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { phantomWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { phantomWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, projectId, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -1110,8 +1459,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { rabbyWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { rabbyWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -1132,8 +1481,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { trustWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { trustWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, projectId, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -1152,8 +1501,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { xdefiWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { xdefiWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, projectId, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -1226,8 +1575,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { zerionWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { zerionWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -1246,8 +1595,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { tahoWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { tahoWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -1266,8 +1615,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { okxWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { okxWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -1286,8 +1635,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { dawnWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { dawnWallet } from "@stakekit/rainbowkit/wallets";
   const { wallets } = getDefaultWallets({ appName, chains });
   const connectors = connectorsForWallets([
     ...wallets,
@@ -1330,8 +1679,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { bitskiWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { bitskiWallet } from "@stakekit/rainbowkit/wallets";
   const connectors = connectorsForWallets([
     ...wallets,
     {
@@ -1354,8 +1703,8 @@
   import {
     getDefaultWallets,
     connectorsForWallets,
-  } from "@rainbow-me/rainbowkit";
-  import { mewWallet } from "@rainbow-me/rainbowkit/wallets";
+  } from "@stakekit/rainbowkit";
+  import { mewWallet } from "@stakekit/rainbowkit/wallets";
   const connectors = connectorsForWallets([
     ...wallets,
     {
@@ -1385,7 +1734,7 @@
   #### 1. Upgrade RainbowKit and `wagmi` to their latest version
 
   ```bash
-  npm i @rainbow-me/rainbowkit@^0.12.0 wagmi@^0.12.0
+  npm i @stakekit/rainbowkit@^0.12.0 wagmi@^0.12.0
   ```
 
 ## 0.11.1
@@ -1409,7 +1758,7 @@
   Follow the steps below to migrate.
 
   ```bash
-  npm i @rainbow-me/rainbowkit@^0.11.0 wagmi@^0.11.0
+  npm i @stakekit/rainbowkit@^0.11.0 wagmi@^0.11.0
   ```
 
   If you use `wagmi` hooks in your application, you will need to check if your application has been affected by the breaking changes in `wagmi`.
@@ -1425,7 +1774,7 @@
   Follow the steps below to migrate.
 
   ```bash
-  npm i @rainbow-me/rainbowkit@^0.10.0 wagmi@^0.10.0
+  npm i @stakekit/rainbowkit@^0.10.0 wagmi@^0.10.0
   ```
 
   If you use `wagmi` hooks in your application, you will need to check if your application has been affected by the breaking changes in `wagmi`.
@@ -1441,7 +1790,7 @@
   Follow the steps below to migrate.
 
   ```bash
-  npm i @rainbow-me/rainbowkit@^0.9.0 wagmi@^0.9.0
+  npm i @stakekit/rainbowkit@^0.9.0 wagmi@^0.9.0
   ```
 
   If you use `wagmi` hooks in your application, you will need to check if your application has been affected by the breaking changes in `wagmi`.
@@ -1459,7 +1808,7 @@
   #### 1. Upgrade RainbowKit and `wagmi` to their latest version:
 
   ```bash
-  npm i @rainbow-me/rainbowkit@^0.9.0 wagmi@^0.9.0
+  npm i @stakekit/rainbowkit@^0.9.0 wagmi@^0.9.0
   ```
 
   #### 2. Check for breaking changes in `wagmi`
@@ -1529,28 +1878,28 @@
 ### Patch Changes
 
 - 6b6a73b: Ensure loading spinner is not visible on install prompt
-- 5ddc813: Fix package.json exports field backwards compatibility for `@rainbow-me/rainbowkit/wallets`
+- 5ddc813: Fix package.json exports field backwards compatibility for `@stakekit/rainbowkit/wallets`
 
 ## 0.7.0
 
 ### Minor Changes
 
-- 2e6bb8f: Support tree shaking of individual wallets by exposing them as separate imports via the new `@rainbow-me/rainbowkit/wallets` entry point.
+- 2e6bb8f: Support tree shaking of individual wallets by exposing them as separate imports via the new `@stakekit/rainbowkit/wallets` entry point.
 
   In order to reduce bundle size, you can now select the individual wallets you want to import into your application.
 
   Note that since wallets are no longer namespaced via the `wallet` object, all wallets now have a `Wallet` suffix.
 
   ```diff
-  -import { connectorsForWallets, wallet } from '@rainbow-me/rainbowkit';
-  +import { connectorsForWallets } from '@rainbow-me/rainbowkit';
+  -import { connectorsForWallets, wallet } from '@stakekit/rainbowkit';
+  +import { connectorsForWallets } from '@stakekit/rainbowkit';
   +import {
   +  injectedWallet,
   +  rainbowWallet,
   +  metaMaskWallet,
   +  coinbaseWallet,
   +  walletConnectWallet,
-  +} from '@rainbow-me/rainbowkit/wallets';
+  +} from '@stakekit/rainbowkit/wallets';
 
   const wallets = [
   -  wallet.injected({ chains }),
@@ -1566,11 +1915,11 @@
   ];
   ```
 
-- 2e6bb8f: The Steakwallet backwards compatibility layer has been removed. Omni should be used instead, available via the new `@rainbow-me/rainbowkit/wallets` entry point.
+- 2e6bb8f: The Steakwallet backwards compatibility layer has been removed. Omni should be used instead, available via the new `@stakekit/rainbowkit/wallets` entry point.
 
   ```diff
-  -import { wallet } from '@rainbow-me/rainbowkit';
-  +import { omniWallet } from '@rainbow-me/rainbowkit/wallets';
+  -import { wallet } from '@stakekit/rainbowkit';
+  +import { omniWallet } from '@stakekit/rainbowkit/wallets';
 
   const wallets = [
   -  wallet.steak({ chains }),
@@ -1605,7 +1954,7 @@
   This is an example of a custom wallet that hides itself if another injected connector is available.
 
   ```ts
-  import type Wallet from "@rainbow-me/rainbowkit";
+  import type Wallet from "@stakekit/rainbowkit";
   import { InjectedConnector } from "wagmi/connectors/injected";
 
   const myCustomWallet: Wallet = {
@@ -1702,15 +2051,15 @@
 
 ### Patch Changes
 
-- 12912b3: Fix the `@rainbow-me/rainbowkit/styles.css` import for Jest, and other tooling that doesn't support the `exports` field in `package.json`.
+- 12912b3: Fix the `@stakekit/rainbowkit/styles.css` import for Jest, and other tooling that doesn't support the `exports` field in `package.json`.
 
-  Jest currently has issues when importing RainbowKit styles due to lack of support for the `exports` field, which we use to publicly alias `@rainbow-me/rainbowkit/dist/index.css` as `@rainbow-me/rainbowkit/styles.css`. To fix this, we now include a `styles.css` _directory_ in the RainbowKit package containing a `package.json` file whose `main` field points to `"../dist/index.css"`.
+  Jest currently has issues when importing RainbowKit styles due to lack of support for the `exports` field, which we use to publicly alias `@stakekit/rainbowkit/dist/index.css` as `@stakekit/rainbowkit/styles.css`. To fix this, we now include a `styles.css` _directory_ in the RainbowKit package containing a `package.json` file whose `main` field points to `"../dist/index.css"`.
 
 - fcfc13d: Improve accessibility in Chain switcher button
 - 3f9013f: Rename Steakwallet to Omni and leave `steak` as a deprecated wallet.
 
   ```
-  import { wallet } from '@rainbow-me/rainbowkit';
+  import { wallet } from '@stakekit/rainbowkit';
 
   const omni = wallet.omni({ chains });
   ```
@@ -1729,7 +2078,7 @@
 
 - 737a1d6: Added support for authentication.
 
-  RainbowKit now provides first-class support for [Sign-In with Ethereum](https://login.xyz) and [NextAuth.js](https://next-auth.js.org) via the `@rainbow-me/rainbowkit-siwe-next-auth` package, as well as lower-level APIs for integrating with custom back-ends and message formats.
+  RainbowKit now provides first-class support for [Sign-In with Ethereum](https://login.xyz) and [NextAuth.js](https://next-auth.js.org) via the `@stakekit/rainbowkit-siwe-next-auth` package, as well as lower-level APIs for integrating with custom back-ends and message formats.
 
   For more information on how to integrate this feature into your application, check out the full [RainbowKit authentication guide.](https://www.rainbowkit.com/docs/authentication)
 
@@ -1868,7 +2217,7 @@
     useConnectModal,
     useAccountModal,
     useChainModal,
-  } from "@rainbow-me/rainbowkit";
+  } from "@stakekit/rainbowkit";
 
   export const YourApp = () => {
     const { openConnectModal } = useConnectModal();
@@ -1977,7 +2326,7 @@
   If you previously derived RPC URLs from the `chainId` on `createConnector`, you can now remove that logic as `wagmi` now handles RPC URLs internally when used with `configureChains`.
 
   ```diff
-  import { connectorsForWallets, wallet, Chain, Wallet } from '@rainbow-me/rainbowkit';
+  import { connectorsForWallets, wallet, Chain, Wallet } from '@stakekit/rainbowkit';
   import { chain, configureChains } from 'wagmi';
   import { alchemyProvider } from 'wagmi/providers/alchemy';
   import { publicProvider } from 'wagmi/providers/public';
@@ -2096,7 +2445,7 @@
   import {
     apiProvider,
   -  configureChains
-  } from '@rainbow-me/rainbowkit';
+  } from '@stakekit/rainbowkit';
   +import { configureChains } from 'wagmi';
   ```
 
@@ -2107,7 +2456,7 @@
   ```diff
   -import {
   -  apiProvider,
-  -} from '@rainbow-me/rainbowkit';
+  -} from '@stakekit/rainbowkit';
   import { configureChains } from 'wagmi';
   +import { alchemyProvider } from 'wagmi/providers/alchemy';
 
@@ -2123,7 +2472,7 @@
   ```diff
   -import {
   -  apiProvider,
-  -} from '@rainbow-me/rainbowkit';
+  -} from '@stakekit/rainbowkit';
   import { configureChains } from 'wagmi';
   +import { infuraProvider } from 'wagmi/providers/infura';
 
@@ -2139,7 +2488,7 @@
   ```diff
   -import {
   -  apiProvider,
-  -} from '@rainbow-me/rainbowkit';
+  -} from '@stakekit/rainbowkit';
   import { configureChains } from 'wagmi';
   +import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
@@ -2163,7 +2512,7 @@
   ```diff
   -import {
   -  apiProvider,
-  -} from '@rainbow-me/rainbowkit';
+  -} from '@stakekit/rainbowkit';
   import { configureChains } from 'wagmi';
   +import { publicProvider } from 'wagmi/providers/public';
 
@@ -2183,7 +2532,7 @@
   Example usage:
 
   ```tsx
-  import { wallet } from "@rainbow-me/rainbowkit";
+  import { wallet } from "@stakekit/rainbowkit";
 
   const steakwallet = wallet.steak({ chains });
   ```
@@ -2223,8 +2572,8 @@
   **Migration guide**
 
   ```diff
-  -import { getDefaultWallets, connectorsForWallets } from '@rainbow-me/rainbowkit';
-  +import { getDefaultWallets } from '@rainbow-me/rainbowkit';
+  -import { getDefaultWallets, connectorsForWallets } from '@stakekit/rainbowkit';
+  +import { getDefaultWallets } from '@stakekit/rainbowkit';
 
   -const wallets = getDefaultWallets({
   +const { connectors } = getDefaultWallets({
@@ -2237,7 +2586,7 @@
   If you were modifying the wallet list returned from `getDefaultWallets`, you’ll need to destructure the `wallets` property from the returned object.
 
   ```diff
-  import { getDefaultWallets, connectorsForWallets } from '@rainbow-me/rainbowkit';
+  import { getDefaultWallets, connectorsForWallets } from '@stakekit/rainbowkit';
 
   -const wallets = getDefaultWallets({
   +const { wallets } = getDefaultWallets({
@@ -2264,7 +2613,7 @@
   When using a custom accent color:
 
   ```tsx
-  import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+  import { RainbowKitProvider, darkTheme } from "@stakekit/rainbowkit";
 
   const App = () => {
     return (
@@ -2283,7 +2632,7 @@
   When using a built-in accent color preset:
 
   ```tsx
-  import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+  import { RainbowKitProvider, darkTheme } from "@stakekit/rainbowkit";
 
   const App = () => {
     return (
@@ -2349,7 +2698,7 @@
   If you wish to maintain the existing behavior, a new `mounted` boolean is passed to your render function which allows you to render `null` manually when `mounted` is `false`.
 
   ```diff
-  import { ConnectButton } from '@rainbow-me/rainbowkit';
+  import { ConnectButton } from '@stakekit/rainbowkit';
 
   export default () => (
     <ConnectButton.Custom>
@@ -2444,7 +2793,7 @@
   First enable the `showRecentTransactions` option on `RainbowKitProvider`.
 
   ```tsx
-  import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+  import { RainbowKitProvider } from "@stakekit/rainbowkit";
 
   const App = () => {
     return (
@@ -2458,7 +2807,7 @@
   Transactions can then be registered with RainbowKit using the `useAddRecentTransaction` hook.
 
   ```tsx
-  import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+  import { useAddRecentTransaction } from "@stakekit/rainbowkit";
 
   export default () => {
     const addRecentTransaction = useAddRecentTransaction();
@@ -2483,7 +2832,7 @@
   By default the transaction will be considered completed once a single block has been mined on top of the block in which the transaction was mined, but this can be configured by specifying a custom `confirmations` value.
 
   ```tsx
-  import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+  import { useAddRecentTransaction } from "@stakekit/rainbowkit";
 
   export default () => {
     const addRecentTransaction = useAddRecentTransaction();
@@ -2533,7 +2882,7 @@
     RainbowKitProvider,
     Chain,
     getDefaultWallets,
-  } from "@rainbow-me/rainbowkit";
+  } from "@stakekit/rainbowkit";
   import { createClient, WagmiProvider, chain } from "wagmi";
   import { providers } from "ethers";
 
@@ -2588,7 +2937,7 @@
     configureChains,
     getDefaultWallets,
     RainbowKitProvider,
-  } from "@rainbow-me/rainbowkit";
+  } from "@stakekit/rainbowkit";
   import { createClient, WagmiProvider, chain } from "wagmi";
   import { providers } from "ethers";
 
@@ -2740,7 +3089,7 @@
   **Example usage**
 
   ```tsx
-  import { wallet, WalletList } from "@rainbow-me/rainbowkit";
+  import { wallet, WalletList } from "@stakekit/rainbowkit";
 
   const wallets: WalletList = [
     {

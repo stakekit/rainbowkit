@@ -8,35 +8,68 @@ export interface RainbowKitChain extends Chain {
   iconBackground?: string;
 }
 
+export type DisabledChain = RainbowKitChain & { info?: string };
+
 interface RainbowKitChainContextValue {
+  disabledChains: DisabledChain[];
+  onDisabledChainClick?: (chain: DisabledChain) => void;
   chains: RainbowKitChain[];
   initialChainId?: number;
 }
 
 const RainbowKitChainContext = createContext<RainbowKitChainContextValue>({
+  disabledChains: [],
   chains: [],
 });
 
 interface RainbowKitChainProviderProps {
+  chainIdsToUse?: Set<number>;
+  disabledChains?: DisabledChain[];
+  onDisabledChainClick?: (chain: Chain) => void;
   initialChain?: Chain | number;
   children: ReactNode;
 }
 
 export function RainbowKitChainProvider({
+  chainIdsToUse,
+  disabledChains,
+  onDisabledChainClick,
   children,
   initialChain,
 }: RainbowKitChainProviderProps) {
   const { chains } = useConfig();
 
+  const mappedChains = useMemo(
+    () =>
+      provideRainbowKitChains(
+        chainIdsToUse
+          ? (chains.filter((c) =>
+              chainIdsToUse.has(c.id),
+            ) as unknown as typeof chains)
+          : chains,
+      ),
+    [chainIdsToUse, chains],
+  );
+
   return (
     <RainbowKitChainContext.Provider
       value={useMemo(
         () => ({
-          chains: provideRainbowKitChains(chains),
+          chains: mappedChains,
+          disabledChains: provideRainbowKitChains(
+            (disabledChains ?? []) as unknown as typeof chains,
+          ),
+          onDisabledChainClick,
           initialChainId:
             typeof initialChain === 'number' ? initialChain : initialChain?.id,
         }),
-        [chains, initialChain],
+        [
+          chains,
+          initialChain,
+          disabledChains,
+          onDisabledChainClick,
+          mappedChains,
+        ],
       )}
     >
       {children}
@@ -46,6 +79,12 @@ export function RainbowKitChainProvider({
 
 export const useRainbowKitChains = () =>
   useContext(RainbowKitChainContext).chains;
+
+export const useRainbowKitDisabledChains = () =>
+  useContext(RainbowKitChainContext).disabledChains;
+
+export const useRainbowKitOnDisabledChainClick = () =>
+  useContext(RainbowKitChainContext).onDisabledChainClick;
 
 export const useInitialChainId = () =>
   useContext(RainbowKitChainContext).initialChainId;

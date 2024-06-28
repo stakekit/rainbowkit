@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { useAccount, useDisconnect, useSwitchChain } from 'wagmi';
-import { useConfig } from 'wagmi';
+import React, { ComponentProps, useContext, useMemo, useState } from 'react';
+import { useAccount, useConfig, useDisconnect, useSwitchChain } from 'wagmi';
 import { isMobile } from '../../utils/isMobile';
 import { Box } from '../Box/Box';
 import { CloseButton } from '../CloseButton/CloseButton';
@@ -9,7 +8,13 @@ import { DialogContent } from '../Dialog/DialogContent';
 import { DisconnectSqIcon } from '../Icons/DisconnectSq';
 import { MenuButton } from '../MenuButton/MenuButton';
 import { I18nContext } from '../RainbowKitProvider/I18nContext';
-import { useRainbowKitChains } from '../RainbowKitProvider/RainbowKitChainContext';
+import {
+  DisabledChain,
+  RainbowKitChain,
+  useRainbowKitChains,
+  useRainbowKitDisabledChains,
+  useRainbowKitOnDisabledChainClick,
+} from '../RainbowKitProvider/RainbowKitChainContext';
 import { Text } from '../Text/Text';
 import Chain from './Chain';
 import {
@@ -17,47 +22,98 @@ import {
   MobileScrollClassName,
 } from './ChainModal.css';
 
-export interface ChainModalProps {
+export type ChainModalProps = {
   open: boolean;
   onClose: () => void;
-}
+} & Pick<ComponentProps<typeof Dialog>, 'dialogRoot'>;
 
-export function ChainModal({ onClose, open }: ChainModalProps) {
-  const { chainId } = useAccount();
-  const { chains } = useConfig();
+export function ChainModal({ onClose, open, dialogRoot }: ChainModalProps) {
+  const { chainId: activeChainId } = useAccount();
+  const { chains: connectorChains } = useConfig();
   const [pendingChainId, setPendingChainId] = useState<number | null>(null);
-  const { switchChain } = useSwitchChain({
+  const { switchChain, reset, isError } = useSwitchChain({
     mutation: {
       onMutate: ({ chainId: _chainId }) => {
         setPendingChainId(_chainId);
       },
       onSuccess: () => {
         if (pendingChainId) setPendingChainId(null);
+        _onClose();
       },
-      onError: () => {
-        if (pendingChainId) setPendingChainId(null);
-      },
-      onSettled: () => {
-        onClose();
-      },
+      // onError: () => {
+      //   if (pendingChainId) setPendingChainId(null);
+      // },
+      // onSettled: () => {
+      //   _onClose();
+      // },
     },
   });
+
+  const _onClose = () => {
+    reset();
+    onClose();
+  };
+
+  const connectorChainsMap = useMemo(() => {
+    return new Map(connectorChains.map((c) => [c.id, c]));
+  }, [connectorChains]);
 
   const { i18n } = useContext(I18nContext);
 
   const { disconnect } = useDisconnect();
   const titleId = 'rk_chain_modal_title';
   const mobile = isMobile();
-  const isCurrentChainSupported = chains.some((chain) => chain.id === chainId);
+  const isCurrentChainSupported =
+    activeChainId && connectorChainsMap.has(activeChainId);
   const chainIconSize = mobile ? '36' : '28';
   const rainbowkitChains = useRainbowKitChains();
+  const rainbowkitDisabledChains = useRainbowKitDisabledChains();
+  const rainbowKitOnDisabledChainClick = useRainbowKitOnDisabledChainClick();
 
-  if (!chainId) {
+  const rainbowkitDisabledChainsMap = useMemo(
+    () => new Map(rainbowkitDisabledChains.map((c) => [c.id, c])),
+    [rainbowkitDisabledChains],
+  );
+
+  const allRainbowkitChains = useMemo<
+    (
+      | (DisabledChain & { enabled: false })
+      | (RainbowKitChain & { enabled: true })
+    )[]
+  >(
+    () => [
+      ...rainbowkitChains.reduce(
+        (acc, rc) => {
+          const chain = connectorChainsMap.get(rc.id);
+
+          if (!chain || rainbowkitDisabledChainsMap.has(chain.id)) return acc;
+
+          acc.push({ ...rc, ...chain, enabled: true });
+
+          return acc;
+        },
+        [] as (RainbowKitChain & { enabled: boolean })[],
+      ),
+
+      ...rainbowkitDisabledChains.map((c) => ({
+        ...c,
+        enabled: false,
+      })),
+    ],
+    [rainbowkitChains, rainbowkitDisabledChains, connectorChainsMap],
+  );
+
+  if (!activeChainId) {
     return null;
   }
 
   return (
-    <Dialog onClose={onClose} open={open} titleId={titleId}>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      titleId={titleId}
+      dialogRoot={dialogRoot}
+    >
       <DialogContent bottomSheetOnMobile paddingBottom="0">
         <Box display="flex" flexDirection="column" gap="14">
           <Box
@@ -94,24 +150,30 @@ export function ChainModal({ onClose, open }: ChainModalProps) {
             padding="2"
             paddingBottom="16"
           >
-            {rainbowkitChains.map(
-              ({ iconBackground, iconUrl, id, name }, idx) => {
-                return (
-                  <Chain
-                    key={id}
-                    chainId={id}
-                    currentChainId={chainId}
-                    switchChain={switchChain}
-                    chainIconSize={chainIconSize}
-                    isLoading={pendingChainId === id}
-                    src={iconUrl}
-                    name={name}
-                    iconBackground={iconBackground}
-                    idx={idx}
-                  />
-                );
-              },
-            )}
+            {allRainbowkitChains.map((chain, idx) => {
+              const { iconBackground, iconUrl, id, name, enabled } = chain;
+
+              return (
+                <Chain
+                  key={id}
+                  chainId={id}
+                  currentChainId={activeChainId}
+                  switchChain={switchChain}
+                  chainIconSize={chainIconSize}
+                  isLoading={pendingChainId === id}
+                  src={iconUrl}
+                  name={name}
+                  iconBackground={iconBackground}
+                  idx={idx}
+                  enabled={enabled}
+                  onDiabledChainClick={() =>
+                    rainbowKitOnDisabledChainClick?.(chain)
+                  }
+                  switchError={isError}
+                  chain={chain}
+                />
+              );
+            })}
             {!isCurrentChainSupported && (
               <>
                 <Box background="generalBorderDim" height="1" marginX="8" />

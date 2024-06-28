@@ -7,24 +7,6 @@ import { createQueryKey } from '../core/react-query/createQuery';
 import { addEnsName, getEnsName } from '../utils/ens';
 import { useIsMainnetConfigured } from './useIsMainnetConfigured';
 
-async function getEnhancedProviderEnsName({ address }: { address: Address }) {
-  const ensName = getEnsName(address);
-
-  if (ensName) return ensName;
-
-  const response = await enhancedProviderHttp.get<{
-    data: Address | null;
-  }>('/v1/resolve-ens', { params: { address } });
-
-  const enhancedProviderEnsName = response.data.data;
-
-  if (enhancedProviderEnsName) {
-    addEnsName(address, enhancedProviderEnsName);
-  }
-
-  return enhancedProviderEnsName;
-}
-
 export function useMainnetEnsName(address?: Address) {
   const mainnetConfigured = useIsMainnetConfigured();
 

@@ -1,33 +1,237 @@
-import '@rainbow-me/rainbowkit/styles.css';
+import '@stakekit/rainbowkit/styles.css';
 import './global.css';
 
+import {
+  AvatarComponent,
+  type Chain,
+  DisclaimerComponent,
+  Locale,
+  RainbowKitProvider,
+  darkTheme,
+  getDefaultConfig,
+  getDefaultWallets,
+  lightTheme,
+  midnightTheme,
+} from '@stakekit/rainbowkit';
+import {
+  argentWallet,
+  bifrostWallet,
+  bitgetWallet,
+  bitskiWallet,
+  bitverseWallet,
+  bloomWallet,
+  bybitWallet,
+  clvWallet,
+  coin98Wallet,
+  compassWallet,
+  coreWallet,
+  dawnWallet,
+  desigWallet,
+  enkryptWallet,
+  foxWallet,
+  frameWallet,
+  frontierWallet,
+  gateWallet,
+  imTokenWallet,
+  kaikasWallet,
+  krakenWallet,
+  kresusWallet,
+  ledgerWallet,
+  mewWallet,
+  oktoWallet,
+  okxWallet,
+  omniWallet,
+  oneInchWallet,
+  oneKeyWallet,
+  phantomWallet,
+  rabbyWallet,
+  ramperWallet,
+  roninWallet,
+  safeheronWallet,
+  safepalWallet,
+  subWallet,
+  tahoWallet,
+  talismanWallet,
+  tokenPocketWallet,
+  tokenaryWallet,
+  trustWallet,
+  uniswapWallet,
+  xdefiWallet,
+  zealWallet,
+  zerionWallet,
+} from '@stakekit/rainbowkit/wallets';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { Session } from 'next-auth';
 import { SessionProvider, signOut } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-
-import {
-  AvatarComponent,
-  DisclaimerComponent,
-  Locale,
-  RainbowKitProvider,
-  darkTheme,
-  lightTheme,
-  midnightTheme,
-} from '@rainbow-me/rainbowkit';
-import {
-  GetSiweMessageOptions,
-  RainbowKitSiweNextAuthProvider,
-} from '@rainbow-me/rainbowkit-siwe-next-auth';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { WagmiProvider, useDisconnect } from 'wagmi';
+import {
+  arbitrum,
+  arbitrumSepolia,
+  avalancheFuji,
+  base,
+  baseSepolia,
+  blast,
+  blastSepolia,
+  bsc,
+  celo,
+  holesky,
+  klaytn,
+  klaytnBaobab,
+  mainnet,
+  optimism,
+  optimismSepolia,
+  polygon,
+  polygonMumbai,
+  ronin,
+  sepolia,
+  zetachain,
+  zetachainAthensTestnet,
+  zkSync,
+  zora,
+  zoraSepolia,
+} from 'wagmi/chains';
 
+import { RainbowKitChain } from '@stakekit/rainbowkit/dist/components/RainbowKitProvider/RainbowKitChainContext';
 import { AppContextProps } from '../lib/AppContextProps';
-import { config } from '../wagmi';
 
 const RAINBOW_TERMS = 'https://rainbow.me/terms-of-use';
+
+const projectId =
+  process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? 'YOUR_PROJECT_ID';
+
+const { wallets } = getDefaultWallets();
+
+const avalanche = {
+  id: 43_114,
+  name: 'Avalanche',
+  iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png',
+  iconBackground: '#fff',
+  nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://api.avax.network/ext/bc/C/rpc'] },
+  },
+  blockExplorers: {
+    default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
+  },
+  contracts: {
+    multicall3: {
+      address: '0xca11bde05977b3631167028862be2a173976ca11',
+      blockCreated: 11_907_934,
+    },
+  },
+} as const satisfies Chain;
+
+const sei = {
+  id: 713715,
+  name: 'Sei',
+  iconUrl:
+    'https://s3.coinmarketcap.com/static-gravity/image/992744cfbd5e40f5920018ee7a830b98.png',
+  iconBackground: '#fff',
+  nativeCurrency: { name: 'Sei', symbol: 'SEI', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://evm-rpc.arctic-1.seinetwork.io'] },
+  },
+  blockExplorers: {
+    default: { name: 'Sei Explorer', url: 'https://www.seiscan.app' },
+  },
+  contracts: {},
+} as const satisfies Chain;
+
+const config = getDefaultConfig({
+  appName: 'RainbowKit Demo',
+  projectId,
+  chains: [
+    mainnet,
+    polygon,
+    optimism,
+    celo,
+    arbitrum,
+    base,
+    bsc,
+    avalanche,
+    zora,
+    blast,
+    zkSync,
+    zetachain,
+    ronin,
+    klaytn,
+    sei,
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
+      ? [
+          sepolia,
+          holesky,
+          polygonMumbai,
+          optimismSepolia,
+          arbitrumSepolia,
+          baseSepolia,
+          zoraSepolia,
+          blastSepolia,
+          avalancheFuji,
+          zetachainAthensTestnet,
+          klaytnBaobab,
+        ]
+      : []),
+  ],
+  wallets: [
+    ...wallets,
+    {
+      groupName: 'Other',
+      wallets: [
+        argentWallet,
+        bifrostWallet,
+        bitgetWallet,
+        bitskiWallet,
+        bitverseWallet,
+        bloomWallet,
+        bybitWallet,
+        clvWallet,
+        compassWallet,
+        coin98Wallet,
+        coreWallet,
+        dawnWallet,
+        desigWallet,
+        enkryptWallet,
+        foxWallet,
+        frameWallet,
+        frontierWallet,
+        gateWallet,
+        imTokenWallet,
+        kresusWallet,
+        krakenWallet,
+        kaikasWallet,
+        ledgerWallet,
+        mewWallet,
+        oktoWallet,
+        okxWallet,
+        omniWallet,
+        oneInchWallet,
+        oneKeyWallet,
+        phantomWallet,
+        rabbyWallet,
+        ramperWallet,
+        roninWallet,
+        safeheronWallet,
+        safepalWallet,
+        subWallet,
+        tahoWallet,
+        talismanWallet,
+        tokenPocketWallet,
+        tokenaryWallet,
+        trustWallet,
+        uniswapWallet,
+        xdefiWallet,
+        zealWallet,
+        zerionWallet,
+      ],
+    },
+  ],
+  ssr: true,
+});
 
 const demoAppInfo = {
   appName: 'Rainbowkit Demo',
@@ -60,10 +264,6 @@ const CustomAvatar: AvatarComponent = ({ size }) => {
     </div>
   );
 };
-
-const getSiweMessageOptions: GetSiweMessageOptions = () => ({
-  statement: 'Sign in to the RainbowKit Demo',
-});
 
 const themes = [
   { name: 'light', theme: lightTheme },
@@ -146,366 +346,371 @@ function RainbowKitApp({
 
   const locales = router.locales as Locale[];
 
+  const dialogRoot = useRef<Element>();
+
+  useEffect(() => {
+    dialogRoot.current = document.querySelector('div[data-rk]')!;
+  }, []);
+
   // Note: Non-RainbowKit providers are wrapped around this component
   // at the bottom of the file. This is so that our example app
   // component can use their corresponding Hooks.
   return (
-    <RainbowKitSiweNextAuthProvider
-      enabled={authEnabled}
-      getSiweMessageOptions={getSiweMessageOptions}
+    <RainbowKitProvider
+      dialogRoot={dialogRoot.current}
+      appInfo={{
+        ...demoAppInfo,
+        ...(showDisclaimer && { disclaimer: DisclaimerDemo }),
+      }}
+      avatar={customAvatar ? CustomAvatar : undefined}
+      locale={locale}
+      disabledChains={config.chains
+        .slice(4)
+        .map((c) => ({ ...c, info: 'Add account' }))}
+      onDisabledChainClick={useCallback((chain: RainbowKitChain) => {
+        console.log(chain);
+      }, [])}
+      coolMode={coolModeEnabled}
+      initialChain={selectedInitialChainId}
+      modalSize={modalSize}
+      showRecentTransactions={showRecentTransactions}
+      theme={currentTheme({
+        ...accentColor,
+        borderRadius: selectedRadiusScale,
+        fontStack: selectedFontStack,
+        overlayBlur: selectedOverlayBlur,
+      })}
     >
-      <RainbowKitProvider
-        appInfo={{
-          ...demoAppInfo,
-          ...(showDisclaimer && { disclaimer: DisclaimerDemo }),
+      <div
+        style={{
+          minHeight: '100vh',
+          padding: 8,
+          ...selectedBackgroundStyles,
         }}
-        avatar={customAvatar ? CustomAvatar : undefined}
-        locale={locale}
-        coolMode={coolModeEnabled}
-        initialChain={selectedInitialChainId}
-        modalSize={modalSize}
-        showRecentTransactions={showRecentTransactions}
-        theme={currentTheme({
-          ...accentColor,
-          borderRadius: selectedRadiusScale,
-          fontStack: selectedFontStack,
-          overlayBlur: selectedOverlayBlur,
-        })}
       >
-        <div
-          style={{
-            minHeight: '100vh',
-            padding: 8,
-            ...selectedBackgroundStyles,
-          }}
-        >
-          <Component {...pageProps} {...appContextProps} />
+        <Component {...pageProps} {...appContextProps} />
 
-          {isMounted && (
-            <>
+        {isMounted && (
+          <>
+            <div
+              style={{
+                fontFamily: 'sans-serif',
+              }}
+            >
+              <h3>RainbowKitProvider props</h3>
+              <table cellSpacing={12}>
+                <tbody>
+                  <tr>
+                    <td>
+                      <label
+                        htmlFor="authEnabled"
+                        style={{ userSelect: 'none' }}
+                      >
+                        authentication
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        checked={authEnabled}
+                        id="authEnabled"
+                        name="authEnabled"
+                        onChange={(e) => {
+                          setAuthEnabled(e.target.checked);
+
+                          // Reset connection and auth state when
+                          // toggling the authentication mode.
+                          // This better simulates the real dev experience
+                          // since they don't normally toggle between
+                          // these two modes at run time. Otherwise you
+                          // might experience weird behavior when toggling
+                          // in the middle of a session.
+                          signOut({ redirect: false });
+                          disconnect();
+                        }}
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label
+                        htmlFor="showRecentTransactions"
+                        style={{ userSelect: 'none' }}
+                      >
+                        showRecentTransactions
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        checked={showRecentTransactions}
+                        id="showRecentTransactions"
+                        name="showRecentTransactions"
+                        onChange={(e) =>
+                          setShowRecentTransactions(e.target.checked)
+                        }
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label
+                        htmlFor="coolModeEnabled"
+                        style={{ userSelect: 'none' }}
+                      >
+                        coolMode
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        checked={coolModeEnabled}
+                        id="coolModeEnabled"
+                        name="coolModeEnabled"
+                        onChange={(e) => setCoolModeEnabled(e.target.checked)}
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label
+                        htmlFor="showDisclaimer"
+                        style={{ userSelect: 'none' }}
+                      >
+                        disclaimer
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        checked={showDisclaimer}
+                        id="showDisclaimer"
+                        name="showDisclaimer"
+                        onChange={(e) => setShowDisclaimer(e.target.checked)}
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label
+                        htmlFor="customAvatar"
+                        style={{ userSelect: 'none' }}
+                      >
+                        avatar
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        checked={customAvatar}
+                        id="customAvatar"
+                        name="customAvatar"
+                        onChange={(e) => setCustomAvatar(e.target.checked)}
+                        type="checkbox"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>modalSize</td>
+                    <td>
+                      <select
+                        onChange={(e) =>
+                          setModalSize(e.target.value as ModalSize)
+                        }
+                        value={modalSize}
+                      >
+                        {modalSizes.map((size) => (
+                          <option key={size} value={size}>
+                            {size}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>initialChain</td>
+                    <td>
+                      <select
+                        onChange={(e) =>
+                          setInitialChainId(
+                            e.target.value
+                              ? parseInt(e.target.value, 10)
+                              : undefined,
+                          )
+                        }
+                        value={selectedInitialChainId ?? 'default'}
+                      >
+                        {[undefined, ...config.chains].map((chain) => (
+                          <option key={chain?.id ?? ''} value={chain?.id ?? ''}>
+                            {chain?.name ?? 'Default'}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label style={{ userSelect: 'none' }}>locale</label>
+                    </td>
+                    <td>
+                      <select
+                        onChange={(e) => {
+                          setLocale(e.target.value as Locale);
+                        }}
+                        value={locale}
+                      >
+                        {locales.map((locale) => (
+                          <option key={locale} value={locale}>
+                            {locale}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
               <div
                 style={{
-                  fontFamily: 'sans-serif',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 24,
                 }}
               >
-                <h3>RainbowKitProvider props</h3>
-                <table cellSpacing={12}>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <label
-                          htmlFor="authEnabled"
-                          style={{ userSelect: 'none' }}
-                        >
-                          authentication
-                        </label>
-                      </td>
-                      <td>
+                <div>
+                  <h4>Theme</h4>
+                  <div
+                    style={{
+                      alignItems: 'flex-start',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {themes.map(({ name: themeName }) => (
+                      <label key={themeName} style={{ userSelect: 'none' }}>
                         <input
-                          checked={authEnabled}
-                          id="authEnabled"
-                          name="authEnabled"
-                          onChange={(e) => {
-                            setAuthEnabled(e.target.checked);
-
-                            // Reset connection and auth state when
-                            // toggling the authentication mode.
-                            // This better simulates the real dev experience
-                            // since they don't normally toggle between
-                            // these two modes at run time. Otherwise you
-                            // might experience weird behavior when toggling
-                            // in the middle of a session.
-                            signOut({ redirect: false });
-                            disconnect();
-                          }}
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label
-                          htmlFor="showRecentTransactions"
-                          style={{ userSelect: 'none' }}
-                        >
-                          showRecentTransactions
-                        </label>
-                      </td>
-                      <td>
-                        <input
-                          checked={showRecentTransactions}
-                          id="showRecentTransactions"
-                          name="showRecentTransactions"
+                          checked={themeName === selectedThemeName}
+                          name="theme"
                           onChange={(e) =>
-                            setShowRecentTransactions(e.target.checked)
+                            setThemeName(e.target.value as ThemeName)
                           }
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label
-                          htmlFor="coolModeEnabled"
-                          style={{ userSelect: 'none' }}
-                        >
-                          coolMode
-                        </label>
-                      </td>
-                      <td>
+                          type="radio"
+                          value={themeName}
+                        />{' '}
+                        {themeName}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4>Font stack</h4>
+                  <div
+                    style={{
+                      alignItems: 'flex-start',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {fontStacks.map((fontStack) => (
+                      <label key={fontStack} style={{ userSelect: 'none' }}>
                         <input
-                          checked={coolModeEnabled}
-                          id="coolModeEnabled"
-                          name="coolModeEnabled"
-                          onChange={(e) => setCoolModeEnabled(e.target.checked)}
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label
-                          htmlFor="showDisclaimer"
-                          style={{ userSelect: 'none' }}
-                        >
-                          disclaimer
-                        </label>
-                      </td>
-                      <td>
-                        <input
-                          checked={showDisclaimer}
-                          id="showDisclaimer"
-                          name="showDisclaimer"
-                          onChange={(e) => setShowDisclaimer(e.target.checked)}
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label
-                          htmlFor="customAvatar"
-                          style={{ userSelect: 'none' }}
-                        >
-                          avatar
-                        </label>
-                      </td>
-                      <td>
-                        <input
-                          checked={customAvatar}
-                          id="customAvatar"
-                          name="customAvatar"
-                          onChange={(e) => setCustomAvatar(e.target.checked)}
-                          type="checkbox"
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>modalSize</td>
-                      <td>
-                        <select
+                          checked={fontStack === selectedFontStack}
+                          name="fontStack"
                           onChange={(e) =>
-                            setModalSize(e.target.value as ModalSize)
+                            setFontStack(e.target.value as FontStack)
                           }
-                          value={modalSize}
-                        >
-                          {modalSizes.map((size) => (
-                            <option key={size} value={size}>
-                              {size}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>initialChain</td>
-                      <td>
-                        <select
+                          type="radio"
+                          value={fontStack}
+                        />{' '}
+                        {fontStack}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4>Accent</h4>
+                  <div
+                    style={{
+                      alignItems: 'flex-start',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {accentColors.map((accentColor) => (
+                      <label key={accentColor} style={{ userSelect: 'none' }}>
+                        <input
+                          checked={accentColor === selectedAccentColor}
+                          name="accentColor"
                           onChange={(e) =>
-                            setInitialChainId(
-                              e.target.value
-                                ? parseInt(e.target.value, 10)
-                                : undefined,
-                            )
+                            setAccentColor(e.target.value as AccentColor)
                           }
-                          value={selectedInitialChainId ?? 'default'}
-                        >
-                          {[undefined, ...config.chains].map((chain) => (
-                            <option
-                              key={chain?.id ?? ''}
-                              value={chain?.id ?? ''}
-                            >
-                              {chain?.name ?? 'Default'}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label style={{ userSelect: 'none' }}>locale</label>
-                      </td>
-                      <td>
-                        <select
-                          onChange={(e) => {
-                            setLocale(e.target.value as Locale);
-                          }}
-                          value={locale}
-                        >
-                          {locales.map((locale) => (
-                            <option key={locale} value={locale}>
-                              {locale}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: 24,
-                  }}
-                >
-                  <div>
-                    <h4>Theme</h4>
-                    <div
-                      style={{
-                        alignItems: 'flex-start',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 12,
-                      }}
-                    >
-                      {themes.map(({ name: themeName }) => (
-                        <label key={themeName} style={{ userSelect: 'none' }}>
-                          <input
-                            checked={themeName === selectedThemeName}
-                            name="theme"
-                            onChange={(e) =>
-                              setThemeName(e.target.value as ThemeName)
-                            }
-                            type="radio"
-                            value={themeName}
-                          />{' '}
-                          {themeName}
-                        </label>
-                      ))}
-                    </div>
+                          type="radio"
+                          value={accentColor}
+                        />{' '}
+                        {accentColor}
+                      </label>
+                    ))}
                   </div>
-                  <div>
-                    <h4>Font stack</h4>
-                    <div
-                      style={{
-                        alignItems: 'flex-start',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 12,
-                      }}
-                    >
-                      {fontStacks.map((fontStack) => (
-                        <label key={fontStack} style={{ userSelect: 'none' }}>
-                          <input
-                            checked={fontStack === selectedFontStack}
-                            name="fontStack"
-                            onChange={(e) =>
-                              setFontStack(e.target.value as FontStack)
-                            }
-                            type="radio"
-                            value={fontStack}
-                          />{' '}
-                          {fontStack}
-                        </label>
-                      ))}
-                    </div>
+                </div>
+                <div>
+                  <h4>Border radius</h4>
+                  <div
+                    style={{
+                      alignItems: 'flex-start',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {radiusScales.map((radiusScale) => (
+                      <label key={radiusScale} style={{ userSelect: 'none' }}>
+                        <input
+                          checked={radiusScale === selectedRadiusScale}
+                          name="radiusScale"
+                          onChange={(e) =>
+                            setRadiusScale(e.target.value as RadiusScale)
+                          }
+                          type="radio"
+                          value={radiusScale}
+                        />{' '}
+                        {radiusScale}
+                      </label>
+                    ))}
                   </div>
-                  <div>
-                    <h4>Accent</h4>
-                    <div
-                      style={{
-                        alignItems: 'flex-start',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 12,
-                      }}
-                    >
-                      {accentColors.map((accentColor) => (
-                        <label key={accentColor} style={{ userSelect: 'none' }}>
-                          <input
-                            checked={accentColor === selectedAccentColor}
-                            name="accentColor"
-                            onChange={(e) =>
-                              setAccentColor(e.target.value as AccentColor)
-                            }
-                            type="radio"
-                            value={accentColor}
-                          />{' '}
-                          {accentColor}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h4>Border radius</h4>
-                    <div
-                      style={{
-                        alignItems: 'flex-start',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 12,
-                      }}
-                    >
-                      {radiusScales.map((radiusScale) => (
-                        <label key={radiusScale} style={{ userSelect: 'none' }}>
-                          <input
-                            checked={radiusScale === selectedRadiusScale}
-                            name="radiusScale"
-                            onChange={(e) =>
-                              setRadiusScale(e.target.value as RadiusScale)
-                            }
-                            type="radio"
-                            value={radiusScale}
-                          />{' '}
-                          {radiusScale}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h4>Overlay blurs</h4>
-                    <div
-                      style={{
-                        alignItems: 'flex-start',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 12,
-                      }}
-                    >
-                      {overlayBlurs.map((overlayBlur) => (
-                        <label key={overlayBlur} style={{ userSelect: 'none' }}>
-                          <input
-                            checked={overlayBlur === selectedOverlayBlur}
-                            name="overlayBlur"
-                            onChange={(e) =>
-                              setOverlayBlur(e.target.value as OverlayBlur)
-                            }
-                            type="radio"
-                            value={overlayBlur}
-                          />{' '}
-                          {overlayBlur}
-                        </label>
-                      ))}
-                    </div>
+                </div>
+                <div>
+                  <h4>Overlay blurs</h4>
+                  <div
+                    style={{
+                      alignItems: 'flex-start',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 12,
+                    }}
+                  >
+                    {overlayBlurs.map((overlayBlur) => (
+                      <label key={overlayBlur} style={{ userSelect: 'none' }}>
+                        <input
+                          checked={overlayBlur === selectedOverlayBlur}
+                          name="overlayBlur"
+                          onChange={(e) =>
+                            setOverlayBlur(e.target.value as OverlayBlur)
+                          }
+                          type="radio"
+                          value={overlayBlur}
+                        />{' '}
+                        {overlayBlur}
+                      </label>
+                    ))}
                   </div>
                 </div>
               </div>
-            </>
-          )}
-        </div>
-      </RainbowKitProvider>
-    </RainbowKitSiweNextAuthProvider>
+            </div>
+          </>
+        )}
+      </div>
+    </RainbowKitProvider>
   );
 }
 

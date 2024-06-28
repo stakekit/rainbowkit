@@ -1,6 +1,5 @@
 import React, { ReactNode, createContext, useContext } from 'react';
 import { useAccountEffect } from 'wagmi';
-import type { Chain } from 'wagmi/chains';
 import { cssStringFromTheme } from '../../css/cssStringFromTheme';
 import { ThemeVars } from '../../css/sprinkles.css';
 import { Locale } from '../../locales';
@@ -16,7 +15,11 @@ import {
   ModalSizeProvider,
   ModalSizes,
 } from './ModalSizeContext';
-import { RainbowKitChainProvider } from './RainbowKitChainContext';
+import {
+  DisabledChain,
+  RainbowKitChain,
+  RainbowKitChainProvider,
+} from './RainbowKitChainContext';
 import { ShowBalanceProvider } from './ShowBalanceContext';
 import { ShowRecentTransactionsContext } from './ShowRecentTransactionsContext';
 import { WalletButtonProvider } from './WalletButtonContext';
@@ -51,7 +54,10 @@ export type Theme =
     };
 
 export interface RainbowKitProviderProps {
-  initialChain?: Chain | number;
+  chainIdsToUse?: Set<number>;
+  disabledChains?: DisabledChain[];
+  onDisabledChainClick?: (chain: DisabledChain) => void;
+  initialChain?: RainbowKitChain | number;
   id?: string;
   children: ReactNode;
   theme?: Theme | null;
@@ -65,6 +71,8 @@ export interface RainbowKitProviderProps {
   avatar?: AvatarComponent;
   modalSize?: ModalSizes;
   locale?: Locale;
+  dialogRoot?: Element;
+  hideDisconnect?: boolean;
 }
 
 const defaultTheme = lightTheme();
@@ -72,6 +80,8 @@ const defaultTheme = lightTheme();
 export function RainbowKitProvider({
   appInfo,
   avatar,
+  disabledChains,
+  onDisabledChainClick,
   children,
   coolMode = false,
   id,
@@ -80,6 +90,9 @@ export function RainbowKitProvider({
   modalSize = ModalSizeOptions.WIDE,
   showRecentTransactions = false,
   theme = defaultTheme,
+  dialogRoot,
+  hideDisconnect,
+  chainIdsToUse,
 }: RainbowKitProviderProps) {
   usePreloadImages();
   useFingerprint();
@@ -102,7 +115,12 @@ export function RainbowKitProvider({
   const avatarContext = avatar ?? defaultAvatar;
 
   return (
-    <RainbowKitChainProvider initialChain={initialChain}>
+    <RainbowKitChainProvider
+      chainIdsToUse={chainIdsToUse}
+      disabledChains={disabledChains}
+      initialChain={initialChain}
+      onDisabledChainClick={onDisabledChainClick}
+    >
       <WalletButtonProvider>
         <I18nProvider locale={locale}>
           <CoolModeContext.Provider value={coolMode}>
@@ -115,7 +133,10 @@ export function RainbowKitProvider({
                     <AppContext.Provider value={appContext}>
                       <ThemeIdContext.Provider value={id}>
                         <ShowBalanceProvider>
-                          <ModalProvider>
+                          <ModalProvider
+                            dialogRoot={dialogRoot}
+                            hideDisconnect={hideDisconnect}
+                          >
                             {theme ? (
                               <div {...createThemeRootProps(id)}>
                                 <style

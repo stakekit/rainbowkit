@@ -1,4 +1,3 @@
-import { RainbowButton } from '@rainbow-me/rainbow-button';
 import {
   ConnectButton,
   WalletButton,
@@ -6,7 +5,7 @@ import {
   useAddRecentTransaction,
   useChainModal,
   useConnectModal,
-} from '@rainbow-me/rainbowkit';
+} from '@stakekit/rainbowkit';
 import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth';
 import { useSession } from 'next-auth/react';
@@ -212,21 +211,6 @@ const Example = ({ authEnabled }: AppContextProps) => {
               );
             }}
           </ConnectButton.Custom>
-
-          <RainbowButton.Custom>
-            {({ ready, connect }) => {
-              return (
-                <button
-                  type="button"
-                  disabled={!ready}
-                  onClick={connect}
-                  style={{ marginLeft: '16px' }}
-                >
-                  Connect Rainbow
-                </button>
-              );
-            }}
-          </RainbowButton.Custom>
         </div>
       </div>
 

@@ -22,9 +22,16 @@ interface DialogProps {
   titleId: string;
   onMountAutoFocus?: (event: Event) => void;
   children: ReactNode;
+  dialogRoot?: Element;
 }
 
-export function Dialog({ children, onClose, open, titleId }: DialogProps) {
+export function Dialog({
+  children,
+  onClose,
+  open,
+  titleId,
+  dialogRoot,
+}: DialogProps) {
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) =>
       open && event.key === 'Escape' && onClose();
@@ -71,7 +78,7 @@ export function Dialog({ children, onClose, open, titleId }: DialogProps) {
                 </Box>
               </Box>
             </RemoveScroll>,
-            document.body,
+            dialogRoot ?? document.body,
           )
         : null}
     </>

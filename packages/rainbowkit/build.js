@@ -23,12 +23,6 @@ const getAllEntryPoints = async (rootPath) =>
     );
 
 const baseBuildConfig = (onEnd) => {
-  const rainbowProviderApiKey = process.env.RAINBOW_PROVIDER_API_KEY;
-
-  if (!rainbowProviderApiKey) {
-    throw new Error('missing RAINBOW_PROVIDER_API_KEY env variable');
-  }
-
   return {
     banner: {
       js: '"use client";', // Required for Next 13 App Router
@@ -47,7 +41,6 @@ const baseBuildConfig = (onEnd) => {
           /src\/components\/RainbowKitProvider\/useFingerprint.ts$|src\/core\/network\/enhancedProvider.ts$/,
         values: {
           __buildVersion: process.env.npm_package_version,
-          __rainbowProviderApiKey: rainbowProviderApiKey,
         },
       }),
       vanillaExtractPlugin({

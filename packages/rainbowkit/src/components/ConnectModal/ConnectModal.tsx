@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 import { useConnectionStatus } from '../../hooks/useConnectionStatus';
 import ConnectOptions from '../ConnectOptions/ConnectOptions';
@@ -6,12 +6,12 @@ import { Dialog } from '../Dialog/Dialog';
 import { DialogContent } from '../Dialog/DialogContent';
 import { SignIn } from '../SignIn/SignIn';
 
-export interface ConnectModalProps {
+export type ConnectModalProps = {
   open: boolean;
   onClose: () => void;
-}
+} & Pick<ComponentProps<typeof Dialog>, 'dialogRoot'>;
 
-export function ConnectModal({ onClose, open }: ConnectModalProps) {
+export function ConnectModal({ onClose, open, dialogRoot }: ConnectModalProps) {
   const titleId = 'rk_connect_title';
   const connectionStatus = useConnectionStatus();
 
@@ -35,7 +35,12 @@ export function ConnectModal({ onClose, open }: ConnectModalProps) {
 
   if (connectionStatus === 'disconnected') {
     return (
-      <Dialog onClose={onConnectModalCancel} open={open} titleId={titleId}>
+      <Dialog
+        dialogRoot={dialogRoot}
+        onClose={onConnectModalCancel}
+        open={open}
+        titleId={titleId}
+      >
         <DialogContent bottomSheetOnMobile padding="0" wide>
           <ConnectOptions onClose={onConnectModalCancel} />
         </DialogContent>
@@ -45,7 +50,12 @@ export function ConnectModal({ onClose, open }: ConnectModalProps) {
 
   if (connectionStatus === 'unauthenticated') {
     return (
-      <Dialog onClose={onAuthCancel} open={open} titleId={titleId}>
+      <Dialog
+        dialogRoot={dialogRoot}
+        onClose={onAuthCancel}
+        open={open}
+        titleId={titleId}
+      >
         <DialogContent bottomSheetOnMobile padding="0">
           <SignIn onClose={onAuthCancel} onCloseModal={onClose} />
         </DialogContent>

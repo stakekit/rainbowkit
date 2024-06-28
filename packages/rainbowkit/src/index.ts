@@ -1,3 +1,4 @@
+export { AccountExtraInfoContext } from './components';
 export { ConnectButton } from './components/ConnectButton/ConnectButton';
 export { WalletButton } from './components/WalletButton/WalletButton';
 export { RainbowKitProvider } from './components/RainbowKitProvider/RainbowKitProvider';
@@ -29,6 +30,7 @@ export type {
 export type { Locale } from './locales/';
 export type { DisclaimerComponent } from './components/RainbowKitProvider/AppContext';
 export type { AvatarComponent } from './components/RainbowKitProvider/AvatarContext';
+export { AvatarContext } from './components/RainbowKitProvider/AvatarContext';
 export type { RainbowKitChain as Chain } from './components/RainbowKitProvider/RainbowKitChainContext';
 export { lightTheme } from './themes/lightTheme';
 export { darkTheme } from './themes/darkTheme';

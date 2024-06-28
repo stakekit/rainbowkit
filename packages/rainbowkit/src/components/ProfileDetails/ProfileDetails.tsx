@@ -2,17 +2,17 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { GetEnsNameReturnType } from 'viem';
 import { GetEnsAvatarReturnType } from 'viem/actions';
 import { useAccount } from 'wagmi';
-import { useProfile } from '../../hooks/useProfile';
 import { isMobile } from '../../utils/isMobile';
+import { AccountExtraInfo } from '../AccountModal/context';
 import { Avatar } from '../Avatar/Avatar';
 import { Box } from '../Box/Box';
 import { CloseButton } from '../CloseButton/CloseButton';
-import { abbreviateETHBalance } from '../ConnectButton/abbreviateETHBalance';
 import { formatAddress } from '../ConnectButton/formatAddress';
 import { formatENS } from '../ConnectButton/formatENS';
 import { CopiedIcon } from '../Icons/Copied';
 import { CopyIcon } from '../Icons/Copy';
 import { DisconnectIcon } from '../Icons/Disconnect';
+import { MenuButton } from '../MenuButton/MenuButton';
 import { I18nContext } from '../RainbowKitProvider/I18nContext';
 import { ShowRecentTransactionsContext } from '../RainbowKitProvider/ShowRecentTransactionsContext';
 import { Text } from '../Text/Text';
@@ -26,15 +26,19 @@ interface ProfileDetailsProps {
   balance: ReturnType<typeof useProfile>['balance'];
   onClose: () => void;
   onDisconnect: () => void;
+  accountExtraInfo?: AccountExtraInfo;
+  hideDisconnect?: boolean;
 }
 
 export function ProfileDetails({
+  accountExtraInfo,
   address,
   ensAvatar,
   ensName,
   balance,
   onClose,
   onDisconnect,
+  hideDisconnect,
 }: ProfileDetailsProps) {
   const showRecentTransactions = useContext(ShowRecentTransactionsContext);
 
@@ -60,10 +64,6 @@ export function ProfileDetails({
   }
 
   const accountName = ensName ? formatENS(ensName) : formatAddress(address);
-  const ethBalance = balance?.formatted;
-  const displayBalance = ethBalance
-    ? abbreviateETHBalance(parseFloat(ethBalance))
-    : undefined;
   const titleId = 'rk_profile_title';
   const mobile = isMobile();
 
@@ -116,20 +116,36 @@ export function ProfileDetails({
                   {accountName}
                 </Text>
               </Box>
-              {!!balance && (
-                <Box textAlign="center">
-                  <Text
-                    as="h1"
-                    color="modalTextSecondary"
-                    id={titleId}
-                    size={mobile ? '16' : '14'}
-                    weight="semibold"
-                  >
-                    {displayBalance} {balance.symbol}
-                  </Text>
-                </Box>
-              )}
             </Box>
+            {accountExtraInfo?.otherAddresses.map((addr) => (
+              <MenuButton
+                currentlySelected={false}
+                key={addr}
+                onClick={() => {
+                  accountExtraInfo.onOtherAddressClick(addr);
+                  onClose();
+                }}
+              >
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  gap={mobile ? '4' : '0'}
+                  textAlign="center"
+                >
+                  <Box textAlign="center">
+                    <Text
+                      as="h1"
+                      color="modalText"
+                      id={titleId}
+                      size={mobile ? '20' : '18'}
+                      weight="heavy"
+                    >
+                      {addr}
+                    </Text>
+                  </Box>
+                </Box>
+              </MenuButton>
+            ))}
           </Box>
           <Box
             display="flex"
@@ -147,12 +163,14 @@ export function ProfileDetails({
                   : i18n.t('profile.copy_address.label')
               }
             />
-            <ProfileDetailsAction
-              action={onDisconnect}
-              icon={<DisconnectIcon />}
-              label={i18n.t('profile.disconnect.label')}
-              testId="disconnect-button"
-            />
+            {!hideDisconnect && (
+              <ProfileDetailsAction
+                action={onDisconnect}
+                icon={<DisconnectIcon />}
+                label={i18n.t('profile.disconnect.label')}
+                testId="disconnect-button"
+              />
+            )}
           </Box>
         </Box>
         {showRecentTransactions && (
