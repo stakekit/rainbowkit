@@ -24,8 +24,10 @@ import { kaikasWallet } from './kaikasWallet/kaikasWallet';
 import { krakenWallet } from './krakenWallet/krakenWallet';
 import { kresusWallet } from './kresusWallet/kresusWallet';
 import { ledgerWallet } from './ledgerWallet/ledgerWallet';
+import { magicEdenWallet } from './magicEdenWallet/magicEdenWallet';
 import { metaMaskWallet } from './metaMaskWallet/metaMaskWallet';
 import { mewWallet } from './mewWallet/mewWallet';
+import { nestWallet } from './nestWallet/nestWallet';
 import { oktoWallet } from './oktoWallet/oktoWallet';
 import { okxWallet } from './okxWallet/okxWallet';
 import { omniWallet } from './omniWallet/omniWallet';
@@ -39,6 +41,7 @@ import { roninWallet } from './roninWallet/roninWallet';
 import { safeWallet } from './safeWallet/safeWallet';
 import { safeheronWallet } from './safeheronWallet/safeheronWallet';
 import { safepalWallet } from './safepalWallet/safepalWallet';
+import { seifWallet } from './seifWallet/seifWallet';
 import { subWallet } from './subWallet/subWallet';
 import { tahoWallet } from './tahoWallet/tahoWallet';
 import { talismanWallet } from './talismanWallet/talismanWallet';
@@ -78,8 +81,10 @@ export {
   krakenWallet,
   kresusWallet,
   ledgerWallet,
+  magicEdenWallet,
   metaMaskWallet,
   mewWallet,
+  nestWallet,
   oktoWallet,
   okxWallet,
   omniWallet,
@@ -93,6 +98,7 @@ export {
   safeWallet,
   safeheronWallet,
   safepalWallet,
+  seifWallet,
   subWallet,
   tahoWallet,
   talismanWallet,

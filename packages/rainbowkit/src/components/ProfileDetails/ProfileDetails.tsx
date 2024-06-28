@@ -2,13 +2,11 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { GetEnsNameReturnType } from 'viem';
 import { GetEnsAvatarReturnType } from 'viem/actions';
 import { useAccount } from 'wagmi';
-import { useProfile } from '../../hooks/useProfile';
 import { isMobile } from '../../utils/isMobile';
 import { AccountExtraInfo } from '../AccountModal/context';
 import { Avatar } from '../Avatar/Avatar';
 import { Box } from '../Box/Box';
 import { CloseButton } from '../CloseButton/CloseButton';
-import { abbreviateETHBalance } from '../ConnectButton/abbreviateETHBalance';
 import { formatAddress } from '../ConnectButton/formatAddress';
 import { formatENS } from '../ConnectButton/formatENS';
 import { CopiedIcon } from '../Icons/Copied';
@@ -25,7 +23,6 @@ interface ProfileDetailsProps {
   address: ReturnType<typeof useAccount>['address'];
   ensAvatar: GetEnsAvatarReturnType | undefined;
   ensName: GetEnsNameReturnType | undefined;
-  balance: ReturnType<typeof useProfile>['balance'];
   onClose: () => void;
   onDisconnect: () => void;
   accountExtraInfo?: AccountExtraInfo;
@@ -37,7 +34,6 @@ export function ProfileDetails({
   address,
   ensAvatar,
   ensName,
-  balance,
   onClose,
   onDisconnect,
   hideDisconnect,
@@ -66,10 +62,6 @@ export function ProfileDetails({
   }
 
   const accountName = ensName ? formatENS(ensName) : formatAddress(address);
-  const ethBalance = balance?.formatted;
-  const displayBalance = ethBalance
-    ? abbreviateETHBalance(parseFloat(ethBalance))
-    : undefined;
   const titleId = 'rk_profile_title';
   const mobile = isMobile();
 
@@ -122,19 +114,6 @@ export function ProfileDetails({
                   {accountName}
                 </Text>
               </Box>
-              {!!balance && (
-                <Box textAlign="center">
-                  <Text
-                    as="h1"
-                    color="modalTextSecondary"
-                    id={titleId}
-                    size={mobile ? '16' : '14'}
-                    weight="semibold"
-                  >
-                    {displayBalance} {balance.symbol}
-                  </Text>
-                </Box>
-              )}
             </Box>
             {accountExtraInfo?.otherAddresses.map((addr) => (
               <MenuButton

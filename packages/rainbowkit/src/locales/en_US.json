@@ -634,6 +634,23 @@
       }
     },
 
+    "magicEden": {
+      "extension": {
+        "step1": {
+          "title": "Install the Magic Eden extension",
+          "description": "We recommend pinning Magic Eden to your taskbar for easier access to your wallet."
+        },
+        "step2": {
+          "title": "Create or Import a Wallet",
+          "description": "Be sure to back up your wallet using a secure method. Never share your secret recovery phrase with anyone."
+        },
+        "step3": {
+          "title": "Refresh your browser",
+          "description": "Once you set up your wallet, click below to refresh the browser and load up the extension."
+        }
+      }
+    },
+
     "metamask": {
       "qr_code": {
         "step1": {
@@ -654,6 +671,23 @@
         "step1": {
           "title": "Install the MetaMask extension",
           "description": "We recommend pinning MetaMask to your taskbar for quicker access to your wallet."
+        },
+        "step2": {
+          "title": "Create or Import a Wallet",
+          "description": "Be sure to back up your wallet using a secure method. Never share your secret phrase with anyone."
+        },
+        "step3": {
+          "title": "Refresh your browser",
+          "description": "Once you set up your wallet, click below to refresh the browser and load up the extension."
+        }
+      }
+    },
+
+    "nestwallet": {
+      "extension": {
+        "step1": {
+          "title": "Install the NestWallet extension",
+          "description": "We recommend pinning NestWallet to your taskbar for quicker access to your wallet."
         },
         "step2": {
           "title": "Create or Import a Wallet",
