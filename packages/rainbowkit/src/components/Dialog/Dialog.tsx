@@ -58,7 +58,6 @@ export function Dialog({
         ? createPortal(
             <RemoveScroll enabled={bodyScrollable}>
               <Box {...themeRootProps}>
-                <Box className={styles.fixedOverlay} />
                 <Box
                   {...themeRootProps}
                   alignItems={mobile ? 'flex-end' : 'center'}
@@ -69,6 +68,7 @@ export function Dialog({
                   position="fixed"
                   role="dialog"
                 >
+                  <Box className={styles.fixedOverlay} />
                   <FocusTrap
                     className={styles.content}
                     onClick={stopPropagation}
