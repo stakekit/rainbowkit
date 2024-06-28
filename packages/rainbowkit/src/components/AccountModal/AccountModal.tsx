@@ -19,9 +19,8 @@ export function AccountModal({
   hideDisconnect,
 }: AccountModalProps) {
   const { address } = useAccount();
-  const { balance, ensAvatar, ensName } = useProfile({
+  const { ensAvatar, ensName } = useProfile({
     address,
-    includeBalance: open,
   });
   const { disconnect } = useDisconnect();
 
@@ -48,7 +47,6 @@ export function AccountModal({
               address={address}
               ensAvatar={ensAvatar}
               ensName={ensName}
-              balance={balance}
               onClose={onClose}
               onDisconnect={disconnect}
               hideDisconnect={hideDisconnect}

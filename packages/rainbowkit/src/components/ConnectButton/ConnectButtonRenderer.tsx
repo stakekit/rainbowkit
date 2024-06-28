@@ -1,10 +1,8 @@
 import React, { ReactNode, useContext } from 'react';
 import { useAccount, useConfig } from 'wagmi';
-import { normalizeResponsiveValue } from '../../css/sprinkles.css';
 import { useIsMounted } from '../../hooks/useIsMounted';
 import { useProfile } from '../../hooks/useProfile';
 import { useRecentTransactions } from '../../transactions/useRecentTransactions';
-import { isMobile } from '../../utils/isMobile';
 import { useAsyncImage } from '../AsyncImage/useAsyncImage';
 import {
   AuthenticationStatus,
@@ -17,9 +15,7 @@ import {
   useModalState,
 } from '../RainbowKitProvider/ModalContext';
 import { useRainbowKitChainsById } from '../RainbowKitProvider/RainbowKitChainContext';
-import { useShowBalance } from '../RainbowKitProvider/ShowBalanceContext';
 import { ShowRecentTransactionsContext } from '../RainbowKitProvider/ShowRecentTransactionsContext';
-import { abbreviateETHBalance } from './abbreviateETHBalance';
 import { formatAddress } from './formatAddress';
 import { formatENS } from './formatENS';
 
@@ -82,32 +78,9 @@ export function ConnectButtonRenderer({
     useRecentTransactions().some(({ status }) => status === 'pending') &&
     showRecentTransactions;
 
-  const { showBalance } = useShowBalance();
-
-  const computeShouldShowBalance = () => {
-    if (typeof showBalance === 'boolean') {
-      return showBalance;
-    }
-
-    if (showBalance) {
-      return normalizeResponsiveValue(showBalance)[
-        isMobile() ? 'smallScreen' : 'largeScreen'
-      ];
-    }
-
-    return true;
-  };
-
-  const shouldShowBalance = computeShouldShowBalance();
-
-  const { balance, ensAvatar, ensName } = useProfile({
+  const { ensAvatar, ensName } = useProfile({
     address,
-    includeBalance: shouldShowBalance,
   });
-
-  const displayBalance = balance
-    ? `${abbreviateETHBalance(parseFloat(balance.formatted))} ${balance.symbol}`
-    : undefined;
 
   const { openConnectModal } = useConnectModal();
   const { openChainModal } = useChainModal();
@@ -121,10 +94,6 @@ export function ConnectButtonRenderer({
         account: address
           ? {
               address,
-              balanceDecimals: balance?.decimals,
-              balanceFormatted: balance?.formatted,
-              balanceSymbol: balance?.symbol,
-              displayBalance,
               displayName: ensName
                 ? formatENS(ensName)
                 : formatAddress(address),
