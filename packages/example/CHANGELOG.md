@@ -1,5 +1,40 @@
 # example
 
+## 0.0.102
+
+### Patch Changes
+
+- Updated dependencies [23e33b9]
+- Updated dependencies [d81935c]
+- Updated dependencies [7b00be5]
+- Updated dependencies [001a0a9]
+  - @rainbow-me/rainbowkit@2.1.3
+  - @rainbow-me/rainbow-button@0.2.12
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.4.1
+
+## 0.0.101
+
+### Patch Changes
+
+- fea278a: Removed `getDefaultWallets` in favor of a static `Popular` list to test the `coinbaseWallet.preference` setting
+- Updated dependencies [2180ddd]
+- Updated dependencies [fea278a]
+- Updated dependencies [9694368]
+  - @rainbow-me/rainbowkit@2.1.2
+  - @rainbow-me/rainbow-button@0.2.11
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.4.1
+
+## 0.0.100
+
+### Patch Changes
+
+- 725a376: Added Magic Eden Wallet support with `magicEdenWallet` wallet connector
+- Updated dependencies [725a376]
+- Updated dependencies [9be5452]
+  - @rainbow-me/rainbowkit@2.1.1
+  - @rainbow-me/rainbow-button@0.2.10
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.4.1
+
 ## 0.0.99
 
 ### Patch Changes

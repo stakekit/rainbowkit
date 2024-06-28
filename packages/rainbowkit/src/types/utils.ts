@@ -37,6 +37,7 @@ export type WalletProviderFlags =
   | 'isKuCoinWallet'
   | 'isMathWallet'
   | 'isMetaMask'
+  | 'isNestWallet'
   | 'isOkxWallet'
   | 'isOKExWallet'
   | 'isOneInchAndroidWallet'
@@ -59,7 +60,8 @@ export type WalletProviderFlags =
   | 'isCoin98'
   | 'isMEWwallet'
   | 'isSafeheron'
-  | 'isSafePal';
+  | 'isSafePal'
+  | '__seif';
 
 export type WalletProvider = Evaluate<
   EIP1193Provider & {
