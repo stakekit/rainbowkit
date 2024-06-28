@@ -41,8 +41,11 @@ export const fixedOverlay = style([
     position: 'fixed',
     bottom: -bleed,
     left: -bleed,
+    padding: bleed,
     right: -bleed,
     top: -bleed,
+    transform: 'translateZ(0)', // This is required for content to render under the URL bar on iOS
+    zIndex: Math.min(...Object.values(nestedModalZIndexes)) - 1,
   },
 ]);
 
