@@ -11,7 +11,11 @@ export const useWindowSize = () => {
   });
 
   useEffect(() => {
+    let isUnmounted = false;
     const handleResize = debounce(() => {
+      if (isUnmounted) {
+        return;
+      }
       setWindowSize({
         height: window.innerHeight,
         width: window.innerWidth,
@@ -19,7 +23,10 @@ export const useWindowSize = () => {
     }, 500); // 500ms debounce by default
     window.addEventListener('resize', handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      isUnmounted = true;
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
   return windowSize;
 };
