@@ -1,4 +1,4 @@
-import { Wallet } from '../../Wallet';
+import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -8,6 +8,7 @@ export const magicEdenWallet = (): Wallet => {
   return {
     id: 'magicEden',
     name: 'Magic Eden Wallet',
+    rdns: 'io.magiceden.wallet',
     iconUrl: async () => (await import('./magicEden.svg')).default,
     iconBackground: '#36114D',
     installed: hasInjectedProvider({ namespace: 'magicEden.ethereum' }),

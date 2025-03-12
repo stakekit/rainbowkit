@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { GetEnsNameReturnType } from 'viem';
-import { GetEnsAvatarReturnType } from 'viem/actions';
-import { useAccount } from 'wagmi';
+import type { GetEnsNameReturnType } from 'viem';
+import type { GetEnsAvatarReturnType } from 'viem/actions';
+import type { useAccount } from 'wagmi';
 import { isMobile } from '../../utils/isMobile';
-import { AccountExtraInfo } from '../AccountModal/context';
+import type { AccountExtraInfo } from '../AccountModal/context';
 import { Avatar } from '../Avatar/Avatar';
 import { Box } from '../Box/Box';
 import { CloseButton } from '../CloseButton/CloseButton';

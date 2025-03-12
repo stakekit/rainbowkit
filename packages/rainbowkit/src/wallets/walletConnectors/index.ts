@@ -1,5 +1,9 @@
 import { argentWallet } from './argentWallet/argentWallet';
+import { backpackWallet } from './backpackWallet/backpackWallet';
+import { berasigWallet } from './berasigWallet/berasigWallet';
+import { bestWallet } from './bestWallet/bestWallet';
 import { bifrostWallet } from './bifrostWallet/bifrostWallet';
+import { binanceWallet } from './binanceWallet/binanceWallet';
 import { bitgetWallet } from './bitgetWallet/bitgetWallet';
 import { bitskiWallet } from './bitskiWallet/bitskiWallet';
 import { bitverseWallet } from './bitverseWallet/bitverseWallet';
@@ -20,6 +24,8 @@ import { frontierWallet } from './frontierWallet/frontierWallet';
 import { gateWallet } from './gateWallet/gateWallet';
 import { imTokenWallet } from './imTokenWallet/imTokenWallet';
 import { injectedWallet } from './injectedWallet/injectedWallet';
+import { iopayWallet } from './iopayWallet/iopayWallet';
+import { kaiaWallet } from './kaiaWallet/kaiaWallet';
 import { kaikasWallet } from './kaikasWallet/kaikasWallet';
 import { krakenWallet } from './krakenWallet/krakenWallet';
 import { kresusWallet } from './kresusWallet/kresusWallet';
@@ -33,6 +39,7 @@ import { okxWallet } from './okxWallet/okxWallet';
 import { omniWallet } from './omniWallet/omniWallet';
 import { oneInchWallet } from './oneInchWallet/oneInchWallet';
 import { oneKeyWallet } from './oneKeyWallet/oneKeyWallet';
+import { paraSwapWallet } from './paraSwapWallet/paraswapWallet';
 import { phantomWallet } from './phantomWallet/phantomWallet';
 import { rabbyWallet } from './rabbyWallet/rabbyWallet';
 import { rainbowWallet } from './rainbowWallet/rainbowWallet';
@@ -49,20 +56,26 @@ import { tokenPocketWallet } from './tokenPocketWallet/tokenPocketWallet';
 import { tokenaryWallet } from './tokenaryWallet/tokenaryWallet';
 import { trustWallet } from './trustWallet/trustWallet';
 import { uniswapWallet } from './uniswapWallet/uniswapWallet';
+import { valoraWallet } from './valoraWallet/valoraWallet';
 import { walletConnectWallet } from './walletConnectWallet/walletConnectWallet';
+import { wigwamWallet } from './wigwamWallet/wigwamWallet';
 import { xdefiWallet } from './xdefiWallet/xdefiWallet';
 import { zealWallet } from './zealWallet/zealWallet';
 import { zerionWallet } from './zerionWallet/zerionWallet';
 
 export {
   argentWallet,
+  backpackWallet,
+  berasigWallet,
+  bestWallet,
   bifrostWallet,
+  binanceWallet,
   bitgetWallet,
   bitskiWallet,
   bitverseWallet,
   bloomWallet,
-  bybitWallet,
   braveWallet,
+  bybitWallet,
   clvWallet,
   coin98Wallet,
   coinbaseWallet,
@@ -77,6 +90,8 @@ export {
   gateWallet,
   imTokenWallet,
   injectedWallet,
+  iopayWallet,
+  kaiaWallet,
   kaikasWallet,
   krakenWallet,
   kresusWallet,
@@ -90,14 +105,15 @@ export {
   omniWallet,
   oneInchWallet,
   oneKeyWallet,
+  paraSwapWallet,
   phantomWallet,
   rabbyWallet,
   rainbowWallet,
   ramperWallet,
   roninWallet,
-  safeWallet,
   safeheronWallet,
   safepalWallet,
+  safeWallet,
   seifWallet,
   subWallet,
   tahoWallet,
@@ -106,7 +122,9 @@ export {
   tokenPocketWallet,
   trustWallet,
   uniswapWallet,
+  valoraWallet,
   walletConnectWallet,
+  wigwamWallet,
   xdefiWallet,
   zealWallet,
   zerionWallet,

@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { Address } from 'viem';
+import type { Address } from 'viem';
 
 export type AccountExtraInfo = {
   otherAddresses: Address[];

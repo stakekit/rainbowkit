@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react';
+import React, { type ComponentProps } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 import { useProfile } from '../../hooks/useProfile';
 import { Dialog } from '../Dialog/Dialog';

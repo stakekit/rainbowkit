@@ -230,6 +230,38 @@
         }
       }
     },
+    "berasig": {
+      "extension": {
+        "step1": {
+          "title": "Instal ekstensi BeraSig",
+          "description": "Kami merekomendasikan menempelkan BeraSig ke taskbar Anda untuk akses dompet Anda lebih mudah."
+        },
+        "step2": {
+          "title": "Buat Dompet",
+          "description": "Pastikan untuk mencadangkan wallet Anda menggunakan metode yang aman. Jangan pernah berbagi frasa rahasia Anda dengan siapa pun."
+        },
+        "step3": {
+          "title": "Segarkan browser Anda",
+          "description": "Setelah Anda menyiapkan dompet Anda, klik di bawah ini untuk menyegarkan browser dan memuat ekstensi."
+        }
+      }
+    },
+    "best": {
+      "qr_code": {
+        "step1": {
+          "title": "Buka aplikasi Best Wallet",
+          "description": "Tambahkan Best Wallet ke layar utama Anda untuk akses ke wallet Anda lebih cepat."
+        },
+        "step2": {
+          "title": "Buat atau Impor Dompet",
+          "description": "Buat dompet baru atau impor yang sudah ada."
+        },
+        "step3": {
+          "title": "Ketuk ikon QR dan scan",
+          "description": "Ketuk ikon QR di layar utama Anda, pindai kode dan konfirmasi prompt untuk terhubung."
+        }
+      }
+    },
     "bifrost": {
       "qr_code": {
         "step1": {
@@ -322,20 +354,6 @@
           "description": "Setelah Anda memiliki dompet, klik pada Sambungkan untuk terhubung melalui Bloom. Sebuah permintaan sambungan akan muncul di aplikasi untuk Anda konfirmasi.",
           "title": "Klik pada Sambungkan"
         }
-      },
-      "qr_code": {
-        "step1": {
-          "title": "Buka aplikasi Bloom Wallet",
-          "description": "Kami merekomendasikan untuk meletakkan Bloom Wallet di layar utama Anda untuk akses yang lebih cepat."
-        },
-        "step2": {
-          "description": "Buat atau impor sebuah dompet menggunakan frasa pemulihan Anda.",
-          "title": "Buat atau Impor Dompet"
-        },
-        "step3": {
-          "description": "Setelah Anda memiliki dompet, klik pada Sambungkan untuk terhubung melalui Bloom. Sebuah permintaan sambungan akan muncul di aplikasi untuk Anda konfirmasi.",
-          "title": "Klik pada Sambungkan"
-        }
       }
     },
     "bybit": {
@@ -365,6 +383,22 @@
         "step3": {
           "description": "Setelah Anda mengatur Wallet Bybit, klik di bawah ini untuk menyegarkan browser dan memuat ekstensi.",
           "title": "Segarkan browser Anda"
+        }
+      }
+    },
+    "binance": {
+      "qr_code": {
+        "step1": {
+          "description": "Kami merekomendasikan untuk meletakkan Binance di layar utama Anda untuk akses lebih cepat ke wallet Anda.",
+          "title": "Buka aplikasi Binance"
+        },
+        "step2": {
+          "description": "Anda dapat dengan mudah mencadangkan wallet Anda menggunakan fitur cadangan kami di telepon Anda.",
+          "title": "Buat atau Impor Dompet"
+        },
+        "step3": {
+          "description": "Setelah Anda memindai, akan muncul petunjuk koneksi untuk Anda menghubungkan dompet Anda.",
+          "title": "Ketuk tombol WalletConnect"
         }
       }
     },
@@ -536,6 +570,22 @@
         }
       }
     },
+    "iopay": {
+      "qr_code": {
+        "step1": {
+          "description": "Kami merekomendasikan untuk menaruh ioPay di layar utama Anda untuk akses wallet Anda lebih cepat.",
+          "title": "Buka aplikasi ioPay"
+        },
+        "step2": {
+          "description": "Anda dapat dengan mudah mencadangkan wallet Anda menggunakan fitur cadangan kami di telepon Anda.",
+          "title": "Buat atau Impor Dompet"
+        },
+        "step3": {
+          "description": "Setelah Anda memindai, akan muncul petunjuk koneksi untuk Anda menghubungkan dompet Anda.",
+          "title": "Ketuk tombol WalletConnect"
+        }
+      }
+    },
     "kaikas": {
       "extension": {
         "step1": {
@@ -555,6 +605,36 @@
         "step1": {
           "title": "Buka aplikasi Kaikas",
           "description": "Letakkan aplikasi Kaikas di layar utama Anda untuk akses yang lebih cepat ke dompet Anda."
+        },
+        "step2": {
+          "title": "Buat atau Impor Dompet",
+          "description": "Buat dompet baru atau impor yang sudah ada."
+        },
+        "step3": {
+          "title": "Ketuk Ikon Scanner di pojok kanan atas",
+          "description": "Pilih Koneksi Baru, lalu pindai kode QR dan konfirmasi petunjuk untuk terhubung."
+        }
+      }
+    },
+    "kaia": {
+      "extension": {
+        "step1": {
+          "description": "Kami merekomendasikan menempelkan Kaia ke taskbar Anda untuk akses dompet Anda lebih cepat.",
+          "title": "Instal ekstensi Kaia"
+        },
+        "step2": {
+          "description": "Pastikan untuk mencadangkan wallet Anda menggunakan metode yang aman. Jangan pernah berbagi frasa rahasia Anda dengan siapa pun.",
+          "title": "Buat atau Impor Dompet"
+        },
+        "step3": {
+          "description": "Setelah Anda menyiapkan dompet Anda, klik di bawah ini untuk menyegarkan browser dan memuat ekstensi.",
+          "title": "Segarkan browser Anda"
+        }
+      },
+      "qr_code": {
+        "step1": {
+          "title": "Buka aplikasi Kaia",
+          "description": "Letakkan aplikasi Kaia di layar utama Anda untuk akses yang lebih cepat ke dompet Anda."
         },
         "step2": {
           "title": "Buat atau Impor Dompet",
@@ -641,6 +721,22 @@
         "step3": {
           "title": "Segarkan browser Anda",
           "description": "Setelah Anda menyiapkan wallet Anda, klik di bawah ini untuk menyegarkan browser dan memuat ekstensi."
+        }
+      }
+    },
+    "nestwallet": {
+      "extension": {
+        "step1": {
+          "title": "Instal ekstensi NestWallet",
+          "description": "Kami menyarankan untuk memasang NestWallet ke taskbar Anda untuk akses dompet yang lebih cepat."
+        },
+        "step2": {
+          "title": "Buat atau Impor Dompet",
+          "description": "Pastikan untuk mencadangkan wallet Anda menggunakan metode yang aman. Jangan pernah berbagi frasa rahasia Anda dengan siapa pun."
+        },
+        "step3": {
+          "title": "Segarkan browser Anda",
+          "description": "Setelah Anda menyiapkan dompet Anda, klik di bawah ini untuk menyegarkan browser dan memuat ekstensi."
         }
       }
     },
@@ -876,6 +972,22 @@
         }
       }
     },
+    "paraswap": {
+      "qr_code": {
+        "step1": {
+          "title": "Buka aplikasi ParaSwap",
+          "description": "Tambahkan ParaSwap Wallet ke layar utama Anda untuk akses ke wallet Anda lebih cepat."
+        },
+        "step2": {
+          "title": "Buat atau Impor Dompet",
+          "description": "Buat dompet baru atau impor yang sudah ada."
+        },
+        "step3": {
+          "title": "Ketuk ikon QR dan scan",
+          "description": "Ketuk ikon QR di layar utama Anda, pindai kode dan konfirmasi prompt untuk terhubung."
+        }
+      }
+    },
     "phantom": {
       "extension": {
         "step1": {
@@ -986,6 +1098,22 @@
         }
       }
     },
+    "wigwam": {
+      "extension": {
+        "step1": {
+          "title": "Instal ekstensi Wigwam",
+          "description": "Kami menyarankan untuk memasang Wigwam ke taskbar Anda untuk akses dompet yang lebih cepat."
+        },
+        "step2": {
+          "title": "Buat atau Impor Dompet",
+          "description": "Pastikan untuk mencadangkan wallet Anda menggunakan metode yang aman. Jangan pernah berbagi frasa rahasia Anda dengan siapa pun."
+        },
+        "step3": {
+          "title": "Segarkan browser Anda",
+          "description": "Setelah Anda menyiapkan dompet Anda, klik di bawah ini untuk menyegarkan browser dan memuat ekstensi."
+        }
+      }
+    },
     "talisman": {
       "extension": {
         "step1": {
@@ -1019,6 +1147,20 @@
       }
     },
     "zeal": {
+      "qr_code": {
+        "step1": {
+          "title": "Buka aplikasi Zeal",
+          "description": "Tambahkan Zeal Wallet ke layar utama Anda untuk akses yang lebih cepat ke wallet Anda."
+        },
+        "step2": {
+          "title": "Buat atau Impor Dompet",
+          "description": "Buat dompet baru atau impor yang sudah ada."
+        },
+        "step3": {
+          "title": "Ketuk ikon QR dan scan",
+          "description": "Ketuk ikon QR di layar utama Anda, pindai kode dan konfirmasi prompt untuk terhubung."
+        }
+      },
       "extension": {
         "step1": {
           "title": "Instal ekstensi Zeal",
@@ -1183,6 +1325,22 @@
         "step3": {
           "title": "Pindai kode",
           "description": "Ketuk WalletConnect lalu Beralih ke Scanner. Setelah Anda scan, muncul prompt koneksi untuk Anda menghubungkan dompet Anda."
+        }
+      }
+    },
+    "valora": {
+      "qr_code": {
+        "step1": {
+          "title": "Buka aplikasi Valora",
+          "description": "Kami merekomendasikan untuk meletakkan Valora di layar utama Anda untuk akses lebih cepat."
+        },
+        "step2": {
+          "title": "Buat atau Impor dompet",
+          "description": "Buat dompet baru atau impor yang sudah ada."
+        },
+        "step3": {
+          "title": "Tekan tombol scan",
+          "description": "Setelah Anda memindai, akan muncul petunjuk koneksi untuk Anda menghubungkan dompet Anda."
         }
       }
     }

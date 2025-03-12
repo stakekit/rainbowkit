@@ -29,7 +29,6 @@ export function SignIn({
 
   const authAdapter = useAuthenticationAdapter();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: correct setState usage
   const getNonce = useCallback(async () => {
     try {
       const nonce = await authAdapter.getNonce();
@@ -78,7 +77,7 @@ export function SignIn({
 
       try {
         signature = await signMessageAsync({
-          message: authAdapter.getMessageBody({ message }),
+          message,
         });
       } catch (error) {
         if (error instanceof UserRejectedRequestError) {

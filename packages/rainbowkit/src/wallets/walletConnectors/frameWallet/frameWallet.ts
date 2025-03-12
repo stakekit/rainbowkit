@@ -1,4 +1,4 @@
-import { Wallet } from '../../Wallet';
+import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -7,6 +7,7 @@ import {
 export const frameWallet = (): Wallet => ({
   id: 'frame',
   name: 'Frame',
+  rdns: 'sh.frame',
   installed: hasInjectedProvider({ flag: 'isFrame' }),
   iconUrl: async () => (await import('./frameWallet.svg')).default,
   iconBackground: '#121C20',

@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import { useMainnetEnsAvatar } from './useMainnetEnsAvatar';
 import { useMainnetEnsName } from './useMainnetEnsName';
 
