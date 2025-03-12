@@ -1,4 +1,4 @@
-import { Wallet } from '../../Wallet';
+import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -11,6 +11,7 @@ export const compassWallet = (): Wallet => {
     id: 'compass',
     name: 'Compass Wallet',
     installed: isCompassInjected,
+    rdns: 'io.leapwallet.CompassWallet',
     iconUrl: async () => (await import('./compassWallet.svg')).default,
     iconBackground: '#fff',
     downloadUrls: {

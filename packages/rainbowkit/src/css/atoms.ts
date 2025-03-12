@@ -1,7 +1,8 @@
 import clsx from 'clsx';
+import type { JSX } from 'react';
 
 import * as resetStyles from './reset.css';
-import { Sprinkles, sprinkles } from './sprinkles.css';
+import { type Sprinkles, sprinkles } from './sprinkles.css';
 
 export type Atoms = Sprinkles & {
   reset?: keyof JSX.IntrinsicElements;

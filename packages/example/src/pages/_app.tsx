@@ -2,236 +2,28 @@ import '@stakekit/rainbowkit/styles.css';
 import './global.css';
 
 import {
-  AvatarComponent,
+  type AvatarComponent,
   type Chain,
-  DisclaimerComponent,
-  Locale,
+  type DisclaimerComponent,
+  type Locale,
   RainbowKitProvider,
   darkTheme,
-  getDefaultConfig,
-  getDefaultWallets,
   lightTheme,
   midnightTheme,
 } from '@stakekit/rainbowkit';
-import {
-  argentWallet,
-  bifrostWallet,
-  bitgetWallet,
-  bitskiWallet,
-  bitverseWallet,
-  bloomWallet,
-  bybitWallet,
-  clvWallet,
-  coin98Wallet,
-  compassWallet,
-  coreWallet,
-  dawnWallet,
-  desigWallet,
-  enkryptWallet,
-  foxWallet,
-  frameWallet,
-  frontierWallet,
-  gateWallet,
-  imTokenWallet,
-  kaikasWallet,
-  krakenWallet,
-  kresusWallet,
-  ledgerWallet,
-  mewWallet,
-  oktoWallet,
-  okxWallet,
-  omniWallet,
-  oneInchWallet,
-  oneKeyWallet,
-  phantomWallet,
-  rabbyWallet,
-  ramperWallet,
-  roninWallet,
-  safeheronWallet,
-  safepalWallet,
-  subWallet,
-  tahoWallet,
-  talismanWallet,
-  tokenPocketWallet,
-  tokenaryWallet,
-  trustWallet,
-  uniswapWallet,
-  xdefiWallet,
-  zealWallet,
-  zerionWallet,
-} from '@stakekit/rainbowkit/wallets';
-
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { Session } from 'next-auth';
 import { SessionProvider, signOut } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider, useDisconnect } from 'wagmi';
-import {
-  arbitrum,
-  arbitrumSepolia,
-  avalancheFuji,
-  base,
-  baseSepolia,
-  blast,
-  blastSepolia,
-  bsc,
-  celo,
-  holesky,
-  klaytn,
-  klaytnBaobab,
-  mainnet,
-  optimism,
-  optimismSepolia,
-  polygon,
-  polygonMumbai,
-  ronin,
-  sepolia,
-  zetachain,
-  zetachainAthensTestnet,
-  zkSync,
-  zora,
-  zoraSepolia,
-} from 'wagmi/chains';
-
-import { RainbowKitChain } from '@stakekit/rainbowkit/dist/components/RainbowKitProvider/RainbowKitChainContext';
-import { AppContextProps } from '../lib/AppContextProps';
+import type { AppContextProps } from '../lib/AppContextProps';
+import { config } from '../wagmi';
+import type { RainbowKitChain } from '@stakekit/rainbowkit/dist/components/RainbowKitProvider/RainbowKitChainContext';
 
 const RAINBOW_TERMS = 'https://rainbow.me/terms-of-use';
-
-const projectId =
-  process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? 'YOUR_PROJECT_ID';
-
-const { wallets } = getDefaultWallets();
-
-const avalanche = {
-  id: 43_114,
-  name: 'Avalanche',
-  iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png',
-  iconBackground: '#fff',
-  nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
-  rpcUrls: {
-    default: { http: ['https://api.avax.network/ext/bc/C/rpc'] },
-  },
-  blockExplorers: {
-    default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
-  },
-  contracts: {
-    multicall3: {
-      address: '0xca11bde05977b3631167028862be2a173976ca11',
-      blockCreated: 11_907_934,
-    },
-  },
-} as const satisfies Chain;
-
-const sei = {
-  id: 713715,
-  name: 'Sei',
-  iconUrl:
-    'https://s3.coinmarketcap.com/static-gravity/image/992744cfbd5e40f5920018ee7a830b98.png',
-  iconBackground: '#fff',
-  nativeCurrency: { name: 'Sei', symbol: 'SEI', decimals: 18 },
-  rpcUrls: {
-    default: { http: ['https://evm-rpc.arctic-1.seinetwork.io'] },
-  },
-  blockExplorers: {
-    default: { name: 'Sei Explorer', url: 'https://www.seiscan.app' },
-  },
-  contracts: {},
-} as const satisfies Chain;
-
-const config = getDefaultConfig({
-  appName: 'RainbowKit Demo',
-  projectId,
-  chains: [
-    mainnet,
-    polygon,
-    optimism,
-    celo,
-    arbitrum,
-    base,
-    bsc,
-    avalanche,
-    zora,
-    blast,
-    zkSync,
-    zetachain,
-    ronin,
-    klaytn,
-    sei,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
-      ? [
-          sepolia,
-          holesky,
-          polygonMumbai,
-          optimismSepolia,
-          arbitrumSepolia,
-          baseSepolia,
-          zoraSepolia,
-          blastSepolia,
-          avalancheFuji,
-          zetachainAthensTestnet,
-          klaytnBaobab,
-        ]
-      : []),
-  ],
-  wallets: [
-    ...wallets,
-    {
-      groupName: 'Other',
-      wallets: [
-        argentWallet,
-        bifrostWallet,
-        bitgetWallet,
-        bitskiWallet,
-        bitverseWallet,
-        bloomWallet,
-        bybitWallet,
-        clvWallet,
-        compassWallet,
-        coin98Wallet,
-        coreWallet,
-        dawnWallet,
-        desigWallet,
-        enkryptWallet,
-        foxWallet,
-        frameWallet,
-        frontierWallet,
-        gateWallet,
-        imTokenWallet,
-        kresusWallet,
-        krakenWallet,
-        kaikasWallet,
-        ledgerWallet,
-        mewWallet,
-        oktoWallet,
-        okxWallet,
-        omniWallet,
-        oneInchWallet,
-        oneKeyWallet,
-        phantomWallet,
-        rabbyWallet,
-        ramperWallet,
-        roninWallet,
-        safeheronWallet,
-        safepalWallet,
-        subWallet,
-        tahoWallet,
-        talismanWallet,
-        tokenPocketWallet,
-        tokenaryWallet,
-        trustWallet,
-        uniswapWallet,
-        xdefiWallet,
-        zealWallet,
-        zerionWallet,
-      ],
-    },
-  ],
-  ssr: true,
-});
 
 const demoAppInfo = {
   appName: 'Rainbowkit Demo',
@@ -346,7 +138,7 @@ function RainbowKitApp({
 
   const locales = router.locales as Locale[];
 
-  const dialogRoot = useRef<Element>();
+  const dialogRoot = useRef<Element>(undefined);
 
   useEffect(() => {
     dialogRoot.current = document.querySelector('div[data-rk]')!;
@@ -533,7 +325,7 @@ function RainbowKitApp({
                         onChange={(e) =>
                           setInitialChainId(
                             e.target.value
-                              ? parseInt(e.target.value, 10)
+                              ? Number.parseInt(e.target.value, 10)
                               : undefined,
                           )
                         }

@@ -1,5 +1,5 @@
 import React, {
-  ReactNode,
+  type ReactNode,
   createContext,
   useCallback,
   useContext,
@@ -92,15 +92,16 @@ export function ModalProvider({
     keepConnectModalOpen?: boolean;
   }
 
-  function closeModals({
-    keepConnectModalOpen = false,
-  }: CloseModalsOptions = {}) {
-    if (!keepConnectModalOpen) {
-      closeConnectModal();
-    }
-    closeAccountModal();
-    closeChainModal();
-  }
+  const closeModals = useCallback(
+    ({ keepConnectModalOpen = false }: CloseModalsOptions = {}) => {
+      if (!keepConnectModalOpen) {
+        closeConnectModal();
+      }
+      closeAccountModal();
+      closeChainModal();
+    },
+    [closeConnectModal, closeAccountModal, closeChainModal],
+  );
 
   const isUnauthenticated = useAuthenticationStatus() === 'unauthenticated';
 
@@ -114,7 +115,7 @@ export function ModalProvider({
     // modals when user is unauthenticated. When connectors changes we log user out
     // This means we'll need to close the modals as well.
     if (isUnauthenticated) closeModals();
-  }, [isUnauthenticated]);
+  }, [isUnauthenticated, closeModals]);
 
   return (
     <ModalContext.Provider

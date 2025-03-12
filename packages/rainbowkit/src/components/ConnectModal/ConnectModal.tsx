@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react';
+import React, { type ComponentProps } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 import { useConnectionStatus } from '../../hooks/useConnectionStatus';
 import ConnectOptions from '../ConnectOptions/ConnectOptions';

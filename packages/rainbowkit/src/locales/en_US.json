@@ -244,6 +244,40 @@
       }
     },
 
+    "berasig": {
+      "extension": {
+        "step1": {
+          "title": "Install the BeraSig extension",
+          "description": "We recommend pinning BeraSig to your taskbar for easier access to your wallet."
+        },
+        "step2": {
+          "title": "Create a Wallet",
+          "description": "Be sure to back up your wallet using a secure method. Never share your secret phrase with anyone."
+        },
+        "step3": {
+          "title": "Refresh your browser",
+          "description": "Once you set up your wallet, click below to refresh the browser and load up the extension."
+        }
+      }
+    },
+
+    "best": {
+      "qr_code": {
+        "step1": {
+          "title": "Open the Best Wallet app",
+          "description": "Add Best Wallet to your home screen for faster access to your wallet."
+        },
+        "step2": {
+          "title": "Create or Import a Wallet",
+          "description": "Create a new wallet or import an existing one."
+        },
+        "step3": {
+          "title": "Tap the QR icon and scan",
+          "description": "Tap the QR icon on your homescreen, scan the code and confirm the prompt to connect."
+        }
+      }
+    },
+
     "bifrost": {
       "qr_code": {
         "step1": {
@@ -341,20 +375,6 @@
           "description": "After you have a wallet, click on Connect to connect via Bloom. A connection prompt in the app will appear for you to confirm the connection.",
           "title": "Click on Connect"
         }
-      },
-      "qr_code": {
-        "step1": {
-          "title": "Open the Bloom Wallet app",
-          "description": "We recommend putting Bloom Wallet on your home screen for quicker access."
-        },
-        "step2": {
-          "description": "Create or import a wallet using your recovery phrase.",
-          "title": "Create or Import a Wallet"
-        },
-        "step3": {
-          "description": "After you have a wallet, click on Connect to connect via Bloom. A connection prompt in the app will appear for you to confirm the connection.",
-          "title": "Click on Connect"
-        }
       }
     },
 
@@ -386,6 +406,23 @@
         "step3": {
           "description": "Once you set up Bybit Wallet, click below to refresh the browser and load up the extension.",
           "title": "Refresh your browser"
+        }
+      }
+    },
+
+    "binance": {
+      "qr_code": {
+        "step1": {
+          "description": "We recommend putting Binance on your home screen for faster access to your wallet.",
+          "title": "Open the Binance app"
+        },
+        "step2": {
+          "description": "You can easily backup your wallet using our backup feature on your phone.",
+          "title": "Create or Import a Wallet"
+        },
+        "step3": {
+          "description": "After you scan, a connection prompt will appear for you to connect your wallet.",
+          "title": "Tap the WalletConnect button"
         }
       }
     },
@@ -569,6 +606,23 @@
       }
     },
 
+    "iopay": {
+      "qr_code": {
+        "step1": {
+          "description": "We recommend putting ioPay on your home screen for faster access to your wallet.",
+          "title": "Open the ioPay app"
+        },
+        "step2": {
+          "description": "You can easily backup your wallet using our backup feature on your phone.",
+          "title": "Create or Import a Wallet"
+        },
+        "step3": {
+          "description": "After you scan, a connection prompt will appear for you to connect your wallet.",
+          "title": "Tap the WalletConnect button"
+        }
+      }
+    },
+
     "kaikas": {
       "extension": {
         "step1": {
@@ -588,6 +642,37 @@
         "step1": {
           "title": "Open the Kaikas app",
           "description": "Put Kaikas app on your home screen for faster access to your wallet."
+        },
+        "step2": {
+          "title": "Create or Import a Wallet",
+          "description": "Create a new wallet or import an existing one."
+        },
+        "step3": {
+          "title": "Tap Scanner Icon in top right corner",
+          "description": "Choose New Connection, then scan the QR code and confirm the prompt to connect."
+        }
+      }
+    },
+
+    "kaia": {
+      "extension": {
+        "step1": {
+          "description": "We recommend pinning Kaia to your taskbar for quicker access to your wallet.",
+          "title": "Install the Kaia extension"
+        },
+        "step2": {
+          "description": "Be sure to back up your wallet using a secure method. Never share your secret phrase with anyone.",
+          "title": "Create or Import a Wallet"
+        },
+        "step3": {
+          "description": "Once you set up your wallet, click below to refresh the browser and load up the extension.",
+          "title": "Refresh your browser"
+        }
+      },
+      "qr_code": {
+        "step1": {
+          "title": "Open the Kaia app",
+          "description": "Put Kaia app on your home screen for faster access to your wallet."
         },
         "step2": {
           "title": "Create or Import a Wallet",
@@ -947,6 +1032,23 @@
       }
     },
 
+    "paraswap": {
+      "qr_code": {
+        "step1": {
+          "title": "Open the ParaSwap app",
+          "description": "Add ParaSwap Wallet to your home screen for faster access to your wallet."
+        },
+        "step2": {
+          "title": "Create or Import a Wallet",
+          "description": "Create a new wallet or import an existing one."
+        },
+        "step3": {
+          "title": "Tap the QR icon and scan",
+          "description": "Tap the QR icon on your homescreen, scan the code and confirm the prompt to connect."
+        }
+      }
+    },
+
     "phantom": {
       "extension": {
         "step1": {
@@ -1064,6 +1166,23 @@
       }
     },
 
+    "wigwam": {
+      "extension": {
+        "step1": {
+          "title": "Install the Wigwam extension",
+          "description": "We recommend pinning Wigwam to your taskbar for quicker access to your wallet."
+        },
+        "step2": {
+          "title": "Create or Import a Wallet",
+          "description": "Be sure to back up your wallet using a secure method. Never share your secret phrase with anyone."
+        },
+        "step3": {
+          "title": "Refresh your browser",
+          "description": "Once you set up your wallet, click below to refresh the browser and load up the extension."
+        }
+      }
+    },
+
     "talisman": {
       "extension": {
         "step1": {
@@ -1099,6 +1218,20 @@
     },
 
     "zeal": {
+      "qr_code": {
+        "step1": {
+          "title": "Open the Zeal app",
+          "description": "Add Zeal Wallet to your home screen for faster access to your wallet."
+        },
+        "step2": {
+          "title": "Create or Import a Wallet",
+          "description": "Create a new wallet or import an existing one."
+        },
+        "step3": {
+          "title": "Tap the QR icon and scan",
+          "description": "Tap the QR icon on your homescreen, scan the code and confirm the prompt to connect."
+        }
+      },
       "extension": {
         "step1": {
           "title": "Install the Zeal extension",
@@ -1269,6 +1402,23 @@
         "step3": {
           "title": "Scan the code",
           "description": "Tap WalletConnect then Switch to Scanner. After you scan, a connection prompt will appear for you to connect your wallet."
+        }
+      }
+    },
+
+    "valora": {
+      "qr_code": {
+        "step1": {
+          "title": "Open the Valora app",
+          "description": "We recommend putting Valora on your home screen for quicker access."
+        },
+        "step2": {
+          "title": "Create or import a wallet",
+          "description": "Create a new wallet or import an existing one."
+        },
+        "step3": {
+          "title": "Tap the scan button",
+          "description": "After you scan, a connection prompt will appear for you to connect your wallet."
         }
       }
     }

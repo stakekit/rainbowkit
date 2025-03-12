@@ -1,4 +1,9 @@
-import React, { ReactNode, createContext, useContext, useMemo } from 'react';
+import React, {
+  type ReactNode,
+  createContext,
+  useContext,
+  useMemo,
+} from 'react';
 import { useConfig } from 'wagmi';
 import type { Chain } from 'wagmi/chains';
 import { provideRainbowKitChains } from './provideRainbowKitChains';
@@ -63,13 +68,7 @@ export function RainbowKitChainProvider({
           initialChainId:
             typeof initialChain === 'number' ? initialChain : initialChain?.id,
         }),
-        [
-          chains,
-          initialChain,
-          disabledChains,
-          onDisabledChainClick,
-          mappedChains,
-        ],
+        [initialChain, disabledChains, onDisabledChainClick, mappedChains],
       )}
     >
       {children}

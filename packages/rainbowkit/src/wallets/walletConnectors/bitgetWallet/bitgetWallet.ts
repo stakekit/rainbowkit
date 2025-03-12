@@ -1,5 +1,5 @@
 import { isAndroid } from '../../../utils/isMobile';
-import { DefaultWalletOptions, Wallet } from '../../Wallet';
+import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -21,6 +21,7 @@ export const bitgetWallet = ({
   return {
     id: 'bitget',
     name: 'Bitget Wallet',
+    rdns: 'com.bitget.web3',
     iconUrl: async () => (await import('./bitgetWallet.svg')).default,
     iconAccent: '#f6851a',
     iconBackground: '#fff',

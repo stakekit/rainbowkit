@@ -1,11 +1,11 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { type ReactNode, useContext } from 'react';
 import { useAccount, useConfig } from 'wagmi';
 import { useIsMounted } from '../../hooks/useIsMounted';
 import { useProfile } from '../../hooks/useProfile';
 import { useRecentTransactions } from '../../transactions/useRecentTransactions';
 import { useAsyncImage } from '../AsyncImage/useAsyncImage';
 import {
-  AuthenticationStatus,
+  type AuthenticationStatus,
   useAuthenticationStatus,
 } from '../RainbowKitProvider/AuthenticationContext';
 import {

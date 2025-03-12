@@ -1,5 +1,5 @@
 import type { Transport } from 'viem';
-import { http, CreateConfigParameters } from 'wagmi';
+import { http, type CreateConfigParameters } from 'wagmi';
 import { createConfig } from 'wagmi';
 import type { RainbowKitChain } from '../components/RainbowKitProvider/RainbowKitChainContext';
 import type { WalletList } from '../wallets/Wallet';
@@ -9,6 +9,7 @@ import {
   coinbaseWallet,
   metaMaskWallet,
   rainbowWallet,
+  safeWallet,
   walletConnectWallet,
 } from '../wallets/walletConnectors';
 
@@ -77,6 +78,7 @@ export const getDefaultConfig = <
       {
         groupName: 'Popular',
         wallets: [
+          safeWallet,
           rainbowWallet,
           coinbaseWallet,
           metaMaskWallet,

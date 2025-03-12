@@ -230,6 +230,38 @@
         }
       }
     },
+    "berasig": {
+      "extension": {
+        "step1": {
+          "title": "BeraSig eklentisini yükleyin",
+          "description": "Cüzdanınıza daha kolay erişim sağlamak için BeraSig'i görev çubuğunuza sabitlemenizi öneririz."
+        },
+        "step2": {
+          "title": "Bir Cüzdan Oluşturun",
+          "description": "Cüzdanınızı güvenli bir yöntemle yedeklemeye emin olun. Gizli ifadenizi asla kimseyle paylaşmayın."
+        },
+        "step3": {
+          "title": "Tarayıcınızı yenileyin",
+          "description": "Cüzdanınızı kurduktan sonra, aşağıya tıklayın ve tarayıcıyı yenileyin ve eklentiyi yükleyin."
+        }
+      }
+    },
+    "best": {
+      "qr_code": {
+        "step1": {
+          "title": "Best Wallet uygulamasını açın",
+          "description": "Cüzdanınıza daha hızlı erişim için Best Wallet'ı ana ekranınıza ekleyin."
+        },
+        "step2": {
+          "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar",
+          "description": "Yeni bir cüzdan oluşturun veya mevcut birini içe aktarın."
+        },
+        "step3": {
+          "title": "QR simgesine dokunun ve tarayın",
+          "description": "Ana ekranınızdaki QR simgesine dokunun, kodu tarayın ve bağlanmayı onaylamak için istemi kabul edin."
+        }
+      }
+    },
     "bifrost": {
       "qr_code": {
         "step1": {
@@ -322,20 +354,6 @@
           "description": "Bir cüzdanınız olduktan sonra, Bloom üzerinden bağlanmak için Bağlan'a tıklayın. Uygulamada bağlantıyı onaylamanız için bir bağlantı istemi belirecektir.",
           "title": "Bağlan'a tıklayın"
         }
-      },
-      "qr_code": {
-        "step1": {
-          "title": "Bloom Cüzdan uygulamasını açın",
-          "description": "Daha hızlı erişim için Bloom Cüzdan'ı ana ekranınıza koymayı öneririz."
-        },
-        "step2": {
-          "description": "Kurtarma ifadenizle bir cüzdan oluşturun veya içe aktarın.",
-          "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar"
-        },
-        "step3": {
-          "description": "Bir cüzdanınız olduktan sonra, Bloom üzerinden bağlanmak için Bağlan'a tıklayın. Uygulamada bağlantıyı onaylamanız için bir bağlantı istemi belirecektir.",
-          "title": "Bağlan'a tıklayın"
-        }
       }
     },
     "bybit": {
@@ -365,6 +383,22 @@
         "step3": {
           "description": "Bybit Cüzdan'ı ayarladıktan sonra, tarayıcıyı yenilemek ve uzantıyı yüklemek için aşağıdaki butona tıklayın.",
           "title": "Tarayıcınızı yenileyin"
+        }
+      }
+    },
+    "binance": {
+      "qr_code": {
+        "step1": {
+          "description": "Cüzdanınıza daha hızlı erişim için Binance'u ana ekranınıza koymanızı öneririz.",
+          "title": "Binance uygulamasını açın"
+        },
+        "step2": {
+          "description": "Telefonunuzdaki yedekleme özelliğimizi kullanarak cüzdanınızı kolayca yedekleyebilirsiniz.",
+          "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar"
+        },
+        "step3": {
+          "description": "Taradıktan sonra, cüzdanınızı bağlamak için bir bağlantı istemi görünecektir.",
+          "title": "CüzdanBağlantısı düğmesine dokunun"
         }
       }
     },
@@ -536,6 +570,22 @@
         }
       }
     },
+    "iopay": {
+      "qr_code": {
+        "step1": {
+          "description": "Cüzdanınıza daha hızlı erişim için ioPay'i ana ekranınıza koymanızı öneririz.",
+          "title": "ioPay uygulamasını açın"
+        },
+        "step2": {
+          "description": "Telefonunuzdaki yedekleme özelliğimizi kullanarak cüzdanınızı kolayca yedekleyebilirsiniz.",
+          "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar"
+        },
+        "step3": {
+          "description": "Taradıktan sonra, cüzdanınızı bağlamak için bir bağlantı istemi görünecektir.",
+          "title": "CüzdanBağlantısı düğmesine dokunun"
+        }
+      }
+    },
     "kaikas": {
       "extension": {
         "step1": {
@@ -555,6 +605,36 @@
         "step1": {
           "title": "Kaikas uygulamasını açın",
           "description": "Cüzdanınıza daha hızlı erişim için Kaikas uygulamasını ana ekranınıza koyun."
+        },
+        "step2": {
+          "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar",
+          "description": "Yeni bir cüzdan oluşturun veya mevcut birini içe aktarın."
+        },
+        "step3": {
+          "title": "Sağ üst köşede Tarayıcı Simgesine dokunun",
+          "description": "Yeni Bağlantı'yı seçin, ardından QR kodunu tarayın ve bağlantıyı onaylamak için istemi onaylayın."
+        }
+      }
+    },
+    "kaia": {
+      "extension": {
+        "step1": {
+          "description": "Cüzdanınıza daha hızlı erişim için Kaia'yı görev çubuğunuza sabitlemenizi öneririz.",
+          "title": "Kaia uzantısını yükleyin"
+        },
+        "step2": {
+          "description": "Cüzdanınızı güvenli bir yöntemle yedeklemeye emin olun. Gizli ifadenizi asla kimseyle paylaşmayın.",
+          "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar"
+        },
+        "step3": {
+          "description": "Cüzdanınızı kurduktan sonra, aşağıya tıklayın ve tarayıcıyı yenileyin ve eklentiyi yükleyin.",
+          "title": "Tarayıcınızı yenileyin"
+        }
+      },
+      "qr_code": {
+        "step1": {
+          "title": "Kaia uygulamasını açın",
+          "description": "Cüzdanınıza daha hızlı erişim için Kaia uygulamasını ana ekranınıza koyun."
         },
         "step2": {
           "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar",
@@ -641,6 +721,22 @@
         "step3": {
           "title": "Tarayıcınızı Yenileyin",
           "description": "Cüzdanınızı ayarladıktan sonra, tarayıcıyı yenilemek ve eklentiyi yüklemek için aşağıya tıklayın."
+        }
+      }
+    },
+    "nestwallet": {
+      "extension": {
+        "step1": {
+          "title": "NestWallet eklentisini yükleyin",
+          "description": "Cüzdanınıza daha hızlı erişim sağlamak için NestWallet'i görev çubuğunuza sabitlemenizi öneririz."
+        },
+        "step2": {
+          "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar",
+          "description": "Cüzdanınızı güvenli bir yöntemle yedeklemeye emin olun. Gizli ifadenizi asla kimseyle paylaşmayın."
+        },
+        "step3": {
+          "title": "Tarayıcınızı yenileyin",
+          "description": "Cüzdanınızı kurduktan sonra, aşağıya tıklayın ve tarayıcıyı yenileyin ve eklentiyi yükleyin."
         }
       }
     },
@@ -876,6 +972,22 @@
         }
       }
     },
+    "paraswap": {
+      "qr_code": {
+        "step1": {
+          "title": "ParaSwap uygulamasını açın",
+          "description": "Cüzdanınıza daha hızlı erişim için ParaSwap Cüzdanınızı ana ekranınıza ekleyin."
+        },
+        "step2": {
+          "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar",
+          "description": "Yeni bir cüzdan oluşturun veya mevcut birini içe aktarın."
+        },
+        "step3": {
+          "title": "QR simgesine dokunun ve tarayın",
+          "description": "Ana ekranınızdaki QR simgesine dokunun, kodu tarayın ve bağlanmayı onaylamak için istemi kabul edin."
+        }
+      }
+    },
     "phantom": {
       "extension": {
         "step1": {
@@ -986,6 +1098,22 @@
         }
       }
     },
+    "wigwam": {
+      "extension": {
+        "step1": {
+          "title": "Wigwam eklentisini yükleyin",
+          "description": "Cüzdanınıza daha hızlı erişim için Wigwam'ı görev çubuğunuza sabitlemenizi öneririz."
+        },
+        "step2": {
+          "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar",
+          "description": "Cüzdanınızı güvenli bir yöntemle yedeklemeye emin olun. Gizli ifadenizi asla kimseyle paylaşmayın."
+        },
+        "step3": {
+          "title": "Tarayıcınızı yenileyin",
+          "description": "Cüzdanınızı kurduktan sonra, aşağıya tıklayın ve tarayıcıyı yenileyin ve eklentiyi yükleyin."
+        }
+      }
+    },
     "talisman": {
       "extension": {
         "step1": {
@@ -1019,6 +1147,20 @@
       }
     },
     "zeal": {
+      "qr_code": {
+        "step1": {
+          "title": "Zeal uygulamasını açın",
+          "description": "Cüzdanınıza daha hızlı erişim için Zeal Cüzdanı ana ekranınıza ekleyin."
+        },
+        "step2": {
+          "title": "Cüzdan Oluştur veya Cüzdanı İçe Aktar",
+          "description": "Yeni bir cüzdan oluşturun veya mevcut birini içe aktarın."
+        },
+        "step3": {
+          "title": "QR simgesine dokunun ve tarayın",
+          "description": "Ana ekranınızdaki QR simgesine dokunun, kodu tarayın ve bağlanmayı onaylamak için istemi kabul edin."
+        }
+      },
       "extension": {
         "step1": {
           "title": "Zeal eklentisini yükleyin",
@@ -1183,6 +1325,22 @@
         "step3": {
           "title": "Kodu tarayın",
           "description": "WalletConnect'e dokunun ve ardından Tarayıcı'ya geçin. Taramadan sonra, cüzdanınızı bağlamak için bir bağlantı istemi belirecektir."
+        }
+      }
+    },
+    "valora": {
+      "qr_code": {
+        "step1": {
+          "title": "Valora uygulamasını açın",
+          "description": "Daha hızlı erişim için Valora'yı ana ekranınıza koymanızı öneririz."
+        },
+        "step2": {
+          "title": "Bir cüzdan oluşturun veya içe aktarın",
+          "description": "Yeni bir cüzdan oluşturun veya mevcut birini içe aktarın."
+        },
+        "step3": {
+          "title": "Tarayıcı düğmesine dokunun",
+          "description": "Taradıktan sonra, cüzdanınızı bağlamak için bir bağlantı istemi görünecektir."
         }
       }
     }

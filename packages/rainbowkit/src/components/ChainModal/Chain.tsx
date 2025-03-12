@@ -1,14 +1,14 @@
 import React, { Fragment, useContext } from 'react';
-import { useSwitchChain } from 'wagmi';
+import type { useSwitchChain } from 'wagmi';
 import { isMobile } from '../../utils/isMobile';
 import { AsyncImage } from '../AsyncImage/AsyncImage';
-import { AsyncImageSrc } from '../AsyncImage/useAsyncImage';
-import { Box, BoxProps } from '../Box/Box';
+import type { AsyncImageSrc } from '../AsyncImage/useAsyncImage';
+import { Box, type BoxProps } from '../Box/Box';
 import { MenuButton } from '../MenuButton/MenuButton';
 import { I18nContext } from '../RainbowKitProvider/I18nContext';
 import {
-  DisabledChain,
-  RainbowKitChain,
+  type DisabledChain,
+  type RainbowKitChain,
   useRainbowKitChains,
 } from '../RainbowKitProvider/RainbowKitChainContext';
 import { Text } from '../Text/Text';

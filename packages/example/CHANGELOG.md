@@ -1,5 +1,116 @@
 # example
 
+## 0.0.111
+
+### Patch Changes
+
+- 182440a: Upgraded `wagmi` to `^2.14.11` and `viem` to `2.23.3`
+- Updated dependencies [f89eb92]
+- Updated dependencies [a765cfc]
+- Updated dependencies [9c9c491]
+- Updated dependencies [f5a7cec]
+- Updated dependencies [e4547b8]
+  - @rainbow-me/rainbowkit@2.2.4
+  - @rainbow-me/rainbow-button@0.2.21
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.5.0
+
+## 0.0.110
+
+### Patch Changes
+
+- Updated dependencies [b5a7878]
+  - @rainbow-me/rainbowkit@2.2.3
+  - @rainbow-me/rainbow-button@0.2.20
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.5.0
+
+## 0.0.109
+
+### Patch Changes
+
+- f533ac2: Upgraded to Next 15 at `15.1.4` and resolved [breaking changes](https://nextjs.org/docs/app/building-your-application/upgrading/version-15). Upgraded to React 19 at `19.0.0` and resolved [breaking changes](https://react.dev/blog/2024/04/25/react-19-upgrade-guide). Upgraded `wagmi` to `^2.14.7`.
+- Updated dependencies [f533ac2]
+  - @rainbow-me/rainbowkit@2.2.2
+  - @rainbow-me/rainbow-button@0.2.19
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.5.0
+
+## 0.0.108
+
+### Patch Changes
+
+- Updated dependencies [3469982]
+- Updated dependencies [0c6af55]
+- Updated dependencies [5b8e146]
+- Updated dependencies [9dd23d9]
+- Updated dependencies [7fceab8]
+  - @rainbow-me/rainbowkit@2.2.1
+  - @rainbow-me/rainbow-button@0.2.18
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.5.0
+
+## 0.0.107
+
+### Patch Changes
+
+- dc31926: Upgraded `wagmi` to `^2.12.17`
+- Updated dependencies [f02bced]
+- Updated dependencies [f02bced]
+  - @rainbow-me/rainbowkit@2.2.0
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.5.0
+  - @rainbow-me/rainbow-button@0.2.17
+
+## 0.0.106
+
+### Patch Changes
+
+- Updated dependencies [f93cd0e]
+- Updated dependencies [4014d80]
+- Updated dependencies [6393498]
+  - @rainbow-me/rainbowkit@2.1.7
+  - @rainbow-me/rainbow-button@0.2.16
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.4.1
+
+## 0.0.105
+
+### Patch Changes
+
+- 63d8386: Added Valora support with `valoraWallet` wallet connector
+- 17c22b2: Upgraded `wagmi` to `^2.12.9`
+- Updated dependencies [63d8386]
+- Updated dependencies [8d9a4e6]
+- Updated dependencies [d46637a]
+  - @rainbow-me/rainbowkit@2.1.6
+  - @rainbow-me/rainbow-button@0.2.15
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.4.1
+
+## 0.0.104
+
+### Patch Changes
+
+- c08f620: Added `zh-HK` and `zh-TW` locales for Traditional Chinese language support
+- f65b5c4: Add icon for Celo chain
+- Updated dependencies [c08f620]
+- Updated dependencies [675f9dd]
+- Updated dependencies [f65b5c4]
+- Updated dependencies [9c36bfd]
+  - @rainbow-me/rainbowkit@2.1.5
+  - @rainbow-me/rainbow-button@0.2.14
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.4.1
+
+## 0.0.103
+
+### Patch Changes
+
+- 4cff94d: - updated `wagmi` to `^2.12.0`
+  - updated `viem` to `2.17.0`
+  - update `@tanstack/react-query` to `^5.51.11`
+- Updated dependencies [b530c80]
+- Updated dependencies [7f6e36e]
+- Updated dependencies [2eeb7b9]
+- Updated dependencies [72fe07d]
+- Updated dependencies [d02d73f]
+  - @rainbow-me/rainbowkit@2.1.4
+  - @rainbow-me/rainbow-button@0.2.13
+  - @rainbow-me/rainbowkit-siwe-next-auth@0.4.1
+
 ## 0.0.102
 
 ### Patch Changes

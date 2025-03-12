@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import type { Address } from 'viem';
 import { useEnsName } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
 import { useIsMainnetConfigured } from './useIsMainnetConfigured';

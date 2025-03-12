@@ -230,6 +230,38 @@
         }
       }
     },
+    "berasig": {
+      "extension": {
+        "step1": {
+          "title": "Installez l'extension BeraSig",
+          "description": "Nous vous recommandons d'épingler BeraSig à votre barre des tâches pour un accès plus facile à votre portefeuille."
+        },
+        "step2": {
+          "title": "Créer un Portefeuille",
+          "description": "Assurez-vous de sauvegarder votre portefeuille en utilisant une méthode sécurisée. Ne partagez jamais votre phrase secrète avec quiconque."
+        },
+        "step3": {
+          "title": "Rafraîchissez votre navigateur",
+          "description": "Une fois que vous avez configuré votre portefeuille, cliquez ci-dessous pour actualiser le navigateur et charger l'extension."
+        }
+      }
+    },
+    "best": {
+      "qr_code": {
+        "step1": {
+          "title": "Ouvrez l'application Best Wallet",
+          "description": "Ajoutez Best Wallet à votre écran d'accueil pour un accès plus rapide à votre portefeuille."
+        },
+        "step2": {
+          "title": "Créer ou Importer un Portefeuille",
+          "description": "Créez un nouveau portefeuille ou importez-en un existant."
+        },
+        "step3": {
+          "title": "Touchez l'icône QR et scannez",
+          "description": "Touchez l'icône QR sur votre écran d'accueil, scannez le code et confirmez l'invite pour vous connecter."
+        }
+      }
+    },
     "bifrost": {
       "qr_code": {
         "step1": {
@@ -322,20 +354,6 @@
           "description": "Après avoir obtenu un portefeuille, cliquez sur Connecter pour vous connecter via Bloom. Une invite de connexion apparaîtra dans l'application pour que vous confirmiez la connexion.",
           "title": "Cliquez sur Connecter"
         }
-      },
-      "qr_code": {
-        "step1": {
-          "title": "Ouvrez l'application Bloom Wallet",
-          "description": "Nous recommandons de placer Bloom Wallet sur votre écran d'accueil pour un accès plus rapide."
-        },
-        "step2": {
-          "description": "Créez ou importez un portefeuille en utilisant votre phrase de récupération.",
-          "title": "Créer ou Importer un Portefeuille"
-        },
-        "step3": {
-          "description": "Après avoir obtenu un portefeuille, cliquez sur Connecter pour vous connecter via Bloom. Une invite de connexion apparaîtra dans l'application pour que vous confirmiez la connexion.",
-          "title": "Cliquez sur Connecter"
-        }
       }
     },
     "bybit": {
@@ -365,6 +383,22 @@
         "step3": {
           "description": "Une fois que vous avez configuré Bybit Wallet, cliquez ci-dessous pour rafraîchir le navigateur et charger l'extension.",
           "title": "Rafraîchissez votre navigateur"
+        }
+      }
+    },
+    "binance": {
+      "qr_code": {
+        "step1": {
+          "description": "Nous vous recommandons de mettre Binance sur votre écran d'accueil pour un accès plus rapide à votre portefeuille.",
+          "title": "Ouvrez l'application Binance"
+        },
+        "step2": {
+          "description": "Vous pouvez facilement sauvegarder votre portefeuille en utilisant notre fonction de sauvegarde sur votre téléphone.",
+          "title": "Créer ou Importer un Portefeuille"
+        },
+        "step3": {
+          "description": "Après avoir numérisé, une invite de connexion apparaîtra pour vous permettre de connecter votre portefeuille.",
+          "title": "Appuyez sur le bouton WalletConnect"
         }
       }
     },
@@ -536,6 +570,22 @@
         }
       }
     },
+    "iopay": {
+      "qr_code": {
+        "step1": {
+          "description": "Nous recommandons de placer ioPay sur votre écran d'accueil pour un accès plus rapide à votre portefeuille.",
+          "title": "Ouvrez l'application ioPay"
+        },
+        "step2": {
+          "description": "Vous pouvez facilement sauvegarder votre portefeuille en utilisant notre fonction de sauvegarde sur votre téléphone.",
+          "title": "Créer ou Importer un Portefeuille"
+        },
+        "step3": {
+          "description": "Après avoir numérisé, une invite de connexion apparaîtra pour vous permettre de connecter votre portefeuille.",
+          "title": "Appuyez sur le bouton WalletConnect"
+        }
+      }
+    },
     "kaikas": {
       "extension": {
         "step1": {
@@ -555,6 +605,36 @@
         "step1": {
           "title": "Ouvrez l'application Kaikas",
           "description": "Placez l'application Kaikas sur votre écran d'accueil pour un accès plus rapide à votre portefeuille."
+        },
+        "step2": {
+          "title": "Créer ou Importer un Portefeuille",
+          "description": "Créez un nouveau portefeuille ou importez-en un existant."
+        },
+        "step3": {
+          "title": "Appuyez sur l'icône du scanner dans le coin supérieur droit",
+          "description": "Choisissez Nouvelle Connexion, puis scannez le code QR et confirmez l'invite pour vous connecter."
+        }
+      }
+    },
+    "kaia": {
+      "extension": {
+        "step1": {
+          "description": "Nous vous recommandons d'épingler Kaia à votre barre des tâches pour un accès plus rapide à votre portefeuille.",
+          "title": "Installez l'extension Kaia"
+        },
+        "step2": {
+          "description": "Assurez-vous de sauvegarder votre portefeuille en utilisant une méthode sécurisée. Ne partagez jamais votre phrase secrète avec quiconque.",
+          "title": "Créer ou Importer un Portefeuille"
+        },
+        "step3": {
+          "description": "Une fois que vous avez configuré votre portefeuille, cliquez ci-dessous pour actualiser le navigateur et charger l'extension.",
+          "title": "Rafraîchissez votre navigateur"
+        }
+      },
+      "qr_code": {
+        "step1": {
+          "title": "Ouvrez l'application Kaia",
+          "description": "Mettez l'application Kaia sur votre écran d'accueil pour un accès plus rapide à votre portefeuille."
         },
         "step2": {
           "title": "Créer ou Importer un Portefeuille",
@@ -641,6 +721,22 @@
         "step3": {
           "title": "Rafraîchissez votre navigateur",
           "description": "Une fois que vous avez configuré votre portefeuille, cliquez ci-dessous pour rafraîchir le navigateur et charger l'extension."
+        }
+      }
+    },
+    "nestwallet": {
+      "extension": {
+        "step1": {
+          "title": "Installez l'extension NestWallet",
+          "description": "Nous vous recommandons d'épingler NestWallet à votre barre des tâches pour un accès plus rapide à votre portefeuille."
+        },
+        "step2": {
+          "title": "Créer ou Importer un Portefeuille",
+          "description": "Assurez-vous de sauvegarder votre portefeuille en utilisant une méthode sécurisée. Ne partagez jamais votre phrase secrète avec quiconque."
+        },
+        "step3": {
+          "title": "Rafraîchissez votre navigateur",
+          "description": "Une fois que vous avez configuré votre portefeuille, cliquez ci-dessous pour actualiser le navigateur et charger l'extension."
         }
       }
     },
@@ -876,6 +972,22 @@
         }
       }
     },
+    "paraswap": {
+      "qr_code": {
+        "step1": {
+          "title": "Ouvrez l'application ParaSwap",
+          "description": "Ajoutez ParaSwap Wallet à votre écran d'accueil pour un accès plus rapide à votre portefeuille."
+        },
+        "step2": {
+          "title": "Créer ou Importer un Portefeuille",
+          "description": "Créez un nouveau portefeuille ou importez-en un existant."
+        },
+        "step3": {
+          "title": "Touchez l'icône QR et scannez",
+          "description": "Touchez l'icône QR sur votre écran d'accueil, scannez le code et confirmez l'invite pour vous connecter."
+        }
+      }
+    },
     "phantom": {
       "extension": {
         "step1": {
@@ -986,6 +1098,22 @@
         }
       }
     },
+    "wigwam": {
+      "extension": {
+        "step1": {
+          "title": "Installez l'extension Wigwam",
+          "description": "Nous vous recommandons d'épingler Wigwam à votre barre des tâches pour un accès plus rapide à votre portefeuille."
+        },
+        "step2": {
+          "title": "Créer ou Importer un Portefeuille",
+          "description": "Assurez-vous de sauvegarder votre portefeuille en utilisant une méthode sécurisée. Ne partagez jamais votre phrase secrète avec quiconque."
+        },
+        "step3": {
+          "title": "Rafraîchissez votre navigateur",
+          "description": "Une fois que vous avez configuré votre portefeuille, cliquez ci-dessous pour actualiser le navigateur et charger l'extension."
+        }
+      }
+    },
     "talisman": {
       "extension": {
         "step1": {
@@ -1019,6 +1147,20 @@
       }
     },
     "zeal": {
+      "qr_code": {
+        "step1": {
+          "title": "Ouvrez l'application Zeal",
+          "description": "Ajoutez Zeal Wallet à votre écran d'accueil pour un accès plus rapide à votre portefeuille."
+        },
+        "step2": {
+          "title": "Créer ou Importer un Portefeuille",
+          "description": "Créez un nouveau portefeuille ou importez-en un existant."
+        },
+        "step3": {
+          "title": "Touchez l'icône QR et scannez",
+          "description": "Touchez l'icône QR sur votre écran d'accueil, scannez le code et confirmez l'invite pour vous connecter."
+        }
+      },
       "extension": {
         "step1": {
           "title": "Installez l'extension Zeal",
@@ -1183,6 +1325,22 @@
         "step3": {
           "title": "Scannez le code",
           "description": "Appuyez sur WalletConnect puis passez au Scanner. Une fois que vous avez scanné, une invite de connexion apparaîtra pour que vous puissiez connecter votre portefeuille."
+        }
+      }
+    },
+    "valora": {
+      "qr_code": {
+        "step1": {
+          "title": "Ouvrez l'application Valora",
+          "description": "Nous vous recommandons de mettre Valora sur votre écran d'accueil pour un accès plus rapide."
+        },
+        "step2": {
+          "title": "Créer ou importer un portefeuille",
+          "description": "Créez un nouveau portefeuille ou importez-en un existant."
+        },
+        "step3": {
+          "title": "Appuyez sur le bouton de scan",
+          "description": "Après avoir numérisé, une invite de connexion apparaîtra pour vous permettre de connecter votre portefeuille."
         }
       }
     }

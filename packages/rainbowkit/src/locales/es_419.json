@@ -230,6 +230,38 @@
         }
       }
     },
+    "berasig": {
+      "extension": {
+        "step1": {
+          "title": "Instala la extensión BeraSig",
+          "description": "Recomendamos anclar BeraSig a tu barra de tareas para acceder más fácilmente a tu cartera."
+        },
+        "step2": {
+          "title": "Crea una Cartera",
+          "description": "Asegúrese de respaldar su billetera utilizando un método seguro. Nunca comparta su frase secreta con nadie."
+        },
+        "step3": {
+          "title": "Refrescar tu navegador",
+          "description": "Una vez que configures tu billetera, haz clic a continuación para refrescar el navegador y cargar la extensión."
+        }
+      }
+    },
+    "best": {
+      "qr_code": {
+        "step1": {
+          "title": "Abre la aplicación Best Wallet",
+          "description": "Agrega Best Wallet a tu pantalla de inicio para un acceso más rápido a tu billetera."
+        },
+        "step2": {
+          "title": "Crear o Importar una Billetera",
+          "description": "Crea una nueva billetera o importa una existente."
+        },
+        "step3": {
+          "title": "Toque el icono de QR y escanee",
+          "description": "Toca el icono QR en tu pantalla de inicio, escanea el código y confirma el prompt para conectar."
+        }
+      }
+    },
     "bifrost": {
       "qr_code": {
         "step1": {
@@ -322,20 +354,6 @@
           "description": "Después de tener una billetera, haga clic en Conectar para conectarse a través de Bloom. Aparecerá un aviso de conexión en la aplicación para que confirme la conexión.",
           "title": "Haga clic en Conectar"
         }
-      },
-      "qr_code": {
-        "step1": {
-          "title": "Abra la aplicación Bloom Wallet",
-          "description": "Recomendamos colocar Bloom Wallet en su pantalla de inicio para un acceso más rápido."
-        },
-        "step2": {
-          "description": "Cree o importe una billetera usando su frase de recuperación.",
-          "title": "Crear o Importar una Billetera"
-        },
-        "step3": {
-          "description": "Después de tener una billetera, haga clic en Conectar para conectarse a través de Bloom. Aparecerá un aviso de conexión en la aplicación para que confirme la conexión.",
-          "title": "Haga clic en Conectar"
-        }
       }
     },
     "bybit": {
@@ -365,6 +383,22 @@
         "step3": {
           "description": "Una vez que haya configurado Bybit Wallet, haga clic a continuación para actualizar el navegador y cargar la extensión.",
           "title": "Refrescar tu navegador"
+        }
+      }
+    },
+    "binance": {
+      "qr_code": {
+        "step1": {
+          "description": "Recomendamos poner Binance en tu pantalla de inicio para un acceso más rápido a tu billetera.",
+          "title": "Abre la aplicación Binance"
+        },
+        "step2": {
+          "description": "Puede respaldar fácilmente su billetera utilizando nuestra función de respaldo en su teléfono.",
+          "title": "Crear o Importar una Billetera"
+        },
+        "step3": {
+          "description": "Después de escanear, aparecerá un mensaje de conexión para que conecte su billetera.",
+          "title": "Toque el botón WalletConnect"
         }
       }
     },
@@ -536,6 +570,22 @@
         }
       }
     },
+    "iopay": {
+      "qr_code": {
+        "step1": {
+          "description": "Recomendamos poner ioPay en tu pantalla de inicio para un acceso más rápido a tu billetera.",
+          "title": "Abre la aplicación ioPay"
+        },
+        "step2": {
+          "description": "Puede respaldar fácilmente su billetera utilizando nuestra función de respaldo en su teléfono.",
+          "title": "Crear o Importar una Billetera"
+        },
+        "step3": {
+          "description": "Después de escanear, aparecerá un mensaje de conexión para que conecte su billetera.",
+          "title": "Toque el botón WalletConnect"
+        }
+      }
+    },
     "kaikas": {
       "extension": {
         "step1": {
@@ -555,6 +605,36 @@
         "step1": {
           "title": "Abra la aplicación Kaikas",
           "description": "Ponga la aplicación Kaikas en su pantalla de inicio para un acceso más rápido a su billetera."
+        },
+        "step2": {
+          "title": "Crear o Importar una Billetera",
+          "description": "Crea una nueva billetera o importa una existente."
+        },
+        "step3": {
+          "title": "Toca el Icono del Escáner en la esquina superior derecha",
+          "description": "Elija Nueva Conexión, luego escanee el código QR y confirme el aviso para conectar."
+        }
+      }
+    },
+    "kaia": {
+      "extension": {
+        "step1": {
+          "description": "Recomendamos anclar Kaia a tu barra de tareas para un acceso más rápido a tu billetera.",
+          "title": "Instala la extensión Kaia"
+        },
+        "step2": {
+          "description": "Asegúrese de respaldar su billetera utilizando un método seguro. Nunca comparta su frase secreta con nadie.",
+          "title": "Crear o Importar una Billetera"
+        },
+        "step3": {
+          "description": "Una vez que configures tu billetera, haz clic a continuación para refrescar el navegador y cargar la extensión.",
+          "title": "Refrescar tu navegador"
+        }
+      },
+      "qr_code": {
+        "step1": {
+          "title": "Abre la aplicación Kaia",
+          "description": "Pon la aplicación Kaia en tu pantalla de inicio para un acceso más rápido a tu billetera."
         },
         "step2": {
           "title": "Crear o Importar una Billetera",
@@ -641,6 +721,22 @@
         "step3": {
           "title": "Refresca tu navegador",
           "description": "Una vez que configures tu billetera, haz clic abajo para refrescar el navegador y cargar la extensión."
+        }
+      }
+    },
+    "nestwallet": {
+      "extension": {
+        "step1": {
+          "title": "Instala la extensión NestWallet",
+          "description": "Recomendamos fijar NestWallet a tu barra de tareas para un acceso más rápido a tu billetera."
+        },
+        "step2": {
+          "title": "Crear o Importar una Billetera",
+          "description": "Asegúrese de respaldar su billetera utilizando un método seguro. Nunca comparta su frase secreta con nadie."
+        },
+        "step3": {
+          "title": "Refrescar tu navegador",
+          "description": "Una vez que configures tu billetera, haz clic a continuación para refrescar el navegador y cargar la extensión."
         }
       }
     },
@@ -876,6 +972,22 @@
         }
       }
     },
+    "paraswap": {
+      "qr_code": {
+        "step1": {
+          "title": "Abre la aplicación ParaSwap",
+          "description": "Agrega ParaSwap Wallet a tu pantalla de inicio para un acceso más rápido a tu billetera."
+        },
+        "step2": {
+          "title": "Crear o Importar una Billetera",
+          "description": "Crea una nueva billetera o importa una existente."
+        },
+        "step3": {
+          "title": "Toque el icono de QR y escanee",
+          "description": "Toca el icono QR en tu pantalla de inicio, escanea el código y confirma el prompt para conectar."
+        }
+      }
+    },
     "phantom": {
       "extension": {
         "step1": {
@@ -986,6 +1098,22 @@
         }
       }
     },
+    "wigwam": {
+      "extension": {
+        "step1": {
+          "title": "Instale la extensión Wigwam",
+          "description": "Recomendamos anclar Wigwam a tu barra de tareas para un acceso más rápido a tu billetera."
+        },
+        "step2": {
+          "title": "Crear o Importar una Billetera",
+          "description": "Asegúrese de respaldar su billetera utilizando un método seguro. Nunca comparta su frase secreta con nadie."
+        },
+        "step3": {
+          "title": "Refrescar tu navegador",
+          "description": "Una vez que configures tu billetera, haz clic a continuación para refrescar el navegador y cargar la extensión."
+        }
+      }
+    },
     "talisman": {
       "extension": {
         "step1": {
@@ -1019,6 +1147,20 @@
       }
     },
     "zeal": {
+      "qr_code": {
+        "step1": {
+          "title": "Abre la aplicación Zeal",
+          "description": "Agrega Zeal Wallet a tu pantalla de inicio para un acceso más rápido a tu billetera."
+        },
+        "step2": {
+          "title": "Crear o Importar una Billetera",
+          "description": "Crea una nueva billetera o importa una existente."
+        },
+        "step3": {
+          "title": "Toque el icono de QR y escanee",
+          "description": "Toca el icono QR en tu pantalla de inicio, escanea el código y confirma el prompt para conectar."
+        }
+      },
       "extension": {
         "step1": {
           "title": "Instale la extensión Zeal",
@@ -1183,6 +1325,22 @@
         "step3": {
           "title": "Escanea el código",
           "description": "Toca WalletConnect y luego cambia a Scanner. Después de escanear, aparecerá un aviso de conexión para que conectes tu billetera."
+        }
+      }
+    },
+    "valora": {
+      "qr_code": {
+        "step1": {
+          "title": "Abre la aplicación Valora",
+          "description": "Recomendamos poner Valora en tu pantalla de inicio para un acceso más rápido."
+        },
+        "step2": {
+          "title": "Crear o Importar una billetera",
+          "description": "Crea una nueva billetera o importa una existente."
+        },
+        "step3": {
+          "title": "Toque el botón de escaneo",
+          "description": "Después de escanear, aparecerá un mensaje de conexión para que conecte su billetera."
         }
       }
     }

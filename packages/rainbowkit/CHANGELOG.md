@@ -349,6 +349,261 @@
 - 985b80b: Resolved an issue where ENS resolution would fail and throw an error for ENS names with disallowed characters.
 - b25db9a: Added `blast` and `blastSepolia` network support
 
+## 2.2.4
+
+### Patch Changes
+
+- f5a7cec: Added support for Unichain
+- a765cfc: Added support for ApeChain, Berachain, Degen, Gravity, Ink, Linea, and Sanko
+- 9c9c491: Added Backpack support with `backpackWallet` wallet connector
+- f89eb92: Improved support for the Binance Wallet dApp browser
+- a765cfc: Updated icons for Arbitrum, Blast, Gnosis, Scroll, and zkSync
+- e4547b8: Added icon for HyperEVM chain
+
+## 2.2.3
+
+### Patch Changes
+
+- b5a7878: Updated OP Mainnet branding
+
+## 2.2.2
+
+### Patch Changes
+
+- f533ac2: Support for React 19.
+
+## 2.2.1
+
+### Patch Changes
+
+- 3469982: Added Wigwam support with `wigwamWallet` wallet connector
+- 0c6af55: Added icon for Flow chain
+- 5b8e146: Added `de-DE` and `de` locale support for the German language.
+- 9dd23d9: Added BeraSig support with `berasigWallet` wallet connector
+- 7fceab8: Added `ms-MY` and `ms` locale support for the Malay language.
+
+## 2.2.0
+
+### Minor Changes
+
+- f02bced: The Authentication API now supports ERC-1271 and ERC-6492 for smart contract signature verification to enable Sign-in with Ethereum for Smart Contract Wallets, including Coinbase Smart Wallet and Argent.
+
+  We have also deprecated the `siwe` and `ethers` peer dependencies in favor of `viem/siwe` to make RainbowKit even more seamless.
+
+  No changes are necessary for dApps that don't rely on the Authentication API.
+
+  Follow the appropriate steps below to migrate.
+
+  **NextAuth Authentication**
+
+  1. Remove `siwe` and `ethers`
+
+  ```bash
+  npm uninstall siwe ethers
+  ```
+
+  2. Upgrade RainbowKit, `rainbowkit-siwe-next-auth`, and `viem`
+
+  ```bash
+  npm i @rainbow-me/rainbowkit@^2.2.0 rainbow-me/rainbowkit-siwe-next-auth@^0.5.0 viem@^2.12.0
+  ```
+
+  3. Create a Public Client
+
+  This allows `viem` to verify smart contract signatures.
+
+  ```diff
+  const config = getDefaultConfig({
+    /* your config */
+  });
+  + const publicClient = config.getClient().extend(publicActions);
+  ```
+
+  4. Adjust your `authorize` implementation in `/api/auth/[...nextauth].ts`
+
+  ```diff
+  - import { SiweMessage } from 'siwe';
+  + import {
+  +   type SiweMessage,
+  +   parseSiweMessage,
+  +   validateSiweMessage,
+  + } from 'viem/siwe';
+
+  export function getAuthOptions(req: IncomingMessage): NextAuthOptions {
+    const providers = [
+      CredentialsProvider({
+        async authorize(credentials: any) {
+
+  -       const siwe = new SiweMessage(
+  -         JSON.parse(credentials?.message || '{}'),
+  -       );
+  +       const siweMessage = parseSiweMessage(
+  +         credentials?.message,
+  +       ) as SiweMessage;
+
+  +       if (!validateSiweMessage({
+  +         address: siweMessage?.address,
+  +         message: siweMessage,
+  +       })) {
+  +         return null;
+  +       }
+
+          /* ... */
+
+  -       await siwe.verify({ signature: credentials?.signature || '' });
+  +       const valid = await publicClient.verifyMessage({
+  +         address: siweMessage?.address,
+  +         message: credentials?.message,
+  +         signature: credentials?.signature,
+  +       });
+
+  +       if (!valid) {
+  +         return null;
+  +       }
+        },
+        /* ... */
+      })
+    ]
+  }
+  ```
+
+  Reference the [with-next-siwe-next-auth](https://github.com/rainbow-me/rainbowkit/tree/main/examples/with-next-siwe-next-auth) example for more guidance.
+
+  **Custom Authentication**
+
+  1. Remove `siwe` and `ethers`
+
+  ```bash
+  npm uninstall siwe ethers
+  ```
+
+  2. Upgrade RainbowKit and `viem`
+
+  ```bash
+  npm i @rainbow-me/rainbowkit@^2.2.0 viem@^2.12.0
+  ```
+
+  3. Create a Public Client
+
+  This allows `viem` to verify smart contract signatures.
+
+  ```diff
+  const config = getDefaultConfig({
+    /* your config */
+  });
+
+  + const publicClient = config.getClient().extend(publicActions);
+  ```
+
+  4. Adjust your `createAuthenticationAdapter` implementation
+
+  ```diff
+  - import { SiweMessage } from 'siwe';
+  + import { createSiweMessage } from 'viem/siwe';
+
+  createAuthenticationAdapter({
+    getNonce: async () => {
+      const response = await fetch('/api/nonce');
+      return await response.text();
+    },
+
+    createMessage: ({ nonce, address, chainId }) => {
+  -   return new SiweMessage({
+  +   return createSiweMessage({
+        domain: window.location.host,
+        address,
+        statement: 'Sign in with Ethereum to the app.',
+        uri: window.location.origin,
+        version: '1',
+        chainId,
+        nonce,
+      });
+    },
+
+  - getMessageBody: ({ message }) => {
+  -   return message.prepareMessage();
+  - },
+
+    /* ... */
+  })
+  ```
+
+  5. Adopt `generateSiweNonce`
+
+  ```diff
+  - import { generateNonce } from 'siwe';
+  + import { generateSiweNonce } from 'viem/siwe';
+
+  - req.session.nonce = generateNonce();
+  + req.session.nonce = generateSiweNonce();
+  ```
+
+  6. Adopt `parseSiweMessage` and `verifyMessage` if your Verify handler
+
+  ```diff
+  - import { SiweMessage } from 'siwe';
+  + import { parseSiweMessage, type SiweMessage } from 'viem/siwe';
+
+  const { message, signature } = req.body;
+  - const siweMessage = new SiweMessage(message);
+  - const { success, error, data } = await siweMessage.verify({
+  -  signature,
+  - });
+  + const siweMessage = parseSiweMessage(message) as SiweMessage;
+  + const success = await publicClient.verifyMessage({
+  +   address: siweMessage.address,
+  +   message,
+  +   signature,
+  + });
+
+  - if (!success) throw error;
+  + if (!success) throw new Error('Invalid signature.');
+
+  - if (data.nonce !== req.session.nonce)
+  + if (siweMessage.nonce !== req.session.nonce)
+  +   return res.status(422).json({ message: 'Invalid nonce.' });
+  ```
+
+  Reference the [with-next-siwe-iron-session](https://github.com/rainbow-me/rainbowkit/tree/main/examples/with-next-siwe-iron-session) example for more guidance.
+
+## 2.1.7
+
+### Patch Changes
+
+- 4014d80: Added `vi-VN` and `vi` locale support for the Vietnamese language.
+- f93cd0e: Added ParaSwap Wallet support with `paraSwapWallet` wallet connector
+- 6393498: Added Best Wallet support with `bestWallet` wallet connector
+
+## 2.1.6
+
+### Patch Changes
+
+- 63d8386: Added Valora support with `valoraWallet` wallet connector
+- 8d9a4e6: Fixed an issue where some options in the "Get Wallet" flow would appear as a blank page, or lack a back button to return to the Connect flow.
+- d46637a: Added `safeWallet` wallet connector to `getDefaultConfig` by default to improve the Safe Wallet app browser connection flow with a Safe button included by default in the wallet list
+
+## 2.1.5
+
+### Patch Changes
+
+- c08f620: Added `zh-HK` and `zh-TW` locales for Traditional Chinese language support. You can also specify `zh-Hans` and `zh-Hant` locales to refer to the writing systems directly.
+
+  Reference [our guide](https://www.rainbowkit.com/docs/localization) to learn more about Localization.
+
+- 675f9dd: Add icon for Gnosis Chain
+- f65b5c4: Add icon for Celo chain
+- 9c36bfd: Added Kaia Wallet support with `kaiaWallet` wallet connector
+
+## 2.1.4
+
+### Patch Changes
+
+- b530c80: Added mobile support for `zealWallet` wallet connector
+- 7f6e36e: Added missing `rdns` property to some wallets. This helps them work with EIP-6963 connectors.
+- 2eeb7b9: Improved the Safe Wallet app browser connection flow with a Safe button included by default in the wallet list
+- 72fe07d: Added Binance Web3 Wallet support with `binanceWallet` wallet connector
+- d02d73f: Resolved an issue where the Phantom wallet did not appear as an EIP-6963 connector.
+
 ## 2.1.3
 
 ### Patch Changes

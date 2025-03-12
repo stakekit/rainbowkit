@@ -1,4 +1,9 @@
-import React, { ComponentProps, useContext, useMemo, useState } from 'react';
+import React, {
+  type ComponentProps,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import { useAccount, useConfig, useDisconnect, useSwitchChain } from 'wagmi';
 import { isMobile } from '../../utils/isMobile';
 import { Box } from '../Box/Box';
@@ -9,8 +14,8 @@ import { DisconnectSqIcon } from '../Icons/DisconnectSq';
 import { MenuButton } from '../MenuButton/MenuButton';
 import { I18nContext } from '../RainbowKitProvider/I18nContext';
 import {
-  DisabledChain,
-  RainbowKitChain,
+  type DisabledChain,
+  type RainbowKitChain,
   useRainbowKitChains,
   useRainbowKitDisabledChains,
   useRainbowKitOnDisabledChainClick,
@@ -100,7 +105,12 @@ export function ChainModal({ onClose, open, dialogRoot }: ChainModalProps) {
         enabled: false,
       })),
     ],
-    [rainbowkitChains, rainbowkitDisabledChains, connectorChainsMap],
+    [
+      rainbowkitChains,
+      rainbowkitDisabledChains,
+      connectorChainsMap,
+      rainbowkitDisabledChainsMap,
+    ],
   );
 
   if (!activeChainId) {
