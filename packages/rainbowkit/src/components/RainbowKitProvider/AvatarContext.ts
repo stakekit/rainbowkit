@@ -11,4 +11,6 @@ export type AvatarComponent = React.FunctionComponent<AvatarComponentProps>;
 
 export const defaultAvatar = EmojiAvatar;
 
-export const AvatarContext = createContext<AvatarComponent>(defaultAvatar);
+export const AvatarContext = createContext<AvatarComponent | null>(
+  defaultAvatar,
+);

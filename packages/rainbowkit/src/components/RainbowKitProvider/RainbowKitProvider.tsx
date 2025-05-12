@@ -76,7 +76,7 @@ export interface RainbowKitProviderProps {
     disclaimer?: DisclaimerComponent;
   };
   coolMode?: boolean;
-  avatar?: AvatarComponent;
+  avatar?: AvatarComponent | null;
   modalSize?: ModalSizes;
   locale?: Locale;
   dialogRoot?: Element;
@@ -120,7 +120,7 @@ export function RainbowKitProvider({
     ...appInfo,
   };
 
-  const avatarContext = avatar ?? defaultAvatar;
+  const avatarContext = typeof avatar === 'undefined' ? defaultAvatar : avatar;
 
   return (
     <RainbowKitChainProvider
