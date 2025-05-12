@@ -13,6 +13,10 @@ interface AvatarProps {
 export function Avatar({ address, imageUrl, loading, size }: AvatarProps) {
   const AvatarComponent = useContext(AvatarContext);
 
+  if (!AvatarComponent) {
+    return null;
+  }
+
   return (
     <Box
       aria-hidden
