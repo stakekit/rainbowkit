@@ -68,6 +68,7 @@ typings/
 .env
 .env.test
 .env.local
+.envrc
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -106,3 +107,4 @@ dist
 # Others
 .DS_Store
 
+node-compile-cache/

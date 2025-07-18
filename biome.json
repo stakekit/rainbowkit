@@ -8,7 +8,10 @@
       "tsconfig.json",
       "tsconfig.*.json",
       "./packages/create-rainbowkit/generated-test-app/",
-      "build/"
+      "build/",
+      ".react-router",
+      "examples/with-next-mint-nft/contract/",
+      "packages/rainbowkit/assets/wallets/registry.json"
     ]
   },
   "formatter": {
