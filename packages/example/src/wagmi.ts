@@ -59,8 +59,10 @@ import {
   walletConnectWallet,
   wigwamWallet,
   xdefiWallet,
+  xPortalWallet,
   zealWallet,
   zerionWallet,
+  zilPayWallet,
 } from '@stakekit/rainbowkit/wallets';
 import { publicActions } from 'viem';
 import {
@@ -94,6 +96,7 @@ import {
   scroll,
   scrollSepolia,
   sepolia,
+  superposition,
   unichain,
   unichainSepolia,
   zksync,
@@ -128,6 +131,8 @@ const avalanche = {
 // Testing `preference` type
 coinbaseWallet.preference = 'all';
 
+// TODO: Add subAccounts, paymasterUrls
+
 export const config = getDefaultConfig({
   appName: 'RainbowKit Demo',
   projectId,
@@ -146,6 +151,7 @@ export const config = getDefaultConfig({
     gravity,
     ink,
     sanko,
+    superposition,
     unichain,
     zora,
     linea,
@@ -241,8 +247,10 @@ export const config = getDefaultConfig({
         valoraWallet,
         wigwamWallet,
         xdefiWallet,
+        xPortalWallet,
         zealWallet,
         zerionWallet,
+        zilPayWallet,
       ],
     },
   ],

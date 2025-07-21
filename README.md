@@ -2,7 +2,7 @@
   <img alt="rainbowkit" src="https://user-images.githubusercontent.com/372831/168174718-685980e0-391e-4621-94a1-29bf83979fa5.png" />
 </a>
 
-# RainbowKit
+# RainbowKit &nbsp; [![Version](https://img.shields.io/npm/v/@rainbow-me/rainbowkit?colorA=1f2937&colorB=3b82f6&labelColor=1f2937)](https://www.npmjs.com/package/@rainbow-me/rainbowkit) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rainbow-me/rainbowkit)
 
 **The best way to connect a wallet 🌈**
 
@@ -37,6 +37,7 @@ You can use the CodeSandbox links below to try out RainbowKit:
 - with [Next.js App Router](https://codesandbox.io/p/sandbox/github/rainbow-me/rainbowkit/tree/main/examples/with-next-app)
 - with [Remix](https://codesandbox.io/p/sandbox/github/rainbow-me/rainbowkit/tree/main/examples/with-remix)
 - with [Vite](https://codesandbox.io/p/sandbox/github/rainbow-me/rainbowkit/tree/main/examples/with-vite)
+- with [React Router](https://codesandbox.io/p/sandbox/github/rainbow-me/rainbowkit/tree/main/examples/with-react-router)
 
 ## Examples
 
@@ -51,6 +52,7 @@ The following examples are provided in the [examples](./examples/) folder of thi
 - `with-next-siwe-iron-session`
 - `with-remix`
 - `with-vite`
+- `with-react-router`
 
 ### Running examples
 
