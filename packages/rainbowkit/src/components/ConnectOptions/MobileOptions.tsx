@@ -24,6 +24,10 @@ import { useCoolMode } from '../RainbowKitProvider/useCoolMode';
 import { setWalletConnectDeepLink } from '../RainbowKitProvider/walletConnectDeepLink';
 import { Text } from '../Text/Text';
 import * as styles from './MobileOptions.css';
+import type { ChainGroup } from '../../wallets/Wallet';
+import { indexBy } from '../../utils/indexBy';
+import { groupBy } from '../../utils/groupBy';
+import { ModalSelection } from '../ModalSelection/ModalSelection';
 
 const LoadingSpinner = ({ wallet }: { wallet: WalletConnector }) => {
   const width = 80;
@@ -203,6 +207,7 @@ export function WalletButton({
 }
 
 enum MobileWalletStep {
+  SelectChainGroup = 'SELECT_CHAIN_GROUP',
   Connect = 'CONNECT',
   Get = 'GET',
 }
@@ -214,23 +219,72 @@ export function MobileOptions({ onClose }: { onClose: () => void }) {
   );
   const { disclaimer: Disclaimer, learnMoreUrl } = useContext(AppContext);
 
+  const chainGroups = indexBy(
+    wallets.map((w) => w.chainGroup),
+    (cg) => cg.id,
+  );
+
+  const [selectedChainGroupId, setSelectedChainGroupId] = useState<
+    ChainGroup['id'] | undefined
+  >(Object.values(chainGroups).length > 1 ? undefined : 'ethereum');
+
+  const groupedByChainGroupWallets = groupBy(
+    wallets,
+    (wallet) => wallet.chainGroup.id,
+  );
+
+  const walletsFromSelectedChainGroup = selectedChainGroupId
+    ? groupedByChainGroupWallets[selectedChainGroupId] || []
+    : [];
+
   let headerLabel = null;
   let walletContent = null;
   let headerBackgroundContrast = false;
   let headerBackButtonLink: MobileWalletStep | null = null;
 
   const [walletStep, setWalletStep] = useState<MobileWalletStep>(
-    MobileWalletStep.Connect,
+    Object.values(chainGroups).length > 1
+      ? MobileWalletStep.SelectChainGroup
+      : MobileWalletStep.Connect,
   );
 
   const { i18n } = useContext(I18nContext);
 
   const ios = isIOS();
 
+  const onChainGroupSelect = (chainGroupId: string) => {
+    setSelectedChainGroupId(chainGroupId);
+    setWalletStep(MobileWalletStep.Connect);
+  };
+
   switch (walletStep) {
+    case MobileWalletStep.SelectChainGroup: {
+      headerLabel = i18n.t('connect.select_chain_group.title');
+      headerBackgroundContrast = true;
+      walletContent = (
+        <Box paddingTop="20" paddingX="20">
+          <Box display="flex" flexDirection="column" gap="12">
+            {Object.values(chainGroups).map((cg) => (
+              <ModalSelection
+                key={cg.id}
+                currentlySelected={cg.id === selectedChainGroupId}
+                iconUrl={cg.iconUrl}
+                name={cg.title}
+                onClick={() => onChainGroupSelect(cg.id)}
+              />
+            ))}
+          </Box>
+        </Box>
+      );
+      break;
+    }
     case MobileWalletStep.Connect: {
       headerLabel = i18n.t('connect.title');
       headerBackgroundContrast = true;
+      headerBackButtonLink =
+        Object.values(chainGroups).length > 1
+          ? MobileWalletStep.SelectChainGroup
+          : null;
       walletContent = (
         <Box>
           <Box
@@ -241,7 +295,7 @@ export function MobileOptions({ onClose }: { onClose: () => void }) {
             paddingTop="6"
           >
             <Box display="flex" style={{ margin: '0 auto' }}>
-              {wallets
+              {walletsFromSelectedChainGroup
                 .filter((wallet) => wallet.ready)
                 .map((wallet) => {
                   return (
@@ -314,7 +368,7 @@ export function MobileOptions({ onClose }: { onClose: () => void }) {
       headerLabel = i18n.t('get.title');
       headerBackButtonLink = MobileWalletStep.Connect;
 
-      const mobileWallets = wallets
+      const mobileWallets = walletsFromSelectedChainGroup
         ?.filter(
           (wallet) =>
             wallet.downloadUrls?.ios ||

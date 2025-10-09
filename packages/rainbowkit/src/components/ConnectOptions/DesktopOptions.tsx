@@ -44,9 +44,12 @@ import {
   sidebar,
   sidebarCompactMode,
 } from './DesktopOptions.css';
+import type { ChainGroup } from '../../wallets/Wallet';
+import { indexBy } from '../../utils/indexBy';
 
 export enum WalletStep {
   None = 'NONE',
+  SelectChainGroup = 'SELECT_CHAIN_GROUP',
   LearnCompact = 'LEARN_COMPACT',
   Get = 'GET',
   Connect = 'CONNECT',
@@ -88,7 +91,28 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
     .sort((a, b) => a.groupIndex - b.groupIndex);
   const unfilteredWallets = useWalletConnectors();
 
-  const groupedWallets = groupBy(wallets, (wallet) => wallet.groupName);
+  const chainGroups = indexBy(
+    wallets.map((w) => w.chainGroup),
+    (cg) => cg.id,
+  );
+
+  const [selectedChainGroupId, setSelectedChainGroupId] = useState<
+    ChainGroup['id'] | undefined
+  >(Object.values(chainGroups).length > 1 ? undefined : 'ethereum');
+
+  const groupedByChainGroupWallets = groupBy(
+    wallets,
+    (wallet) => wallet.chainGroup.id,
+  );
+
+  const walletsFromSelectedChainGroup = selectedChainGroupId
+    ? groupedByChainGroupWallets[selectedChainGroupId] || []
+    : [];
+
+  const groupedByGroupNameWallets = groupBy(
+    walletsFromSelectedChainGroup,
+    (wallet) => wallet.groupName,
+  );
 
   const supportedI18nGroupNames = [
     'Recommended',
@@ -208,10 +232,13 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
     }
     setWalletStep(newWalletStep);
   };
+
   const [initialWalletStep, setInitialWalletStep] = useState<WalletStep>(
-    WalletStep.None,
+    Object.values(chainGroups).length > 1
+      ? WalletStep.SelectChainGroup
+      : WalletStep.None,
   );
-  const [walletStep, setWalletStep] = useState<WalletStep>(WalletStep.None);
+  const [walletStep, setWalletStep] = useState<WalletStep>(initialWalletStep);
 
   let walletContent = null;
   let headerLabel = null;
@@ -228,11 +255,24 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
     hasExtension && selectedWallet?.mobileDownloadUrl
   );
 
+  const onChainGroupSelect = (chainGroupId: string) => {
+    setSelectedChainGroupId(chainGroupId);
+    changeWalletStep(WalletStep.None);
+  };
+
   switch (walletStep) {
+    case WalletStep.SelectChainGroup:
+      headerLabel = i18n.t('connect.select_chain_group.title');
+      break;
     case WalletStep.None:
+      headerLabel = i18n.t('connect.title');
       walletContent = (
         <ConnectModalIntro getWallet={() => changeWalletStep(WalletStep.Get)} />
       );
+      headerBackButtonLink =
+        compactModeEnabled && Object.values(chainGroups).length > 1
+          ? WalletStep.SelectChainGroup
+          : null;
       break;
     case WalletStep.LearnCompact:
       walletContent = (
@@ -364,13 +404,66 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
     default:
       break;
   }
+
+  const topContent = (() => {
+    if (!compactModeEnabled) return null;
+
+    if (walletStep === WalletStep.None) {
+      return (
+        <Box marginLeft="16" width="28">
+          {headerBackButtonLink && (
+            <Box
+              as="button"
+              className={touchableStyles({
+                active: 'shrinkSm',
+                hover: 'growLg',
+              })}
+              color="accentColor"
+              onClick={() => {
+                headerBackButtonLink &&
+                  changeWalletStep(headerBackButtonLink, true);
+                headerBackButtonCallback?.();
+              }}
+              paddingX="8"
+              paddingY="4"
+              style={{
+                boxSizing: 'content-box',
+                height: 17,
+                willChange: 'transform',
+              }}
+              transition="default"
+              type="button"
+            >
+              <BackIcon />
+            </Box>
+          )}
+        </Box>
+      );
+    }
+
+    if (Disclaimer) {
+      return (
+        <Box marginLeft="16" width="28">
+          <InfoButton
+            onClick={() => changeWalletStep(WalletStep.LearnCompact)}
+          />
+        </Box>
+      );
+    }
+
+    return <Box marginLeft="16" width="28" />;
+  })();
+
   return (
     <Box
       display="flex"
       flexDirection="row"
-      style={{ maxHeight: compactModeEnabled ? 468 : 504 }}
+      style={{ maxHeight: compactModeEnabled ? 468 : 504, height: '100%' }}
     >
-      {(compactModeEnabled ? walletStep === WalletStep.None : true) && (
+      {(compactModeEnabled
+        ? walletStep === WalletStep.None ||
+          walletStep === WalletStep.SelectChainGroup
+        : true) && (
         <Box
           className={compactModeEnabled ? sidebarCompactMode : sidebar}
           display="flex"
@@ -378,16 +471,7 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
           marginTop="16"
         >
           <Box display="flex" justifyContent="space-between">
-            {compactModeEnabled && Disclaimer && (
-              <Box marginLeft="16" width="28">
-                <InfoButton
-                  onClick={() => changeWalletStep(WalletStep.LearnCompact)}
-                />
-              </Box>
-            )}
-            {compactModeEnabled && !Disclaimer && (
-              <Box marginLeft="16" width="28" />
-            )}
+            {topContent}
             <Box
               marginLeft={compactModeEnabled ? '0' : '6'}
               paddingBottom="8"
@@ -402,7 +486,7 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
                 weight="heavy"
                 testId={'connect-header-label'}
               >
-                {i18n.t('connect.title')}
+                {headerLabel}
               </Text>
             </Box>
             {compactModeEnabled && (
@@ -412,49 +496,65 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
             )}
           </Box>
           <Box className={ScrollClassName} paddingBottom="18">
-            {Object.entries(groupedWallets).map(
-              ([groupName, wallets], index) =>
-                wallets.length > 0 && (
-                  <Fragment key={index}>
-                    {groupName ? (
-                      <Box marginBottom="8" marginTop="16" marginX="6">
-                        <Text
-                          color={
-                            groupName === 'Installed'
-                              ? 'accentColor'
-                              : 'modalTextSecondary'
-                          }
-                          size="14"
-                          weight="bold"
-                        >
-                          {supportedI18nGroupNames.includes(groupName)
-                            ? i18n.t(
-                                `connector_group.${groupName.toLowerCase()}`,
-                              )
-                            : groupName}
-                        </Text>
+            {walletStep === WalletStep.SelectChainGroup ? (
+              <Box display="flex" flexDirection="column" gap="4" marginTop="16">
+                {Object.values(chainGroups).map((cg) => (
+                  <ModalSelection
+                    key={cg.id}
+                    currentlySelected={cg.id === selectedChainGroupId}
+                    iconUrl={cg.iconUrl}
+                    name={cg.title}
+                    onClick={() => onChainGroupSelect(cg.id)}
+                  />
+                ))}
+              </Box>
+            ) : (
+              Object.entries(groupedByGroupNameWallets).map(
+                ([groupName, wallets], index) =>
+                  wallets.length > 0 && (
+                    <Fragment key={index}>
+                      {groupName ? (
+                        <Box marginBottom="8" marginTop="16" marginX="6">
+                          <Text
+                            color={
+                              groupName === 'Installed'
+                                ? 'accentColor'
+                                : 'modalTextSecondary'
+                            }
+                            size="14"
+                            weight="bold"
+                          >
+                            {supportedI18nGroupNames.includes(groupName)
+                              ? i18n.t(
+                                  `connector_group.${groupName.toLowerCase()}`,
+                                )
+                              : groupName}
+                          </Text>
+                        </Box>
+                      ) : null}
+                      <Box display="flex" flexDirection="column" gap="4">
+                        {wallets.map((wallet) => {
+                          return (
+                            <ModalSelection
+                              currentlySelected={wallet.id === selectedOptionId}
+                              iconBackground={wallet.iconBackground}
+                              iconUrl={wallet.iconUrl}
+                              key={wallet.id}
+                              name={wallet.name}
+                              onClick={() => selectWallet(wallet)}
+                              ready={wallet.ready}
+                              recent={wallet.recent}
+                              testId={`wallet-option-${wallet.id}`}
+                              isRainbowKitConnector={
+                                wallet.isRainbowKitConnector
+                              }
+                            />
+                          );
+                        })}
                       </Box>
-                    ) : null}
-                    <Box display="flex" flexDirection="column" gap="4">
-                      {wallets.map((wallet) => {
-                        return (
-                          <ModalSelection
-                            currentlySelected={wallet.id === selectedOptionId}
-                            iconBackground={wallet.iconBackground}
-                            iconUrl={wallet.iconUrl}
-                            key={wallet.id}
-                            name={wallet.name}
-                            onClick={() => selectWallet(wallet)}
-                            ready={wallet.ready}
-                            recent={wallet.recent}
-                            testId={`wallet-option-${wallet.id}`}
-                            isRainbowKitConnector={wallet.isRainbowKitConnector}
-                          />
-                        );
-                      })}
-                    </Box>
-                  </Fragment>
-                ),
+                    </Fragment>
+                  ),
+              )
             )}
           </Box>
           {compactModeEnabled && (
@@ -506,7 +606,10 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
           )}
         </Box>
       )}
-      {(compactModeEnabled ? walletStep !== WalletStep.None : true) && (
+      {(compactModeEnabled
+        ? walletStep !== WalletStep.SelectChainGroup &&
+          walletStep !== WalletStep.None
+        : true) && (
         <>
           {!compactModeEnabled && (
             <Box background="generalBorder" minWidth="1" width="1" />

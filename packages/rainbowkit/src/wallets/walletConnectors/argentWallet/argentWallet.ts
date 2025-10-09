@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import { isAndroid } from '../../../utils/isMobile';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
@@ -26,6 +27,7 @@ export const argentWallet = ({
         : `argent://app/wc?uri=${encodeURIComponent(uri)}`;
     },
   },
+  chainGroup: ethereumChainGroup,
   qrCode: {
     getUri: (uri: string) => uri,
     instructions: {

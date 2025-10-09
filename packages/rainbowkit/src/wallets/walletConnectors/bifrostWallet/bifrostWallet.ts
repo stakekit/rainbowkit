@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import { isAndroid } from '../../../utils/isMobile';
 import type { Wallet } from '../../Wallet';
 import {
@@ -30,6 +31,7 @@ export const bifrostWallet = ({
     iconUrl: async () => (await import('./bifrostWallet.svg')).default,
     iconBackground: '#fff',
     installed: !shouldUseWalletConnect ? isBifrostInjected : undefined,
+    chainGroup: ethereumChainGroup,
     downloadUrls: {
       android:
         'https://play.google.com/store/apps/details?id=com.bifrostwallet.app',

@@ -1,4 +1,5 @@
 import type { Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -16,6 +17,7 @@ export const ramperWallet = (): Wallet => {
     installed: isRamperWalletInjected,
     iconAccent: '#CDA349',
     iconBackground: '#fff',
+    chainGroup: ethereumChainGroup,
     downloadUrls: {
       chrome:
         'https://chromewebstore.google.com/detail/ramper-wallet/nbdhibgjnjpnkajaghbffjbkcgljfgdi',

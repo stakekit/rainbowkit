@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import { isAndroid } from '../../../utils/isMobile';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
@@ -26,6 +27,7 @@ export const bitgetWallet = ({
     iconAccent: '#f6851a',
     iconBackground: '#fff',
     installed: !shouldUseWalletConnect ? isBitKeepInjected : undefined,
+    chainGroup: ethereumChainGroup,
     downloadUrls: {
       android: 'https://web3.bitget.com/en/wallet-download?type=0',
       ios: 'https://apps.apple.com/app/bitkeep/id1395301115',

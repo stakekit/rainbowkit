@@ -1,4 +1,5 @@
 import type { Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -9,6 +10,7 @@ export const tahoWallet = (): Wallet => {
     id: 'taho',
     name: 'Taho',
     iconBackground: '#d08d57',
+    chainGroup: ethereumChainGroup,
     iconUrl: async () => (await import('./tahoWallet.svg')).default,
     downloadUrls: {
       chrome:

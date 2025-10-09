@@ -1,4 +1,5 @@
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -24,6 +25,7 @@ export const mewWallet = ({
     name: 'MEW wallet',
     iconUrl: async () => (await import('./mewWallet.svg')).default,
     iconBackground: '#fff',
+    chainGroup: ethereumChainGroup,
     installed: !shouldUseWalletConnect ? isMEWInjected : undefined,
     downloadUrls: {
       android:

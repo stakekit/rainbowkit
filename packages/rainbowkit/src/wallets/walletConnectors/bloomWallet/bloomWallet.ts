@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
@@ -10,6 +11,7 @@ export const bloomWallet = ({
   iconBackground: '#000',
   iconAccent: '#000',
   iconUrl: async () => (await import('./bloomWallet.svg')).default,
+  chainGroup: ethereumChainGroup,
   downloadUrls: {
     desktop: 'https://bloomwallet.io/',
   },

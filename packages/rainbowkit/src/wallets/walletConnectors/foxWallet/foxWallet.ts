@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -21,6 +22,7 @@ export const foxWallet = ({
     name: 'FoxWallet',
     iconUrl: async () => (await import('./foxWallet.svg')).default,
     iconBackground: '#fff',
+    chainGroup: ethereumChainGroup,
     downloadUrls: {
       android:
         'https://play.google.com/store/apps/details?id=com.foxwallet.play',

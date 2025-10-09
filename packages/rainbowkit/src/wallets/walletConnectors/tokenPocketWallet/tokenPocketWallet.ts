@@ -1,4 +1,5 @@
 import { isMobile } from '../../../utils/isMobile';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -25,6 +26,7 @@ export const tokenPocketWallet = ({
     rdns: 'pro.tokenpocket',
     iconUrl: async () => (await import('./tokenPocketWallet.svg')).default,
     iconBackground: '#2980FE',
+    chainGroup: ethereumChainGroup,
     installed: !shouldUseWalletConnect ? isTokenPocketInjected : undefined,
     downloadUrls: {
       chrome:

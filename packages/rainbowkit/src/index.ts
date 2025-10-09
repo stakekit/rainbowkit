@@ -21,6 +21,7 @@ export type {
   WalletList,
   WalletDetailsParams,
   RainbowKitWalletConnectParameters,
+  ChainGroup,
 } from './wallets/Wallet';
 export type { Theme } from './components/RainbowKitProvider/RainbowKitProvider';
 export type {

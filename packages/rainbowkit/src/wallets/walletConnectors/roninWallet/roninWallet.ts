@@ -1,4 +1,5 @@
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -26,6 +27,7 @@ export const roninWallet = ({
     name: 'Ronin Wallet',
     iconUrl: async () => (await import('./roninWallet.svg')).default,
     iconBackground: '#ffffff',
+    chainGroup: ethereumChainGroup,
     rdns: 'com.roninchain.wallet',
     installed: isRoninInjected || undefined,
     downloadUrls: {

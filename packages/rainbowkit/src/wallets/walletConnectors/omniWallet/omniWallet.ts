@@ -1,4 +1,5 @@
 import { isAndroid } from '../../../utils/isMobile';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
@@ -12,6 +13,7 @@ export const omniWallet = ({
   name: 'Omni',
   iconUrl: async () => (await import('./omniWallet.svg')).default,
   iconBackground: '#000',
+  chainGroup: ethereumChainGroup,
   downloadUrls: {
     android: 'https://play.google.com/store/apps/details?id=fi.steakwallet.app',
     ios: 'https://itunes.apple.com/us/app/id1569375204',

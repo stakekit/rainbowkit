@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type {
   DefaultWalletOptions,
   InstructionStepName,
@@ -94,6 +95,7 @@ export const safepalWallet = ({
     installed: isSafePalWalletInjected,
     iconAccent: '#3375BB',
     iconBackground: '#fff',
+    chainGroup: ethereumChainGroup,
     downloadUrls: {
       android:
         'https://play.google.com/store/apps/details?id=io.safepal.wallet&referrer=utm_source%3Drainbowkit%26utm_medium%3Ddisplay%26utm_campaign%3Ddownload',

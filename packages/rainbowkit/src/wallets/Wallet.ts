@@ -75,6 +75,7 @@ export type Wallet = {
   };
   hidden?: () => boolean;
   createConnector: (walletDetails: WalletDetailsParams) => CreateConnectorFn;
+  chainGroup: ChainGroup;
 } & RainbowKitConnector;
 
 export interface DefaultWalletOptions {
@@ -113,7 +114,14 @@ export type RainbowKitDetails = Omit<Wallet, 'createConnector' | 'hidden'> & {
   // Used specifically in `connectorsForWallets` logic
   // to make sure we can also get WalletConnect modal in rainbowkit
   showQrModal?: true;
+  chainGroup: ChainGroup;
 };
+
+export interface ChainGroup {
+  id: 'ethereum' | (string & {});
+  title: string;
+  iconUrl: string;
+}
 
 export type WalletDetailsParams = { rkDetails: RainbowKitDetails };
 

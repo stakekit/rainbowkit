@@ -1,4 +1,5 @@
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -27,6 +28,7 @@ export const kaikasWallet = ({
     iconUrl: async () => (await import('./kaikasWallet.svg')).default,
     installed: isKaikasWalletInjected || undefined,
     iconBackground: '#fff',
+    chainGroup: ethereumChainGroup,
     downloadUrls: {
       chrome:
         'https://chromewebstore.google.com/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi',

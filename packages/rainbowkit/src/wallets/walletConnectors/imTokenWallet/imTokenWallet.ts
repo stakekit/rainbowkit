@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
@@ -11,6 +12,7 @@ export const imTokenWallet = ({
   name: 'imToken',
   iconUrl: async () => (await import('./imTokenWallet.svg')).default,
   iconBackground: '#098de6',
+  chainGroup: ethereumChainGroup,
   downloadUrls: {
     android: 'https://play.google.com/store/apps/details?id=im.token.app',
     ios: 'https://itunes.apple.com/us/app/imtoken2/id1384798940',

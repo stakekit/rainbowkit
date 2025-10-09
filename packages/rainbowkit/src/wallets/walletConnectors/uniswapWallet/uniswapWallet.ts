@@ -1,4 +1,5 @@
 import type { Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 import type { DefaultWalletOptions } from './../../Wallet';
 
@@ -12,6 +13,7 @@ export const uniswapWallet = ({
   name: 'Uniswap Wallet',
   iconUrl: async () => (await import('./uniswapWallet.svg')).default,
   iconBackground: '#FFD8EA',
+  chainGroup: ethereumChainGroup,
   downloadUrls: {
     ios: 'https://apps.apple.com/app/apple-store/id6443944476',
     mobile: 'https://wallet.uniswap.org/',

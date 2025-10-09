@@ -46,6 +46,9 @@
   "connect": {
     "label": "Connect",
     "title": "Connect a Wallet",
+    "select_chain_group": {
+      "title": "Select a Chain"
+    },
     "new_to_ethereum": {
       "description": "New to Ethereum wallets?",
       "learn_more": {
@@ -194,6 +197,8 @@
 
   "chains": {
     "title": "Switch Networks",
+    "select_title": "Select Network",
+    "select_group": "Select Chain Group",
     "wrong_network": "Wrong network detected, switch or disconnect to continue.",
     "confirm": "Confirm in Wallet",
     "confirm_error": "Error switching chain",
