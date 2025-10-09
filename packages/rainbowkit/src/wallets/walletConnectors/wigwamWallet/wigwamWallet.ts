@@ -1,4 +1,5 @@
 import type { Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -10,6 +11,7 @@ export const wigwamWallet = (): Wallet => {
     name: 'Wigwam',
     rdns: 'com.wigwam.wallet',
     iconBackground: '#80EF6E',
+    chainGroup: ethereumChainGroup,
     iconUrl: async () => (await import('./wigwamWallet.svg')).default,
     downloadUrls: {
       chrome:

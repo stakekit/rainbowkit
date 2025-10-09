@@ -1,4 +1,5 @@
 import type { Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -10,6 +11,7 @@ export const talismanWallet = (): Wallet => ({
   rdns: 'xyz.talisman',
   iconUrl: async () => (await import('./talismanWallet.svg')).default,
   iconBackground: '#fff',
+  chainGroup: ethereumChainGroup,
   installed: hasInjectedProvider({
     namespace: 'talismanEth',
     flag: 'isTalisman',

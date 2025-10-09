@@ -1,4 +1,5 @@
 import { isIOS } from '../../../utils/isMobile';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -29,6 +30,7 @@ export const xPortalWallet = ({
     iconUrl: async () => (await import('./xPortalWallet.svg')).default,
     iconAccent: '#23f7dd',
     iconBackground: '#23f7dd',
+    chainGroup: ethereumChainGroup,
     installed: !shouldUseWalletConnect ? isXPortalInjected : undefined,
     downloadUrls: {
       android:

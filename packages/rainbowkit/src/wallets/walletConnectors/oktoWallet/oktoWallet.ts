@@ -1,4 +1,5 @@
 import { isAndroid } from '../../../utils/isMobile';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
@@ -12,6 +13,7 @@ export const oktoWallet = ({
   name: 'Okto',
   iconUrl: async () => (await import('./oktoWallet.svg')).default,
   iconBackground: '#fff',
+  chainGroup: ethereumChainGroup,
   downloadUrls: {
     android:
       'https://play.google.com/store/apps/details?id=im.okto.contractwalletclient',

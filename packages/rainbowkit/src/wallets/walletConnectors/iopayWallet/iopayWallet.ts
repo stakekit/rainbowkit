@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import { isAndroid } from '../../../utils/isMobile';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import { getInjectedConnector } from '../../getInjectedConnector';
@@ -22,6 +23,7 @@ export const iopayWallet = ({
   name: 'ioPay Wallet',
   iconUrl: async () => (await import('./iopayWallet.svg')).default,
   iconBackground: '#fff',
+  chainGroup: ethereumChainGroup,
   downloadUrls: {
     android:
       'https://play.google.com/store/apps/details?id=io.iotex.iopay.gp&pli=1',

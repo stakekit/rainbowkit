@@ -1,4 +1,5 @@
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -21,6 +22,7 @@ export const zealWallet = ({
     rdns: 'app.zeal',
     iconUrl: async () => (await import('./zealWallet.svg')).default,
     iconBackground: '#fff0',
+    chainGroup: ethereumChainGroup,
     iconAccent: '#00FFFF',
     downloadUrls: {
       browserExtension: 'https://zeal.app',

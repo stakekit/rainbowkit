@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -11,6 +12,7 @@ export const frameWallet = (): Wallet => ({
   installed: hasInjectedProvider({ flag: 'isFrame' }),
   iconUrl: async () => (await import('./frameWallet.svg')).default,
   iconBackground: '#121C20',
+  chainGroup: ethereumChainGroup,
   downloadUrls: {
     browserExtension: 'https://frame.sh/',
   },

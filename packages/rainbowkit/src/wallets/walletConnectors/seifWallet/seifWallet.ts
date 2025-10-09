@@ -1,4 +1,5 @@
 import type { Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -14,6 +15,7 @@ export function seifWallet(): Wallet {
     installed: !!injectedProvider,
     iconUrl: async () => (await import('./seifWallet.svg')).default,
     iconBackground: '#fff',
+    chainGroup: ethereumChainGroup,
     downloadUrls: {
       chrome:
         'https://chromewebstore.google.com/detail/seif/albakdmmdafeafbehmcpoejenbeojejl',

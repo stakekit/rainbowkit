@@ -1,4 +1,5 @@
 import type { Wallet } from '../../Wallet';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -11,6 +12,7 @@ export const oneKeyWallet = (): Wallet => {
     rdns: 'so.onekey.app.wallet',
     iconAccent: '#00B812',
     iconBackground: '#fff',
+    chainGroup: ethereumChainGroup,
     iconUrl: async () => (await import('./oneKeyWallet.svg')).default,
     installed: hasInjectedProvider({ namespace: '$onekey.ethereum' }),
     downloadUrls: {

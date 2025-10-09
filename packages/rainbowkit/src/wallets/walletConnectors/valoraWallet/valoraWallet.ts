@@ -1,4 +1,5 @@
 import { isAndroid } from '../../../utils/isMobile';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
@@ -12,6 +13,7 @@ export const valoraWallet = ({
   name: 'Valora',
   iconUrl: async () => (await import('./valoraWallet.svg')).default,
   iconBackground: '#FFFFFF',
+  chainGroup: ethereumChainGroup,
   downloadUrls: {
     ios: 'https://apps.apple.com/app/id1520414263?mt=8',
     android: 'https://play.google.com/store/apps/details?id=co.clabs.valora',

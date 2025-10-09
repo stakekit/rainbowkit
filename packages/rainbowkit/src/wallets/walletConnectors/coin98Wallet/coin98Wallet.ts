@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -25,6 +26,7 @@ export const coin98Wallet = ({
     iconAccent: '#CDA349',
     iconBackground: '#fff',
     rdns: 'coin98.com',
+    chainGroup: ethereumChainGroup,
     downloadUrls: {
       android:
         'https://play.google.com/store/apps/details?id=coin98.crypto.finance.media',

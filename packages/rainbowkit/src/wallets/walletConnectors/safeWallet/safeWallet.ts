@@ -1,4 +1,5 @@
 import { createConnector } from 'wagmi';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import { safe } from 'wagmi/connectors';
 import type { Wallet, WalletDetailsParams } from '../../Wallet';
 
@@ -7,6 +8,7 @@ export const safeWallet = (): Wallet => ({
   name: 'Safe',
   iconAccent: '#12ff80',
   iconBackground: '#fff',
+  chainGroup: ethereumChainGroup,
   iconUrl: async () => (await import('./safeWallet.svg')).default,
   installed:
     // Only allowed in iframe context

@@ -1,4 +1,5 @@
 import { isIOS } from '../../../utils/isMobile';
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -30,6 +31,7 @@ export const zerionWallet = ({
     iconUrl: async () => (await import('./zerionWallet.svg')).default,
     iconAccent: '#2962ef',
     iconBackground: '#2962ef',
+    chainGroup: ethereumChainGroup,
     installed: !shouldUseWalletConnect ? isZerionInjected : undefined,
     downloadUrls: {
       android:

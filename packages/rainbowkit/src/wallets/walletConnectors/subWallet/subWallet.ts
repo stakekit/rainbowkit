@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type {
   DefaultWalletOptions,
   InstructionStepName,
@@ -93,6 +94,7 @@ export const subWallet = ({
     rdns: 'app.subwallet',
     iconUrl: async () => (await import('./subWallet.svg')).default,
     iconBackground: '#fff',
+    chainGroup: ethereumChainGroup,
     installed: isSubWalletInjected || undefined,
     downloadUrls: {
       browserExtension: 'https://www.subwallet.app/download',

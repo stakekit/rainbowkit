@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import { isAndroid } from '../../../utils/isMobile';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
@@ -24,6 +25,7 @@ export const binanceWallet = ({
     iconUrl: async () => (await import('./binanceWallet.svg')).default,
     iconBackground: '#000000',
     installed: !shouldUseWalletConnect ? isBinanceInjected : undefined,
+    chainGroup: ethereumChainGroup,
     downloadUrls: {
       android: 'https://play.google.com/store/apps/details?id=com.binance.dev',
       ios: 'https://apps.apple.com/us/app/id1436799971',

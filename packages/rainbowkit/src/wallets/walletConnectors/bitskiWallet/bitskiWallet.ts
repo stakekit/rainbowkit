@@ -1,3 +1,4 @@
+import { ethereumChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -10,6 +11,7 @@ export const bitskiWallet = (): Wallet => ({
   installed: hasInjectedProvider({ flag: 'isBitski' }),
   iconUrl: async () => (await import('./bitskiWallet.svg')).default,
   iconBackground: '#fff',
+  chainGroup: ethereumChainGroup,
   downloadUrls: {
     chrome:
       'https://chrome.google.com/webstore/detail/bitski/feejiigddaafeojfddjjlmfkabimkell',
