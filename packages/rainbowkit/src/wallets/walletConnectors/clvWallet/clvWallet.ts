@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -22,7 +22,7 @@ export const clvWallet = ({
     iconBackground: '#fff',
     iconAccent: '#BDFDE2',
     installed: isCLVInjected,
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       chrome:
         'https://chrome.google.com/webstore/detail/clv-wallet/nhnkbkgjikgcigadomkphalanndcapjk',

@@ -1,5 +1,5 @@
 import { createConnector } from 'wagmi';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import { metaMask } from 'wagmi/connectors';
 import type {
   DefaultWalletOptions,
@@ -83,7 +83,7 @@ export const metaMaskWallet = ({
     iconUrl: async () => (await import('./metaMaskWallet.svg')).default,
     iconAccent: '#f6851a',
     iconBackground: '#fff',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     installed: isMetaMaskInjected ? isMetaMaskInjected : undefined,
     downloadUrls: {
       android: 'https://play.google.com/store/apps/details?id=io.metamask',

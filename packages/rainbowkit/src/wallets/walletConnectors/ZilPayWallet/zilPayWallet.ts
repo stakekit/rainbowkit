@@ -1,5 +1,5 @@
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -21,7 +21,7 @@ export const zilPayWallet = ({
     rdns: 'io.zilpay',
     iconUrl: async () => (await import('./zilPayWallet.svg')).default,
     iconBackground: '#ffffff',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       android: 'https://play.google.com/store/apps/details?id=com.zilpaymobile',
       ios: 'https://apps.apple.com/ru/app/zilpay/id1547105860',

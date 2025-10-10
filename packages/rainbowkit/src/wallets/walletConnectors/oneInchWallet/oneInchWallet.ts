@@ -1,5 +1,5 @@
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
 export type OneInchWalletOptions = DefaultWalletOptions;
@@ -12,7 +12,7 @@ export const oneInchWallet = ({
   name: '1inch Wallet',
   iconUrl: async () => (await import('./oneInchWallet.svg')).default,
   iconBackground: '#fff',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   downloadUrls: {
     android: 'https://play.google.com/store/apps/details?id=io.oneinch.android',
     ios: 'https://apps.apple.com/us/app/1inch-crypto-defi-wallet/id1546049391',

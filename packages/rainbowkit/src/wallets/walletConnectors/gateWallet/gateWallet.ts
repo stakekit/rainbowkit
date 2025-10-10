@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import { isAndroid } from '../../../utils/isMobile';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
@@ -23,7 +23,7 @@ export const gateWallet = ({
     iconUrl: async () => (await import('./gateWallet.svg')).default,
     iconAccent: '#fff',
     iconBackground: '#fff',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       android:
         'https://play.google.com/store/apps/details?id=com.gateio.gateio',

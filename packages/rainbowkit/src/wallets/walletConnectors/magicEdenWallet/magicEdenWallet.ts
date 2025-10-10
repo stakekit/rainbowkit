@@ -1,5 +1,5 @@
 import type { Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -12,7 +12,7 @@ export const magicEdenWallet = (): Wallet => {
     rdns: 'io.magiceden.wallet',
     iconUrl: async () => (await import('./magicEden.svg')).default,
     iconBackground: '#36114D',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     installed: hasInjectedProvider({ namespace: 'magicEden.ethereum' }),
     downloadUrls: {
       chrome:

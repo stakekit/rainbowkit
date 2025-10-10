@@ -118,7 +118,7 @@ export type RainbowKitDetails = Omit<Wallet, 'createConnector' | 'hidden'> & {
 };
 
 export interface ChainGroup {
-  id: 'ethereum' | (string & {});
+  id: 'evm' | (string & {});
   title: string;
   iconUrl: string;
 }

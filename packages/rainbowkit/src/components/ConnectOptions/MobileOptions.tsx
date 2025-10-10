@@ -226,7 +226,7 @@ export function MobileOptions({ onClose }: { onClose: () => void }) {
 
   const [selectedChainGroupId, setSelectedChainGroupId] = useState<
     ChainGroup['id'] | undefined
-  >(Object.values(chainGroups).length > 1 ? undefined : 'ethereum');
+  >(Object.values(chainGroups).length > 1 ? undefined : 'evm');
 
   const groupedByChainGroupWallets = groupBy(
     wallets,
@@ -248,13 +248,31 @@ export function MobileOptions({ onClose }: { onClose: () => void }) {
       : MobileWalletStep.Connect,
   );
 
+  const changeWalletStep = (newWalletStep: MobileWalletStep) => {
+    if (
+      newWalletStep === MobileWalletStep.SelectChainGroup &&
+      selectedChainGroupId
+    ) {
+      setSelectedChainGroupId(undefined);
+    }
+
+    setWalletStep(newWalletStep);
+  };
+
+  if (
+    walletStep === MobileWalletStep.SelectChainGroup &&
+    selectedChainGroupId
+  ) {
+    setSelectedChainGroupId(undefined);
+  }
+
   const { i18n } = useContext(I18nContext);
 
   const ios = isIOS();
 
   const onChainGroupSelect = (chainGroupId: string) => {
     setSelectedChainGroupId(chainGroupId);
-    setWalletStep(MobileWalletStep.Connect);
+    changeWalletStep(MobileWalletStep.Connect);
   };
 
   switch (walletStep) {
@@ -343,7 +361,7 @@ export function MobileOptions({ onClose }: { onClose: () => void }) {
             <Box display="flex" gap="14" justifyContent="center">
               <ActionButton
                 label={i18n.t('intro.get.label')}
-                onClick={() => setWalletStep(MobileWalletStep.Get)}
+                onClick={() => changeWalletStep(MobileWalletStep.Get)}
                 size="large"
                 type="secondary"
               />
@@ -518,7 +536,7 @@ export function MobileOptions({ onClose }: { onClose: () => void }) {
                 display="flex"
                 marginLeft="4"
                 marginTop="20"
-                onClick={() => setWalletStep(headerBackButtonLink!)}
+                onClick={() => changeWalletStep(headerBackButtonLink!)}
                 padding="16"
                 style={{ height: 17, willChange: 'transform' }}
                 transition="default"

@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -12,7 +12,7 @@ export const braveWallet = (): Wallet => ({
   iconUrl: async () => (await import('./braveWallet.svg')).default,
   iconBackground: '#fff',
   installed: hasInjectedProvider({ flag: 'isBraveWallet' }),
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   downloadUrls: {
     // We're opting not to provide a download prompt if Brave isn't the current
     // browser since it's unlikely to be a desired behavior for users. It's

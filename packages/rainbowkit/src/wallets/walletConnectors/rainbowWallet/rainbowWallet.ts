@@ -1,5 +1,5 @@
 import { isAndroid, isIOS } from '../../../utils/isMobile';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -32,7 +32,7 @@ export const rainbowWallet = ({
     rdns: 'me.rainbow',
     iconUrl: async () => (await import('./rainbowWallet.svg')).default,
     iconBackground: '#0c2f78',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     installed: !shouldUseWalletConnect ? isRainbowInjected : undefined,
     downloadUrls: {
       android:

@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 import type { DefaultWalletOptions } from './../../Wallet';
@@ -13,7 +13,7 @@ export const bestWallet = ({
   name: 'Best Wallet',
   iconUrl: async () => (await import('./bestWallet.svg')).default,
   iconBackground: '#5961FF',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   downloadUrls: {
     android: 'https://best.sng.link/Dnio2/rto7?_smtype=3',
     ios: 'https://best.sng.link/Dnio2/rto7?_smtype=3',

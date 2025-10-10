@@ -1,5 +1,5 @@
 import type { Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -11,7 +11,7 @@ export const rabbyWallet = (): Wallet => ({
   iconUrl: async () => (await import('./rabbyWallet.svg')).default,
   rdns: 'io.rabby',
   iconBackground: '#8697FF',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   installed: hasInjectedProvider({ flag: 'isRabby' }),
   downloadUrls: {
     chrome:

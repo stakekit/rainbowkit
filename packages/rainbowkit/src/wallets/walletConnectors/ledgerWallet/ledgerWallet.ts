@@ -1,5 +1,5 @@
 import { isAndroid } from '../../../utils/isMobile';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
@@ -11,7 +11,7 @@ export const ledgerWallet = ({
 }: LedgerWalletOptions): Wallet => ({
   id: 'ledger',
   iconBackground: '#000',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   iconAccent: '#000',
   name: 'Ledger',
   iconUrl: async () => (await import('./ledgerWallet.svg')).default,

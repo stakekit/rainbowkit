@@ -1,5 +1,5 @@
 import type { Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
@@ -13,7 +13,7 @@ export const paraSwapWallet = ({
   name: 'ParaSwap Wallet',
   iconUrl: async () => (await import('./paraSwapWallet.svg')).default,
   iconBackground: '#578CFC',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   downloadUrls: {
     ios: 'https://apps.apple.com/us/app/paraswap-multichain-wallet/id1584610690',
     mobile: 'https://paraswap.io',

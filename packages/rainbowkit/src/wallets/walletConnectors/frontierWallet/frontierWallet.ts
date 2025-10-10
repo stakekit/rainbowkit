@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import { isAndroid } from '../../../utils/isMobile';
 import type { Wallet } from '../../Wallet';
 import {
@@ -26,7 +26,7 @@ export const frontierWallet = ({
     installed: isFrontierInjected,
     iconUrl: async () => (await import('./frontierWallet.svg')).default,
     iconBackground: '#CC703C',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       android:
         'https://play.google.com/store/apps/details?id=com.frontierwallet',

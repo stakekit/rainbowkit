@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -24,7 +24,7 @@ export const coreWallet = ({
     iconUrl: async () => (await import('./coreWallet.svg')).default,
     iconBackground: '#1A1A1C',
     installed: !shouldUseWalletConnect ? isCoreInjected : undefined,
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       android: 'https://play.google.com/store/apps/details?id=com.avaxwallet',
       ios: 'https://apps.apple.com/us/app/core-wallet/id6443685999',

@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -31,7 +31,7 @@ export const bybitWallet = ({
     iconUrl: async () => (await import('./bybitWallet.svg')).default,
     installed: !shouldUseWalletConnect ? isBybitInjected : undefined,
     iconBackground: '#000000',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       chrome:
         'https://chromewebstore.google.com/detail/bybit-wallet/pdliaogehgdbhbnmkklieghmmjkpigpa',

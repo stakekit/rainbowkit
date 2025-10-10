@@ -1,5 +1,5 @@
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
 export type KresusWalletOptions = DefaultWalletOptions;
@@ -12,7 +12,7 @@ export const kresusWallet = ({
   name: 'Kresus Wallet',
   iconUrl: async () => (await import('./kresusWallet.svg')).default,
   iconBackground: '#fff',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   downloadUrls: {
     android:
       'https://play.google.com/store/apps/details?id=com.kresus.superapp',
