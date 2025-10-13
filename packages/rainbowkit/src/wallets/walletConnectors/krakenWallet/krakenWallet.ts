@@ -1,5 +1,5 @@
 import type { Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 import type { DefaultWalletOptions } from './../../Wallet';
 
@@ -13,7 +13,7 @@ export const krakenWallet = ({
   name: 'Kraken Wallet',
   iconUrl: async () => (await import('./krakenWallet.svg')).default,
   iconBackground: '#FFD8EA',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   downloadUrls: {
     ios: 'https://apps.apple.com/us/app/kraken-wallet/id1626327149',
     mobile: 'https://kraken.com/wallet',

@@ -98,7 +98,7 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
 
   const [selectedChainGroupId, setSelectedChainGroupId] = useState<
     ChainGroup['id'] | undefined
-  >(Object.values(chainGroups).length > 1 ? undefined : 'ethereum');
+  >(Object.values(chainGroups).length > 1 ? undefined : 'evm');
 
   const groupedByChainGroupWallets = groupBy(
     wallets,
@@ -230,6 +230,11 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
     } else if (!isBack && newWalletStep === WalletStep.Connect) {
       setInitialWalletStep(WalletStep.Connect);
     }
+
+    if (newWalletStep === WalletStep.SelectChainGroup && selectedChainGroupId) {
+      setSelectedChainGroupId(undefined);
+    }
+
     setWalletStep(newWalletStep);
   };
 

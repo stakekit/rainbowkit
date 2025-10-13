@@ -1,5 +1,5 @@
 import { isMobile } from '../../../utils/isMobile';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type {
   DefaultWalletOptions,
   InstructionStepName,
@@ -96,7 +96,7 @@ export const trustWallet = ({
     installed: isTrustWalletInjected || undefined,
     iconAccent: '#3375BB',
     iconBackground: '#fff',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       android:
         'https://play.google.com/store/apps/details?id=com.wallet.crypto.trustapp',

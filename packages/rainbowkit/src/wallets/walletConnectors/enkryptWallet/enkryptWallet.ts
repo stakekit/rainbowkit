@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -13,7 +13,7 @@ export const enkryptWallet = (): Wallet => {
     installed: hasInjectedProvider({ namespace: 'enkrypt.providers.ethereum' }),
     iconUrl: async () => (await import('./enkryptWallet.svg')).default,
     iconBackground: '#FFFFFF',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       qrCode: 'https://www.enkrypt.com',
       chrome:

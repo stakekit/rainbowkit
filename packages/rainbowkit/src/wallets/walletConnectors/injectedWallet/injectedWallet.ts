@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import { getInjectedConnector } from '../../getInjectedConnector';
 
@@ -7,6 +7,6 @@ export const injectedWallet = (): Wallet => ({
   name: 'Browser Wallet',
   iconUrl: async () => (await import('./injectedWallet.svg')).default,
   iconBackground: '#fff',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   createConnector: getInjectedConnector({}),
 });

@@ -1,5 +1,5 @@
 import type { RainbowKitWalletConnectParameters, Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
 export interface WalletConnectWalletOptions {
@@ -19,7 +19,7 @@ export const walletConnectWallet = ({
     installed: undefined,
     iconUrl: async () => (await import('./walletConnectWallet.svg')).default,
     iconBackground: '#3b99fc',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     qrCode: { getUri },
     createConnector: getWalletConnectConnector({
       projectId,

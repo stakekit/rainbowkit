@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -15,7 +15,7 @@ export const compassWallet = (): Wallet => {
     rdns: 'io.leapwallet.CompassWallet',
     iconUrl: async () => (await import('./compassWallet.svg')).default,
     iconBackground: '#fff',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       chrome:
         'https://chromewebstore.google.com/detail/compass-wallet-for-sei/anokgmphncpekkhclmingpimjmcooifb',

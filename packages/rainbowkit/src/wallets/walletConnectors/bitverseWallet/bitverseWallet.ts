@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import { getWalletConnectConnector } from '../../getWalletConnectConnector';
 
@@ -12,7 +12,7 @@ export const bitverseWallet = ({
   name: 'Bitverse Wallet',
   iconUrl: async () => (await import('./bitverseWallet.svg')).default,
   iconBackground: '#171728',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   downloadUrls: {
     android:
       'https://play.google.com/store/apps/details?id=com.bitverse.app&pli=1',

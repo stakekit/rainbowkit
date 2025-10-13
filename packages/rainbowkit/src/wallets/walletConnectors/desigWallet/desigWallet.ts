@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -12,7 +12,7 @@ export const desigWallet = (): Wallet => {
     iconUrl: async () => (await import('./desigWallet.svg')).default,
     iconBackground: '#ffffff',
     installed: hasInjectedProvider({ namespace: 'desig.ethereum' }),
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       android: 'https://play.google.com/store/apps/details?id=io.desig.app',
       ios: 'https://apps.apple.com/app/desig-wallet/id6450106028',

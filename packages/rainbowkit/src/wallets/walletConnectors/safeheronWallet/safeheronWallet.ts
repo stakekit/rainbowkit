@@ -1,5 +1,5 @@
 import type { Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -14,7 +14,7 @@ export const safeheronWallet = (): Wallet => ({
   }),
   iconUrl: async () => (await import('./safeheronWallet.svg')).default,
   iconBackground: '#fff',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   downloadUrls: {
     chrome:
       'https://chrome.google.com/webstore/detail/safeheron/aiaghdjafpiofpainifbgfgjfpclngoh',

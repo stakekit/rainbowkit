@@ -1,5 +1,5 @@
 import { isSafari } from '../../../utils/browsers';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -11,7 +11,7 @@ export const tokenaryWallet = (): Wallet => ({
   name: 'Tokenary',
   iconUrl: async () => (await import('./tokenaryWallet.svg')).default,
   iconBackground: '#ffffff',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   installed: hasInjectedProvider({ flag: 'isTokenary' }),
   hidden: () => !isSafari(),
   downloadUrls: {

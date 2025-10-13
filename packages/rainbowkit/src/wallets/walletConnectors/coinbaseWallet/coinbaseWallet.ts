@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import { type CreateConnectorFn, createConnector } from 'wagmi';
 import {
   type CoinbaseWalletParameters,
@@ -38,7 +38,7 @@ export const coinbaseWallet: CoinbaseWallet = ({ appName, appIcon }) => {
     // prompting the user to connect or create a wallet via passkey. This means if you either have
     // or don't have the coinbase wallet browser extension installed it'll do some action anyways
     installed: true,
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       android: 'https://play.google.com/store/apps/details?id=org.toshi',
       ios: 'https://apps.apple.com/us/app/coinbase-wallet-store-crypto/id1278383455',

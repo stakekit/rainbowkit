@@ -1,5 +1,5 @@
 import type { Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -11,7 +11,7 @@ export const nestWallet = (): Wallet => ({
   rdns: 'xyz.nestwallet',
   iconUrl: async () => (await import('./nestWallet.svg')).default,
   iconBackground: '#fff0',
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   installed: hasInjectedProvider({ flag: 'isNestWallet' }),
   downloadUrls: {
     browserExtension: 'https://nestwallet.xyz',

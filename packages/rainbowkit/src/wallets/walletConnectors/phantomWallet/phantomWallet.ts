@@ -1,5 +1,5 @@
 import type { Wallet } from '../../Wallet';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -12,7 +12,7 @@ export const phantomWallet = (): Wallet => {
     rdns: 'app.phantom',
     iconUrl: async () => (await import('./phantomWallet.svg')).default,
     iconBackground: '#9A8AEE',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     installed: hasInjectedProvider({ namespace: 'phantom.ethereum' }),
     downloadUrls: {
       android: 'https://play.google.com/store/apps/details?id=app.phantom',

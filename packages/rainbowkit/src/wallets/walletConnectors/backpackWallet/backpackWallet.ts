@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import {
   getInjectedConnector,
   hasInjectedProvider,
@@ -13,7 +13,7 @@ export const backpackWallet = (): Wallet => {
     iconUrl: async () => (await import('./backpackWallet.svg')).default,
     iconBackground: '#0C0D10',
     installed: hasInjectedProvider({ namespace: 'backpack.ethereum' }),
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       android:
         'https://play.google.com/store/apps/details?id=app.backpack.mobile',

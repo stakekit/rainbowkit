@@ -1,4 +1,4 @@
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import { isIOS } from '../../../utils/isMobile';
 import type { Wallet } from '../../Wallet';
 import {
@@ -13,7 +13,7 @@ export const dawnWallet = (): Wallet => ({
   iconBackground: '#000000',
   installed: hasInjectedProvider({ flag: 'isDawn' }),
   hidden: () => !isIOS(),
-  chainGroup: ethereumChainGroup,
+  chainGroup: evmChainGroup,
   downloadUrls: {
     ios: 'https://apps.apple.com/us/app/dawn-ethereum-wallet/id1673143782',
     mobile: 'https://dawnwallet.xyz',

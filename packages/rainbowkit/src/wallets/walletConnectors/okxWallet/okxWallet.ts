@@ -1,5 +1,5 @@
 import { isAndroid } from '../../../utils/isMobile';
-import { ethereumChainGroup } from '../../../utils/chain-groups';
+import { evmChainGroup } from '../../../utils/chain-groups';
 import type { DefaultWalletOptions, Wallet } from '../../Wallet';
 import {
   getInjectedConnector,
@@ -23,7 +23,7 @@ export const okxWallet = ({
     iconUrl: async () => (await import('./okxWallet.svg')).default,
     iconAccent: '#000',
     iconBackground: '#000',
-    chainGroup: ethereumChainGroup,
+    chainGroup: evmChainGroup,
     downloadUrls: {
       android:
         'https://play.google.com/store/apps/details?id=com.okinc.okex.gp',
