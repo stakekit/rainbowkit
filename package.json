@@ -67,10 +67,10 @@
     "react-dom": "^19.1.0",
     "recursive-readdir-files": "^2.3.1",
     "typescript": "5.5.4",
-    "viem": "2.29.2",
+    "viem": "2.38.0",
     "vite": "^6.3.5",
     "vitest": "2.1.9",
-    "wagmi": "^2.15.6"
+    "wagmi": "^2.19.3"
   },
   "resolutions": {
     "@types/react": "^19.1.8",
@@ -79,22 +79,28 @@
     "react-dom": "^19.1.0",
     "elliptic": "6.6.1"
   },
+  "packageManager": "pnpm@10.21.0",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "@biomejs/biome",
+      "@tailwindcss/oxide",
       "@vercel/speed-insights",
       "bufferutil",
       "contentlayer2",
       "core-js",
       "core-js-pure",
       "keccak",
+      "msw",
       "protobufjs",
       "sharp",
       "utf-8-validate"
     ],
     "onlyBuiltDependencies": [
       "esbuild"
-    ]
+    ],
+    "overrides": {
+      "@remix-run/dev>esbuild": "0.25.5"
+    }
   },
   "engines": {
     "node": ">=20"
