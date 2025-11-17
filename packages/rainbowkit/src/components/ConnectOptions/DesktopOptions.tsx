@@ -48,8 +48,8 @@ import type { ChainGroup } from '../../wallets/Wallet';
 import { indexBy } from '../../utils/indexBy';
 
 export enum WalletStep {
-  None = 'NONE',
   SelectChainGroup = 'SELECT_CHAIN_GROUP',
+  SelectWallet = 'SELECT_WALLET',
   LearnCompact = 'LEARN_COMPACT',
   Get = 'GET',
   Connect = 'CONNECT',
@@ -238,10 +238,12 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
     setWalletStep(newWalletStep);
   };
 
+  const isMultipleChainGroups = Object.values(chainGroups).length > 1;
+
   const [initialWalletStep, setInitialWalletStep] = useState<WalletStep>(
-    Object.values(chainGroups).length > 1
+    isMultipleChainGroups
       ? WalletStep.SelectChainGroup
-      : WalletStep.None,
+      : WalletStep.SelectWallet,
   );
   const [walletStep, setWalletStep] = useState<WalletStep>(initialWalletStep);
 
@@ -262,22 +264,21 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
 
   const onChainGroupSelect = (chainGroupId: string) => {
     setSelectedChainGroupId(chainGroupId);
-    changeWalletStep(WalletStep.None);
+    changeWalletStep(WalletStep.SelectWallet);
   };
 
   switch (walletStep) {
     case WalletStep.SelectChainGroup:
       headerLabel = i18n.t('connect.select_chain_group.title');
       break;
-    case WalletStep.None:
+    case WalletStep.SelectWallet:
       headerLabel = i18n.t('connect.title');
       walletContent = (
         <ConnectModalIntro getWallet={() => changeWalletStep(WalletStep.Get)} />
       );
-      headerBackButtonLink =
-        compactModeEnabled && Object.values(chainGroups).length > 1
-          ? WalletStep.SelectChainGroup
-          : null;
+      headerBackButtonLink = isMultipleChainGroups
+        ? WalletStep.SelectChainGroup
+        : null;
       break;
     case WalletStep.LearnCompact:
       walletContent = (
@@ -287,7 +288,9 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
         />
       );
       headerLabel = i18n.t('intro.title');
-      headerBackButtonLink = WalletStep.None;
+      headerBackButtonLink = isMultipleChainGroups
+        ? WalletStep.SelectChainGroup
+        : WalletStep.SelectWallet;
       break;
     case WalletStep.Get:
       walletContent = (
@@ -299,7 +302,7 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
       headerLabel = i18n.t('get.title');
       headerBackButtonLink = compactModeEnabled
         ? WalletStep.LearnCompact
-        : WalletStep.None;
+        : WalletStep.SelectWallet;
       break;
     case WalletStep.Connect:
       walletContent = selectedWallet && (
@@ -323,7 +326,7 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
       headerBackButtonLink = compactModeEnabled
         ? connector
           ? null
-          : WalletStep.None
+          : WalletStep.SelectWallet
         : null;
       headerBackButtonCallback = compactModeEnabled
         ? !connector
@@ -344,7 +347,7 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
       headerBackButtonLink = connector
         ? WalletStep.Connect
         : compactModeEnabled
-          ? WalletStep.None
+          ? WalletStep.SelectWallet
           : initialWalletStep;
       break;
     case WalletStep.Download:
@@ -413,7 +416,7 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
   const topContent = (() => {
     if (!compactModeEnabled) return null;
 
-    if (walletStep === WalletStep.None) {
+    if (walletStep === WalletStep.SelectWallet) {
       return (
         <Box marginLeft="16" width="28">
           {headerBackButtonLink && (
@@ -466,7 +469,7 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
       style={{ maxHeight: compactModeEnabled ? 468 : 504, height: '100%' }}
     >
       {(compactModeEnabled
-        ? walletStep === WalletStep.None ||
+        ? walletStep === WalletStep.SelectWallet ||
           walletStep === WalletStep.SelectChainGroup
         : true) && (
         <Box
@@ -613,7 +616,7 @@ export function DesktopOptions({ onClose }: { onClose: () => void }) {
       )}
       {(compactModeEnabled
         ? walletStep !== WalletStep.SelectChainGroup &&
-          walletStep !== WalletStep.None
+          walletStep !== WalletStep.SelectWallet
         : true) && (
         <>
           {!compactModeEnabled && (
