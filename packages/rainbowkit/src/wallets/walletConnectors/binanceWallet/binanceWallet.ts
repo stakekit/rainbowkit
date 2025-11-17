@@ -14,6 +14,7 @@ export const binanceWallet = ({
   walletConnectParameters,
 }: BinanceWalletOptions): Wallet => {
   const isBinanceInjected = hasInjectedProvider({
+    namespace: 'binancew3w.isExtension',
     flag: 'isBinance',
   });
   const shouldUseWalletConnect = !isBinanceInjected;
@@ -31,6 +32,8 @@ export const binanceWallet = ({
       ios: 'https://apps.apple.com/us/app/id1436799971',
       mobile: 'https://www.binance.com/en/download',
       qrCode: 'https://www.binance.com/en/web3wallet',
+      chrome:
+        'https://chromewebstore.google.com/detail/cadiboklkpojfamcoggejbbdjcoiljjk',
     },
     mobile: shouldUseWalletConnect
       ? {

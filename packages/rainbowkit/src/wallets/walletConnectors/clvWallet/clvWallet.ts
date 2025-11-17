@@ -21,7 +21,7 @@ export const clvWallet = ({
     iconUrl: async () => (await import('./clvWallet.svg')).default,
     iconBackground: '#fff',
     iconAccent: '#BDFDE2',
-    installed: isCLVInjected,
+    installed: !shouldUseWalletConnect ? isCLVInjected : undefined,
     chainGroup: evmChainGroup,
     downloadUrls: {
       chrome:

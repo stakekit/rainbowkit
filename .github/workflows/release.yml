@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  pnpm: 10.8.0
+  pnpm: 10.21.0
   HUSKY: 0 # Avoid pre-commit hook tests
   RAINBOW_PROVIDER_API_KEY: RAINBOW_PROVIDER_API_KEY
 
@@ -49,8 +49,8 @@ jobs:
       - name: Create Release Pull Request
         uses: changesets/action@v1
         with:
-          title: 'chore: version packages'
-          commit: 'chore: version packages'
+          title: "chore: version packages"
+          commit: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RAINBOW_PROVIDER_API_KEY: ${{ secrets.RAINBOW_PROVIDER_API_KEY }}

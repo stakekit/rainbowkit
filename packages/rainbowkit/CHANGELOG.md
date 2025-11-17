@@ -399,6 +399,73 @@
 - 5b54649: MEW Wallet now supports WalletConnect on mobile
 - 03ae0d0: Added xPortal Wallet support with `xPortalWallet` wallet connector
 
+## 2.2.9
+
+### Patch Changes
+
+- e52ca05: Add `baseAccount` wallet connector, replacing `coinbaseWallet` in the default wallet list
+- 1e67f0d: Improved detection for nova wallet provider
+- d92a6c7: Fixed type compatibility for `connect()` parameters in Wagmi `^2.17.0`
+- 0b9052c: Add binance wallet chrome extension download url
+- b34d6c1: Added `portoWallet`.
+- 66bcc18: Universal Profiles wallet connector
+- fe0496e: **Added Gemini Wallet support**
+
+  Added Gemini Wallet as a supported wallet connector with proper icon and configuration.
+
+- 5698ade: fix monad logo in rainbowkit package and include monad testnet in the example
+- 1520f59: Fixed unintended forwarding of the `errorCorrection` prop to SVG elements used by the QRCode component to prevent React warning.
+
+## 2.2.8
+
+### Patch Changes
+
+- f542876: The `metaMaskWallet` wallet connector now utilizes the [MetaMask SDK](https://docs.metamask.io/sdk/) for more reliable, faster connections on mobile
+
+## 2.2.7
+
+### Patch Changes
+
+- a147620: Fixed error handling when connect requests are rejected on mobile.
+- 10090d2: Mitigated `WalletConnect Core is already initialized` warnings that began appearing with recent distributions of Wagmi and WalletConnect.
+- 50c7f13: Added missing `rdns` metadata for wallet connectors that now support EIP-6963.
+- 15ddd4a: Improved QR Code error correction and rendering with [`cuer`](https://github.com/wevm/cuer)
+
+## 2.2.6
+
+### Patch Changes
+
+- 624a38a: The `coinbaseWallet` connector now supports additional SDK configuration options to enable [Paymasters](https://docs.base.org/identity/smart-wallet/guides/paymasters) and [Sub Accounts](https://docs.base.org/identity/smart-wallet/guides/sub-accounts) for your dapp.
+
+  ```tsx
+  import { coinbaseWallet } from "@rainbow-me/rainbowkit/wallets";
+
+  // Configure Paymaster for gas sponsorship
+  coinbaseWallet.paymasterUrls = {
+    [base.id]: "...",
+  };
+
+  // Enable Sub Accounts
+  coinbaseWallet.subAccounts = {
+    enableAutoSubAccounts: true,
+    defaultSpendLimits: {
+      // ...
+    },
+  };
+  ```
+
+- f6ad6aa: Added support for Superposition chain
+
+## 2.2.5
+
+### Patch Changes
+
+- 3d73508: Added ZilPay Wallet support with `zilPayWallet` wallet connector
+- c5a9cc1: Fixed SVG encoding in wallet connector icons for Cool Mode
+- 8515fd3: Resolved a warning for mismatched dApp url metadata on recent versions of WalletConnect
+- 5b54649: MEW Wallet now supports WalletConnect on mobile
+- 03ae0d0: Added xPortal Wallet support with `xPortalWallet` wallet connector
+
 ## 2.2.4
 
 ### Patch Changes

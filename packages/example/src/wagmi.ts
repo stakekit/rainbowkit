@@ -1,7 +1,7 @@
 import { type Chain, getDefaultConfig } from '@stakekit/rainbowkit';
 import {
-  argentWallet,
   backpackWallet,
+  baseAccount,
   berasigWallet,
   bestWallet,
   bifrostWallet,
@@ -13,7 +13,6 @@ import {
   bybitWallet,
   clvWallet,
   coin98Wallet,
-  coinbaseWallet,
   compassWallet,
   coreWallet,
   dawnWallet,
@@ -34,6 +33,7 @@ import {
   metaMaskWallet,
   mewWallet,
   nestWallet,
+  novaWallet,
   oktoWallet,
   okxWallet,
   omniWallet,
@@ -43,6 +43,7 @@ import {
   phantomWallet,
   rabbyWallet,
   rainbowWallet,
+  readyWallet,
   ramperWallet,
   roninWallet,
   safeWallet,
@@ -58,11 +59,12 @@ import {
   valoraWallet,
   walletConnectWallet,
   wigwamWallet,
-  xdefiWallet,
+  ctrlWallet,
   xPortalWallet,
   zealWallet,
   zerionWallet,
   zilPayWallet,
+  universalProfilesWallet,
 } from '@stakekit/rainbowkit/wallets';
 import { publicActions } from 'viem';
 import {
@@ -87,7 +89,9 @@ import {
   inkSepolia,
   linea,
   lineaSepolia,
+  lukso,
   mainnet,
+  monadTestnet,
   optimism,
   optimismSepolia,
   polygon,
@@ -127,12 +131,6 @@ const avalanche = {
   },
 } as const satisfies Chain;
 
-// Enable Smart Wallet and EOA
-// Testing `preference` type
-coinbaseWallet.preference = 'all';
-
-// TODO: Add subAccounts, paymasterUrls
-
 export const config = getDefaultConfig({
   appName: 'RainbowKit Demo',
   projectId,
@@ -158,6 +156,7 @@ export const config = getDefaultConfig({
     gnosis,
     scroll,
     zksync,
+    lukso,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
       ? [
           sepolia,
@@ -171,6 +170,7 @@ export const config = getDefaultConfig({
           curtis,
           inkSepolia,
           lineaSepolia,
+          monadTestnet,
           optimismSepolia,
           polygonMumbai,
           scrollSepolia,
@@ -185,7 +185,7 @@ export const config = getDefaultConfig({
       wallets: [
         safeWallet,
         rainbowWallet,
-        coinbaseWallet,
+        baseAccount,
         metaMaskWallet,
         walletConnectWallet,
       ],
@@ -193,7 +193,7 @@ export const config = getDefaultConfig({
     {
       groupName: 'Other',
       wallets: [
-        argentWallet,
+        readyWallet,
         backpackWallet,
         berasigWallet,
         bestWallet,
@@ -225,6 +225,7 @@ export const config = getDefaultConfig({
         magicEdenWallet,
         mewWallet,
         nestWallet,
+        novaWallet,
         oktoWallet,
         okxWallet,
         omniWallet,
@@ -244,9 +245,10 @@ export const config = getDefaultConfig({
         tokenaryWallet,
         trustWallet,
         uniswapWallet,
+        universalProfilesWallet,
         valoraWallet,
         wigwamWallet,
-        xdefiWallet,
+        ctrlWallet,
         xPortalWallet,
         zealWallet,
         zerionWallet,

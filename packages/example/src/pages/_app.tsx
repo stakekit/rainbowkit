@@ -1,27 +1,28 @@
 import '@stakekit/rainbowkit/styles.css';
 import './global.css';
 
-import {
-  type AvatarComponent,
-  type Chain,
-  type DisclaimerComponent,
-  type Locale,
-  RainbowKitProvider,
-  darkTheme,
-  lightTheme,
-  midnightTheme,
-} from '@stakekit/rainbowkit';
 import type { Session } from 'next-auth';
 import { SessionProvider, signOut } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+import {
+  type AvatarComponent,
+  type DisclaimerComponent,
+  type Locale,
+  RainbowKitProvider,
+  darkTheme,
+  lightTheme,
+  midnightTheme,
+  type Chain as RainbowKitChain,
+} from '@stakekit/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider, useDisconnect } from 'wagmi';
+
 import type { AppContextProps } from '../lib/AppContextProps';
 import { config } from '../wagmi';
-import type { RainbowKitChain } from '@stakekit/rainbowkit/dist/components/RainbowKitProvider/RainbowKitChainContext';
 
 const RAINBOW_TERMS = 'https://rainbow.me/terms-of-use';
 
@@ -182,7 +183,7 @@ function RainbowKitApp({
       >
         <Component {...pageProps} {...appContextProps} />
 
-        {isMounted && (
+        {isMounted && router.pathname !== '/providers' && (
           <>
             <div
               style={{
