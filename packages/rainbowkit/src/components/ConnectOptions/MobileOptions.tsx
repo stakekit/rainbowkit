@@ -188,7 +188,7 @@ export function WalletButton({
               weight="medium"
             >
               {/* Fix button text clipping in Safari: https://stackoverflow.com/questions/41100273/overflowing-button-text-is-being-clipped-in-safari */}
-              <Box as="span" position="relative">
+              <Box as="span" position="relative" textAlign="center">
                 {shortName ?? name}
                 {!wallet.ready && ' (unsupported)'}
               </Box>
